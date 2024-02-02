@@ -107,7 +107,7 @@ export class ChatController {
 
   removeOnMessagesChanged(callback: OnMessagesChanged): void {
     const idx = this.state.onMessagesChanged.indexOf(callback);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    // eslint-disable-next-line
     this.state.onActionChanged[idx] = (): void => {};
   }
 
@@ -205,7 +205,7 @@ export class ChatController {
 
   removeOnActionChanged(callback: OnActionChanged): void {
     const idx = this.state.onActionChanged.indexOf(callback);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    // eslint-disable-next-line
     this.state.onActionChanged[idx] = (): void => {};
   }
 
