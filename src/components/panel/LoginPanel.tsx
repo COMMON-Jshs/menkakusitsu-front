@@ -3,7 +3,7 @@ import "../../styles/LoginForm.css";
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { openConfirmDialog, closeWaitDialog, openWaitDialog } from "../popup";
 import { DialogTitle } from "../../utils/Constant";
-import { getPushToken } from "../Firebase";
+import { getPushToken } from "../../utils/FirebaseManager";
 import { getPushApproved } from "../../utils/PushManager";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 import { isApiSuccessed, postLogin } from "../../utils/Api";
