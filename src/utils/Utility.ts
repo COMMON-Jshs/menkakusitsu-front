@@ -59,9 +59,7 @@ export const arrayRemoveAt = <T>(array: Array<T>, index: number): Array<T> => {
 };
 
 export const validateEmail = (email: string): boolean => {
-  const regex = new RegExp(
-    "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-  );
+  const regex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g);
   return regex.test(email);
 };
 
