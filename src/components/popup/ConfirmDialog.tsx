@@ -65,7 +65,7 @@ export default ConfirmDialog;
 export const openConfirmDialog = (
   title: ReactNode,
   content: ReactNode,
-  onYes: Function = defaultCallback
+  onYes: VoidFunction = defaultCallback
 ) => {
   useConfirmDialogStore.setState({
     title: title,

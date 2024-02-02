@@ -72,7 +72,7 @@ export default CancelableDialog;
 export const openCancelableDialog = (
   title: ReactNode,
   content: ReactNode,
-  onYes: Function = defaultCallback
+  onYes: VoidFunction = defaultCallback
 ) => {
   useCancelableDialogStore.setState({
     title: title,

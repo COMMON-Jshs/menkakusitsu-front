@@ -13,7 +13,7 @@ export const defaultCallback = () => {};
 export interface DialogProps {
   title: ReactNode;
   content: ReactNode;
-  onYes?: Function;
-  onNo?: Function;
-  close: Function;
+  onYes?: VoidFunction;
+  onNo?: VoidFunction;
+  close: VoidFunction;
 }

@@ -4,8 +4,8 @@ interface PagePanelProps {
   children?: React.ReactNode;
 }
 
-function useInterval(callback: Function, delay: number) {
-  const savedCallback = useRef<Function>();
+function useInterval(callback: VoidFunction, delay: number) {
+  const savedCallback = useRef<VoidFunction>();
 
   // Remember the latest callback.
   useEffect(() => {
@@ -14,7 +14,7 @@ function useInterval(callback: Function, delay: number) {
 
   // Set up the interval.
   useEffect(() => {
-    let id = setInterval(() => {
+    const id = setInterval(() => {
       if (savedCallback.current) {
         savedCallback.current();
       }

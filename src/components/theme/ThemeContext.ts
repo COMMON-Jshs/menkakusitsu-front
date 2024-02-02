@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 type ThemeContextType = {
   style: string;
-  toggleStyle: Function;
+  toggleStyle: VoidFunction;
 };
 
 export const ThemeContext = createContext<ThemeContextType>({

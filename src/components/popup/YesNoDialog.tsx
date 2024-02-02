@@ -75,8 +75,8 @@ export default YesNoDialog;
 export const openYesNoDialog = (
   title: ReactNode,
   content: ReactNode,
-  onYes: Function = defaultCallback,
-  onNo: Function = defaultCallback
+  onYes: VoidFunction = defaultCallback,
+  onNo: VoidFunction = defaultCallback
 ) => {
   useYesNoDialogStore.setState({
     title: title,
