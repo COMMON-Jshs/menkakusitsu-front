@@ -14,7 +14,7 @@ import { useState } from "react";
 import { getDayInfo, getParameter } from "../../utils/Utility";
 import { getAttendanceList, getSpecialroomInfo } from "../../utils/Api";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { drawInfoTable } from "../../components/panel/SpecialroomInfoPanel";
+import { InfoTable } from "../../components/panel/SpecialroomInfoPanel";
 import {
   setFooterActive,
   setHeaderActive,
@@ -89,7 +89,7 @@ function Download() {
       setFooterActive(true);
       setParticleActive(true);
     };
-  }, []);
+  }, [when]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -150,11 +150,11 @@ function Download() {
           >
             특별실 신청 현황
           </Typography>
-          {drawInfoTable(
-            information,
-            isLoading,
-            (specialroomInfo) => specialroomInfo.when === when
-          )}
+          <InfoTable
+            information={information}
+            isLoading={isLoading}
+            filter={(specialroomInfo) => specialroomInfo.when === when}
+          />
         </Box>
       </Box>
     </>

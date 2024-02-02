@@ -15,11 +15,15 @@ import { SPECIALROOM_INFO_INTERVAL } from "../../utils/Constant";
 
 type FilterFunction = (specialroomInfo: v1.SpecialroomInfo) => boolean;
 
-export const drawInfoTable = (
-  information: v1.SpecialroomInfo[] | null,
-  isLoading: boolean,
-  filter?: FilterFunction
-) => {
+type InfoTableProps = {
+  information: v1.SpecialroomInfo[] | null;
+  isLoading: boolean;
+  filter?: FilterFunction;
+};
+
+export function InfoTable(props: InfoTableProps) {
+  const { information, isLoading, filter } = props;
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="특별실 신청 명단">
@@ -68,7 +72,7 @@ export const drawInfoTable = (
       </Table>
     </TableContainer>
   );
-};
+}
 
 interface SpecialroomInfoPanelProps {
   filter?: FilterFunction;
@@ -95,7 +99,13 @@ function SpecialroomInfoPanel(props: SpecialroomInfoPanelProps) {
     return () => clearInterval(interval);
   }, [updateInformation]);
 
-  return drawInfoTable(information, isLoading, filter);
+  return (
+    <InfoTable
+      information={information}
+      isLoading={isLoading}
+      filter={filter}
+    />
+  );
 }
 
 export default SpecialroomInfoPanel;

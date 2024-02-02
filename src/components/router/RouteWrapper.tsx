@@ -1,6 +1,6 @@
 import { SnackbarProvider } from "notistack";
 import { Outlet } from "react-router-dom";
-import FirebaseManager from "../FirebaseManager";
+import Firebase from "../Firebase";
 import RouteTracker from "../RouteTracker";
 import { create } from "zustand";
 import FixedNavbar from "../navbar";
@@ -43,7 +43,7 @@ export default function RouteWrapper() {
           horizontal: "right",
         }}
       >
-        <FirebaseManager />
+        <Firebase />
         <RouteTracker />
         <ParticleManager />
         <ThemeAddon type={type} />

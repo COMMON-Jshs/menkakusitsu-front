@@ -1,4 +1,4 @@
-import { deletePushToken } from "../components/FirebaseManager";
+import { deletePushToken } from "../components/Firebase";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { checkTokenExpiration, onLogout } from "./AuthManager";
 import { getPushApproved } from "./PushManager";

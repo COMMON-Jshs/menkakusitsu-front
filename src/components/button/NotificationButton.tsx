@@ -1,7 +1,7 @@
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 import { CircularProgress, ListItemIcon, MenuItem } from "@mui/material";
 import { useState } from "react";
-import { deletePushToken, getPushToken } from "../FirebaseManager";
+import { deletePushToken, getPushToken } from "../Firebase";
 import { getPushApproved, setPushApproved } from "../../utils/PushManager";
 
 function NotificationButton() {

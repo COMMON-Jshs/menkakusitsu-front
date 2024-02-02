@@ -88,9 +88,9 @@ const MealInfo = (props: MealInfoProps) => {
 function MealPanel() {
   const [mealInfo, setMealInfo] = useState<v1.GetMealResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const today = dayjs();
 
   useEffect(() => {
+    const today = dayjs();
     getMeal({ when: today.startOf("day").format("YYYY-MM-DD") }).then(
       (result) => {
         setMealInfo(result);

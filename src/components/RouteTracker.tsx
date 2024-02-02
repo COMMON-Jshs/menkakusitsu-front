@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { logPageView } from "./FirebaseManager.js";
+import { logPageView } from "./Firebase.js";
 
 function RouteTracker() {
   const location = useLocation();
