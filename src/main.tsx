@@ -7,15 +7,15 @@ import "./styles/Fonts.css";
 import "./styles/NProgress.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.Fragment>
-        <App />
-    </React.Fragment>
+  <>
+    <App />
+  </>
 );
 
 if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker
-            .register("/service-worker.js")
-            .catch((e) => console.log(e));
-    });
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .catch((e) => console.log(e));
+  });
 }

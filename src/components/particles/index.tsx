@@ -1,4 +1,3 @@
-import React from "react";
 import { create } from "zustand";
 import { getThemeType, ThemeType } from "../theme";
 import LeafParticle from "./leaf";
@@ -10,34 +9,34 @@ export { default as Sakura } from "./sakura";
 export { default as Leaf } from "./leaf";
 
 export interface ParticleManagerProps {
-    showParticle: boolean;
+  showParticle: boolean;
 }
 
 const useParticleManagerStore = create<ParticleManagerProps>(() => ({
-    showParticle: true,
+  showParticle: true,
 }));
 
 const getParticle = (themeType: ThemeType) => {
-    switch (themeType) {
-        case "spring":
-            return <SakuraParticle />;
-        case "fall":
-            return <LeafParticle />;
-        case "winter":
-        case "christmas":
-            return <SnowParticle />;
-        default:
-            return <React.Fragment />;
-    }
+  switch (themeType) {
+    case "spring":
+      return <SakuraParticle />;
+    case "fall":
+      return <LeafParticle />;
+    case "winter":
+    case "christmas":
+      return <SnowParticle />;
+    default:
+      return <></>;
+  }
 };
 
 export default function ParticleManager() {
-    const { showParticle } = useParticleManagerStore();
-    const type = getThemeType();
+  const { showParticle } = useParticleManagerStore();
+  const type = getThemeType();
 
-    return showParticle ? getParticle(type) : <React.Fragment />;
+  return showParticle ? getParticle(type) : <></>;
 }
 
 export const setParticleActive = (value: boolean) => {
-    useParticleManagerStore.setState({ showParticle: value });
+  useParticleManagerStore.setState({ showParticle: value });
 };

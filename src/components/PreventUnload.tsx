@@ -1,16 +1,16 @@
-import React from "react";
+import { useEffect } from "react";
 
 function PreventUnload() {
-    function beforeunload(this: Window, event: BeforeUnloadEvent) {
-        event.preventDefault();
-        event.returnValue = "";
-    }
+  function beforeunload(this: Window, event: BeforeUnloadEvent) {
+    event.preventDefault();
+    event.returnValue = "";
+  }
 
-    React.useEffect(() => {
-        window.addEventListener("beforeunload", beforeunload);
-        return () => window.removeEventListener("beforeunload", beforeunload);
-    }, []);
-    return <React.Fragment></React.Fragment>;
+  useEffect(() => {
+    window.addEventListener("beforeunload", beforeunload);
+    return () => window.removeEventListener("beforeunload", beforeunload);
+  }, []);
+  return <></>;
 }
 
 export default PreventUnload;
