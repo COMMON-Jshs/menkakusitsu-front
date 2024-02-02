@@ -69,7 +69,10 @@ function Post() {
           setCommentList(result.list);
         });
       } else {
-        navigate(`/bbs/${board}/list`);
+        closeWaitDialog();
+        openConfirmDialog(DialogTitle.Info, result.message, () => {
+          navigate(`/bbs/${board}/list`);
+        });
       }
     });
   }, [commentPage, params]);
