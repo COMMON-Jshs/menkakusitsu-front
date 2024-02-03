@@ -18,7 +18,7 @@ import {
   deleteBbsPost,
   getBbsCommentList,
   getBbsPost,
-  isApiSuccessed,
+  isSuccessed,
   postBbsComment,
 } from "../../utils/Api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ import {
   openWaitDialog,
   openYesNoDialog,
 } from "../../components";
-import { COMMENT_LIST_SIZE, DialogTitle } from "../../utils/Constant";
+import { COMMENT_LIST_SIZE, DialogTitle } from "../../utils/Constants";
 import List from "./List";
 import { Permission } from "@common-jshs/menkakusitsu-lib";
 import { IconLink } from "../../components/basic/Link";
@@ -56,7 +56,7 @@ function Post() {
 
   const refresh = useCallback(() => {
     getBbsPost({ board: board, postId: postId }).then((result) => {
-      if (isApiSuccessed(result)) {
+      if (isSuccessed(result)) {
         setPost(result.post);
         setAttachments(result.attachments);
         getBbsCommentList({
@@ -91,7 +91,7 @@ function Post() {
         postId: post.id,
         content: comment,
       }).then((result) => {
-        if (isApiSuccessed(result)) {
+        if (isSuccessed(result)) {
           if (commentRef?.current) {
             commentRef.current.value = "";
           }

@@ -1,6 +1,6 @@
 import { Logout } from "@mui/icons-material";
-import { deleteLogout, isApiSuccessed } from "../../utils/Api";
-import { DialogTitle } from "../../utils/Constant";
+import { deleteLogout, isSuccessed } from "../../utils/Api";
+import { DialogTitle } from "../../utils/Constants";
 import {
   closeWaitDialog,
   openConfirmDialog,
@@ -8,7 +8,7 @@ import {
   openYesNoDialog,
 } from "../popup";
 import { ListItemIcon, MenuItem } from "@mui/material";
-import { onLogout } from "../../utils/AuthManager";
+import { onLogout } from "../../utils/Api";
 
 function LogoutButton() {
   return (
@@ -17,7 +17,7 @@ function LogoutButton() {
         openYesNoDialog(DialogTitle.Info, "정말 로그아웃 하시겠습니까?", () => {
           openWaitDialog(DialogTitle.Info, "로그아웃 중입니다...");
           deleteLogout({}).then((result) => {
-            if (isApiSuccessed(result)) {
+            if (isSuccessed(result)) {
               closeWaitDialog();
               onLogout();
             } else {

@@ -2,11 +2,11 @@ import "../../styles/LoginForm.css";
 
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { openConfirmDialog, closeWaitDialog, openWaitDialog } from "../popup";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 import { getPushToken } from "../../utils/FirebaseManager";
 import { getPushApproved } from "../../utils/PushManager";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { isApiSuccessed, postLogin } from "../../utils/Api";
+import { isSuccessed, postLogin } from "../../utils/Api";
 import { IconNavLink } from "../basic/Link";
 import { AccountBox } from "@mui/icons-material";
 import { Sha3 } from "../../utils/Utility";
@@ -22,7 +22,7 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   }
   openWaitDialog(DialogTitle.Info, "로그인 중입니다...");
   postLogin({ id: id, password: Sha3(password) }).then((result) => {
-    if (isApiSuccessed(result)) {
+    if (isSuccessed(result)) {
       onLoginSuccessed(result);
     } else {
       onLoginFailed(result);

@@ -35,11 +35,11 @@ import {
   getSpecialroomPurposeInfo,
   getSpecialroomStudentInfo,
   getSpecialroomTeacherInfo,
-  isApiSuccessed,
+  isSuccessed,
   postSpecialroomApply,
   postUserPush,
 } from "../../utils/Api";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 import { SpecialroomInfoPanel } from "../../components/panel";
 import PaperTitle from "../../components/PaperTitle";
 import { SubmitButton } from "../../components/button";
@@ -311,7 +311,7 @@ function Apply() {
       teacherUid: teacher.uid,
       when: when,
     }).then((result) => {
-      if (isApiSuccessed(result)) {
+      if (isSuccessed(result)) {
         closeWaitDialog();
         openYesNoDialog(
           DialogTitle.Info,

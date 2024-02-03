@@ -11,7 +11,7 @@ import {
 import { useCallback } from "react";
 import { getSpecialroomInfo } from "../../utils/Api";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { SPECIALROOM_INFO_INTERVAL } from "../../utils/Constant";
+import { SPECIALROOM_INFO_INTERVAL } from "../../utils/Constants";
 
 type FilterFunction = (specialroomInfo: v1.SpecialroomInfo) => boolean;
 

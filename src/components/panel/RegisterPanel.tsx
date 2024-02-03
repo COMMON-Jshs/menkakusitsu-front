@@ -3,8 +3,8 @@ import { Box, Container, Paper, TextField } from "@mui/material";
 import PaperTitle from "../PaperTitle";
 import { SubmitButton } from "../button";
 import { closeWaitDialog, openConfirmDialog, openWaitDialog } from "../popup";
-import { DialogTitle } from "../../utils/Constant";
-import { isApiSuccessed, postRegister } from "../../utils/Api";
+import { DialogTitle } from "../../utils/Constants";
+import { isSuccessed, postRegister } from "../../utils/Api";
 import { Sha3 } from "../../utils/Utility";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ export default function RegisterPanel() {
           id: id,
           password: Sha3(password),
         });
-        if (isApiSuccessed(result)) {
+        if (isSuccessed(result)) {
           closeWaitDialog();
           openConfirmDialog(DialogTitle.Info, "회원가입 성공!", () => {
             navigate("/");

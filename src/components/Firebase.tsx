@@ -14,7 +14,7 @@ import { useSnackbar } from "notistack";
 import { DefaultSnackbar } from "./snackbar";
 import { putUserPush, deleteUserPush } from "../utils/Api";
 import { openConfirmDialog } from "./popup";
-import { DialogTitle } from "../utils/Constant";
+import { DialogTitle } from "../utils/Constants";
 import { getFirebaseMessaging } from "../utils/FirebaseManager";
 
 function Firebase() {

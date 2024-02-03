@@ -22,7 +22,7 @@ import {
 } from "../../components";
 import { getSpecialroomInfo, putSpecialroomInfo } from "../../utils/Api";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 
 interface InfoCellProps {
   state: number;

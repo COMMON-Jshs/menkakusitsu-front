@@ -18,7 +18,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { POST_LIST_SIZE } from "../../utils/Constant";
+import { POST_LIST_SIZE } from "../../utils/Constants";
 import { getParameter } from "../../utils/Utility";
 import { ThemeContext } from "../../components/theme/ThemeContext";
 interface ArticleProps {

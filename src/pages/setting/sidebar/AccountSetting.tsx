@@ -9,11 +9,11 @@ import {
 import { Sha3, validateEmail } from "../../../utils/Utility";
 import {
   getMyPrivateInfo,
-  isApiSuccessed,
+  isSuccessed,
   putMyEmail,
   putMyPassword,
 } from "../../../utils/Api";
-import { DialogTitle } from "../../../utils/Constant";
+import { DialogTitle } from "../../../utils/Constants";
 
 function ChangeEmail() {
   const [email, setEmail] = useState<string | null>(null);
@@ -46,7 +46,7 @@ function ChangeEmail() {
         }
         openWaitDialog(DialogTitle.Info, "잠시만 기다려주세요...");
         putMyEmail({ oldEmail: email, newEmail: newEmail }).then((result) => {
-          if (isApiSuccessed(result)) {
+          if (isSuccessed(result)) {
             closeWaitDialog();
             setEmail(result.newEmail);
           } else {
@@ -105,7 +105,7 @@ function ChangePassword() {
           oldPassword: Sha3(oldPassword),
           newPassword: Sha3(newPassword),
         }).then((result) => {
-          if (isApiSuccessed(result)) {
+          if (isSuccessed(result)) {
             closeWaitDialog();
             window.location.reload();
           } else {

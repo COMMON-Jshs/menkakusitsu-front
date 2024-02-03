@@ -21,7 +21,7 @@ import { SpecialroomInfoPanel } from "../../components";
 import {
   deleteSpecialroomApply,
   getSpecialroomApply,
-  isApiSuccessed,
+  isSuccessed,
 } from "../../utils/Api";
 import PaperTitle from "../../components/PaperTitle";
 import { styled } from "@mui/material/styles";
@@ -30,7 +30,7 @@ import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useCallback } from "react";
 import SubmitButton from "../../components/button/SubmitButton";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 import {
   openConfirmDialog,
   openYesNoDialog,
@@ -156,7 +156,7 @@ function Status() {
       () => {
         openWaitDialog(DialogTitle.Info, "특별실 신청을 취소 중입니다...");
         deleteSpecialroomApply({ when: when }).then((result) => {
-          if (isApiSuccessed(result)) {
+          if (isSuccessed(result)) {
             closeWaitDialog();
             refresh();
           } else {

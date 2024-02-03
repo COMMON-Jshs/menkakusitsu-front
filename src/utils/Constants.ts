@@ -1,4 +1,4 @@
-import { getCommentListSize, getPostListSize } from "./StorageManager";
+import { getCommentListSize, getPostListSize } from "@/utils/StorageManager";
 
 export enum DialogTitle {
   Info = "알림",

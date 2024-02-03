@@ -12,7 +12,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { closeWaitDialog, openWaitDialog } from "../../components";
 import PaperTitle from "../../components/PaperTitle";
 import { deleteSecession, getSpecialroomStudentInfo } from "../../utils/Api";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 interface UserBoxProps {
   user: v1.UserInfo;
   setUsers: Dispatch<SetStateAction<v1.UserInfo[]>>;

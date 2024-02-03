@@ -19,7 +19,7 @@ import PaperTitle from "../../components/PaperTitle";
 import {
   getBbsPost,
   getBbsPostHeaders,
-  isApiSuccessed,
+  isSuccessed,
   putBbsPost,
 } from "../../utils/Api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ import {
   openWaitDialog,
   SubmitButton,
 } from "../../components";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 
 function Edit() {
   const params = useParams();
@@ -43,7 +43,7 @@ function Edit() {
 
   useEffect(() => {
     getBbsPost({ board: board, postId: postId }).then((result) => {
-      if (isApiSuccessed(result)) {
+      if (isSuccessed(result)) {
         setPost(result.post);
         getBbsPostHeaders({ board: board }).then((result) => {
           setHeaders(result.headers);
@@ -73,7 +73,7 @@ function Edit() {
       header: header,
       isPublic: isPublic,
     }).then((result) => {
-      if (isApiSuccessed(result)) {
+      if (isSuccessed(result)) {
         closeWaitDialog();
         openConfirmDialog(
           DialogTitle.Info,

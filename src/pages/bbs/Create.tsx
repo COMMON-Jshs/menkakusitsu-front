@@ -19,7 +19,7 @@ import { useCallback, useEffect, useState } from "react";
 import PaperTitle from "../../components/PaperTitle";
 import {
   getBbsPostHeaders,
-  isApiSuccessed,
+  isSuccessed,
   postBbsPost,
 } from "../../utils/Api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ import {
   openWaitDialog,
   SubmitButton,
 } from "../../components";
-import { DialogTitle } from "../../utils/Constant";
+import { DialogTitle } from "../../utils/Constants";
 import { DeleteOutline, UploadFile } from "@mui/icons-material";
 
 function Create() {
@@ -79,7 +79,7 @@ function Create() {
         },
         files
       ).then((result) => {
-        if (isApiSuccessed(result)) {
+        if (isSuccessed(result)) {
           closeWaitDialog();
           openConfirmDialog(
             DialogTitle.Info,
