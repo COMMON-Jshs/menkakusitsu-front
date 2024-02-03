@@ -1,10 +1,11 @@
+import { Permission, TokenPayload } from "@common-jshs/menkakusitsu-lib";
+import { LoadableComponent } from "@loadable/component";
 import { SHA3 } from "sha3";
 import { Buffer } from "buffer";
-import { LoadableComponent } from "@loadable/component";
-import { topbar } from "../components/topbar";
-import { Permission, TokenPayload } from "@common-jshs/menkakusitsu-lib";
-import { getAccessToken } from "./StorageManager";
 import dayjs from "dayjs";
+
+import { topbar } from "@/components/topbar";
+import { getAccessToken } from "@/utils/StorageManager";
 
 export const getDayInfo = () => {
   const day = dayjs();

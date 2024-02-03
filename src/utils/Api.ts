@@ -1,12 +1,17 @@
-import { deletePushToken } from "./FirebaseManager";
+import { v1, DefaultResponse } from "@common-jshs/menkakusitsu-lib";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { checkTokenExpiration, onLogout } from "./AuthManager";
-import { getPushApproved } from "./PushManager";
-import { DefaultResponse } from "@common-jshs/menkakusitsu-lib";
-import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { closeWaitDialog, openConfirmDialog } from "../components/popup";
-import { DialogTitle } from "./Constant";
-import { getAccessToken } from "./StorageManager";
+
+import { closeWaitDialog, openConfirmDialog } from "@/components/popup";
+import { DialogTitle } from "@/utils/Constants";
+import { deletePushToken } from "@/utils/FirebaseManager";
+import { getPushApproved } from "@/utils/PushManager";
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  saveTokens,
+} from "@/utils/StorageManager";
+import { parseJWT, redirectToHome } from "@/utils/Utility";
 
 const onApiError = (e: AxiosError) => {
   closeWaitDialog();
@@ -36,7 +41,7 @@ const onApiError = (e: AxiosError) => {
   }
 };
 
-export const isApiSuccessed = (result: DefaultResponse) => {
+export const isSuccessed = (result: DefaultResponse) => {
   return result.status >= 0;
 };
 
@@ -73,6 +78,44 @@ export const apiRequest = async (
     },
     timeout: 5000,
   });
+};
+
+export const checkTokenExpiration = async (accessToken: string) => {
+  const parsedJWT = parseJWT(accessToken);
+  if (!parsedJWT) {
+    return false;
+  }
+  const exp: number = parsedJWT.exp;
+  if (exp - Date.now() / 1000 < 60) {
+    const refreshToken = getRefreshToken();
+
+    if (!refreshToken || !parseJWT(refreshToken)) {
+      return true;
+    }
+    const authHeader = `Bearer ${refreshToken}`;
+    const resp = await axios({
+      method: "POST",
+      url: import.meta.env.VITE_API_PREFIX + "/v1/auth/refresh",
+      headers: {
+        Authorization: authHeader,
+      },
+    });
+    const result = resp.data as v1.PostRefreshResponse;
+    if (result.status >= 0) {
+      saveTokens(result.accessToken, result.refreshToken);
+      return false;
+    } else {
+      // console.error(result.message);
+      // openConfirmDialog(TITLE.Alert, result.message, onLogout);
+      return true;
+    }
+  }
+  return false;
+};
+
+export const onLogout = () => {
+  clearTokens();
+  redirectToHome();
 };
 
 export const apiGet = (path: string, headers?: any) => {

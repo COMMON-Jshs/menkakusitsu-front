@@ -1,5 +1,5 @@
-import { getPushList, savePushList } from "./StorageManager";
-import { getTokenPayload } from "./Utility";
+import { getPushList, savePushList } from "@/utils/StorageManager";
+import { getTokenPayload } from "@/utils/Utility";
 
 export const getPushApproved = () => {
   const pushList = getPushList();
