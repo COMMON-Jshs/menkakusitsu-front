@@ -2,94 +2,74 @@ import "./index.css";
 import "./styles/Fonts.css";
 import "./styles/NProgress.css";
 
+import { Permission } from "@common-jshs/menkakusitsu-lib";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useState } from "react";
-import {
-  Main,
-  AttendanceDownload,
-  AttendanceInfo,
-  ChatIdbot,
-  SpecialroomApply,
-  SpecialroomStatus,
-  SpecialroomManagement,
-  About,
-  Setting,
-  NotFound,
-  BbsList,
-  BbsPost,
-  BbsCreate,
-  BbsEdit,
-  SpecialroomOuter,
-  Contributors,
-  Login,
-  Register,
-  UserManagement,
-} from "./pages";
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { TimetablePanel } from "./components";
-import { getTheme, getThemeType } from "./components/theme";
-import { PrivateRoute, RouteWrapper } from "./components/router";
-import { Permission } from "@common-jshs/menkakusitsu-lib";
-import { ThemeContext } from "./components/theme/ThemeContext";
-import { getUseDarkMode, setUseDarkMode } from "./utils/StorageManager";
+import * as Page from "@/pages";
+import { TimetablePanel } from "@/components";
+import { getTheme, getThemeType } from "@/components/theme";
+import { PrivateRoute, RouteWrapper } from "@/components/router";
+import { ThemeContext } from "@/components/theme/ThemeContext";
+import { getUseDarkMode, setUseDarkMode } from "@/utils/StorageManager";
 
 const themeType = getThemeType();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteWrapper />}>
-      <Route index element={<Main />} />
+      <Route index element={<Page.Main />} />
 
       <Route
         path="auth"
         element={<PrivateRoute permission={Permission.Guest} only />}
       >
-        <Route index element={<NotFound />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route index element={<Page.NotFound />} />
+        <Route path="login" element={<Page.Login />} />
+        <Route path="register" element={<Page.Register />} />
       </Route>
 
       <Route
         path="attendance"
         element={<PrivateRoute permission={Permission.Student} />}
       >
-        <Route index element={<NotFound />} />
-        <Route path="info" element={<AttendanceInfo />} />
-        <Route path="download" element={<AttendanceDownload />} />
+        <Route index element={<Page.NotFound />} />
+        <Route path="info" element={<Page.AttendanceInfo />} />
+        <Route path="download" element={<Page.AttendanceDownload />} />
       </Route>
 
       <Route
         path="bbs"
         element={<PrivateRoute permission={Permission.Student} />}
       >
-        <Route path=":board/create" element={<BbsCreate />} />
-        <Route path=":board/list" element={<BbsList />} />
-        <Route path=":board/:postId" element={<BbsPost />} />
-        <Route path=":board/:postId/edit" element={<BbsEdit />} />
+        <Route path=":board/create" element={<Page.BbsCreate />} />
+        <Route path=":board/list" element={<Page.BbsList />} />
+        <Route path=":board/:postId" element={<Page.BbsPost />} />
+        <Route path=":board/:postId/edit" element={<Page.BbsEdit />} />
       </Route>
 
       <Route
         path="chat"
         element={<PrivateRoute permission={Permission.Student} />}
       >
-        <Route index element={<NotFound />} />
-        <Route path="idbot" element={<ChatIdbot />} />
+        <Route index element={<Page.NotFound />} />
+        <Route path="idbot" element={<Page.ChatIdbot />} />
       </Route>
 
       <Route
         path="contributors"
         element={<PrivateRoute permission={Permission.Guest} />}
       >
-        <Route index element={<Contributors />} />
+        <Route index element={<Page.Contributors />} />
       </Route>
 
       <Route path="dev" element={<PrivateRoute permission={Permission.Dev} />}>
-        <Route path="user" element={<UserManagement />} />
+        <Route path="user" element={<Page.UserManagement />} />
       </Route>
 
       <Route
@@ -110,20 +90,20 @@ const router = createBrowserRouter(
         path="specialroom"
         element={<PrivateRoute permission={Permission.Student} />}
       >
-        <Route index element={<NotFound />} />
-        <Route path="apply" element={<SpecialroomApply />} />
-        <Route path="status" element={<SpecialroomStatus />} />
+        <Route index element={<Page.NotFound />} />
+        <Route path="apply" element={<Page.SpecialroomApply />} />
+        <Route path="status" element={<Page.SpecialroomStatus />} />
         <Route
           path="management"
           element={<PrivateRoute permission={Permission.Teacher} />}
         >
-          <Route index element={<SpecialroomManagement />} />
+          <Route index element={<Page.SpecialroomManagement />} />
         </Route>
         <Route
           path="outer"
           element={<PrivateRoute permission={Permission.Teacher} />}
         >
-          <Route index element={<SpecialroomOuter />} />
+          <Route index element={<Page.SpecialroomOuter />} />
         </Route>
       </Route>
 
@@ -131,17 +111,17 @@ const router = createBrowserRouter(
         path="setting"
         element={<PrivateRoute permission={Permission.Student} />}
       >
-        <Route index element={<Setting />} />
+        <Route index element={<Page.Setting />} />
       </Route>
 
       <Route
         path="about"
         element={<PrivateRoute permission={Permission.Student} />}
       >
-        <Route index element={<About />} />
+        <Route index element={<Page.About />} />
       </Route>
 
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Page.NotFound />} />
     </Route>
   )
 );
