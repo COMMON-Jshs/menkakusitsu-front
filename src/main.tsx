@@ -7,9 +7,7 @@ import "./styles/Fonts.css";
 import "./styles/NProgress.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <>
-    <App />
-  </>
+  <App />
 );
 
 if ("serviceWorker" in navigator) {
