@@ -13,3 +13,7 @@
 > 개발 서버는 수정된 코드를 저장하면 자동으로 리로드 됨
 7. 수정 사항은 커밋 후 마스터 브랜치에 푸시
 > 사이트 잘 작동하는지 확인 후 푸시할 것
+
+## LICENSE
+
+Calculator Simulator by [Numworks](https://www.numworks.com/simulator/)
