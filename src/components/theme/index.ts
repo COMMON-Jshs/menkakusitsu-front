@@ -56,3 +56,4 @@ export const getTheme = (type: ThemeType, isDarkTheme: boolean) => {
 };
 
 export { default as ThemeAddon } from "./ThemeAddon";
+export * from "./ThemeContext";

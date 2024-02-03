@@ -13,9 +13,8 @@ import {
 } from "react-router-dom";
 import * as Page from "@/pages";
 import { TimetablePanel } from "@/components";
-import { getTheme, getThemeType } from "@/components/theme";
+import { getTheme, getThemeType, ThemeContext } from "@/components/theme";
 import { PrivateRoute, RouteWrapper } from "@/components/router";
-import { ThemeContext } from "@/components/theme/ThemeContext";
 import { getUseDarkMode, setUseDarkMode } from "@/utils/StorageManager";
 
 const themeType = getThemeType();
