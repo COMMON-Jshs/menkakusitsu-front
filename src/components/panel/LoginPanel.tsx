@@ -140,7 +140,10 @@ export function LoginPanel() {
               onClick={() => {
                 Popup.openConfirmDialog(
                   Constants.DialogTitle.Info,
-                  "현재 제공되지 않는 기능입니다."
+                  "현재 제공되지 않는 기능입니다.",
+                  () => {
+                    Popup.openCancelableDialog("", <LoginPanel />);
+                  }
                 );
               }}
               variant="body2"
