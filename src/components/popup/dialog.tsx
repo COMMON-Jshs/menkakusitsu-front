@@ -34,8 +34,8 @@ export function DialogComponent() {
       fullWidth
       onClose={() => {
         if (onCancel) {
-          onCancel();
           close();
+          onCancel();
         }
       }}
     >
@@ -44,8 +44,8 @@ export function DialogComponent() {
         {onCancel && (
           <IconButton
             onClick={() => {
-              onCancel();
               close();
+              onCancel();
             }}
           >
             <Close />
@@ -57,8 +57,8 @@ export function DialogComponent() {
         {onYes && (
           <Button
             onClick={() => {
-              onYes();
               close();
+              onYes();
             }}
           >
             확인
@@ -67,8 +67,8 @@ export function DialogComponent() {
         {onNo && (
           <Button
             onClick={() => {
-              onNo();
               close();
+              onNo();
             }}
           >
             아니오

@@ -20,6 +20,7 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   if (!id || !password) {
     return;
   }
+  Popup.closeDialog();
   Popup.startLoading("로그인 중입니다...");
   postLogin({ id: id, password: Sha3(password) }).then((result) => {
     if (isSuccessed(result)) {
@@ -64,7 +65,9 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 
 const onLoginFailed = (result: v1.PostLoginResponse) => {
   Popup.stopLoading();
-  Popup.openConfirmDialog(DialogTitle.Info, result.message);
+  Popup.openConfirmDialog(DialogTitle.Info, result.message, () => {
+    Popup.openCancelableDialog("", <LoginPanel />);
+  });
 };
 
 export default function LoginPanel() {

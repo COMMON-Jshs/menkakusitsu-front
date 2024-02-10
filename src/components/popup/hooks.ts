@@ -27,17 +27,35 @@ export const useDialogStore = create<DialogProps>((set) => ({
     }),
 }));
 
-export const openConfirmDialog = (
+export const openDialog = (
   title: ReactNode,
   content: ReactNode,
-  onYes?: VoidFunction
+  onYes?: VoidFunction,
+  onNo?: VoidFunction,
+  onCancel?: VoidFunction
 ) => {
   useDialogStore.setState({
     isOpened: true,
     title: title,
     content: content,
-    onYes: onYes || (() => {}),
+    onYes: onYes,
+    onNo: onNo,
+    onCancel: onCancel,
   });
+};
+
+export const closeDialog = () => {
+  useDialogStore.setState({
+    isOpened: false,
+  });
+};
+
+export const openConfirmDialog = (
+  title: ReactNode,
+  content: ReactNode,
+  onYes?: VoidFunction
+) => {
+  openDialog(title, content, onYes || (() => {}));
 };
 
 export const openYesNoDialog = (
@@ -46,13 +64,7 @@ export const openYesNoDialog = (
   onYes?: VoidFunction,
   onNo?: VoidFunction
 ) => {
-  useDialogStore.setState({
-    isOpened: true,
-    title: title,
-    content: content,
-    onYes: onYes || (() => {}),
-    onNo: onNo || (() => {}),
-  });
+  openDialog(title, content, onYes || (() => {}), onNo || (() => {}));
 };
 
 export const openCancelableDialog = (
@@ -60,12 +72,7 @@ export const openCancelableDialog = (
   content: ReactNode,
   onCancel?: VoidFunction
 ) => {
-  useDialogStore.setState({
-    isOpened: true,
-    title: title,
-    content: content,
-    onCancel: onCancel || (() => {}),
-  });
+  openDialog(title, content, undefined, undefined, onCancel || (() => {}));
 };
 
 type LoadingProps = {
