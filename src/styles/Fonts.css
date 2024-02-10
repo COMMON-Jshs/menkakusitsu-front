@@ -1,35 +1,35 @@
 @font-face {
-    font-family: "BMDohyeon";
-    /* font-display: swap; */
-    src: url(/src/assets/fonts/BMDOHYEON.woff) format("woff");
+  font-family: "BMDohyeon";
+  /* font-display: swap; */
+  src: url(/src/assets/fonts/BMDOHYEON.woff) format("woff");
 }
 
 @font-face {
-    font-family: "NotoSansKR";
-    /* font-display: swap; */
-    src: url(/src/assets/fonts/NotoSansKR-Regular.otf) format("opentype");
+  font-family: "NotoSansKR";
+  /* font-display: swap; */
+  src: url(/src/assets/fonts/NotoSansKR-Regular.otf) format("opentype");
 }
 
 @font-face {
-    font-family: "NanumGothic";
-    /* font-display: swap; */
-    src: url(/src/assets/fonts/NanumGothic.ttf) format("truetype");
+  font-family: "NanumGothic";
+  /* font-display: swap; */
+  src: url(/src/assets/fonts/NanumGothic.ttf) format("truetype");
 }
 
 @font-face {
-    font-family: "NanumSquareR";
-    /* font-display: swap; */
-    src: url(/src/assets/fonts/NanumSquareR.woff) format("woff");
+  font-family: "NanumSquareR";
+  /* font-display: swap; */
+  src: url(/src/assets/fonts/NanumSquareR.woff) format("woff");
 }
 
 @font-face {
-    font-family: "DesignHouseB";
-    /* font-display: swap; */
-    src: url(/src/assets/fonts/designhouseBold.ttf) format("truetype");
+  font-family: "DesignHouseB";
+  /* font-display: swap; */
+  src: url(/src/assets/fonts/designhouseBold.ttf) format("truetype");
 }
 
 @font-face {
-    font-family: "DesignHouseL";
-    /* font-display: swap; */
-    src: url(/src/assets/fonts/designhouseLight.ttf) format("truetype");
+  font-family: "DesignHouseL";
+  /* font-display: swap; */
+  src: url(/src/assets/fonts/designhouseLight.ttf) format("truetype");
 }
