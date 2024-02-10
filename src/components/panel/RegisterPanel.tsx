@@ -22,14 +22,14 @@ export default function RegisterPanel() {
       const password = data.get("password")?.toString().trim();
       const passwordCheck = data.get("passwordCheck")?.toString().trim();
       if (Number.isNaN(sid)) {
-        Popup.openDialog(DialogTitle.Info, "학번의 형식이 잘못되었습니다.");
+        Popup.openConfirmDialog(DialogTitle.Info, "학번의 형식이 잘못되었습니다.");
         return;
       }
       if (!name || !sid || !email || !id || !password || !passwordCheck) {
         return;
       }
       if (password != passwordCheck) {
-        Popup.openDialog(
+        Popup.openConfirmDialog(
           DialogTitle.Info,
           "비밀번호 확인을 잘못 입력하셨습니다."
         );
@@ -46,12 +46,12 @@ export default function RegisterPanel() {
         });
         if (isSuccessed(result)) {
           Popup.stopLoading();
-          Popup.openDialog(DialogTitle.Info, "회원가입 성공!", () => {
+          Popup.openConfirmDialog(DialogTitle.Info, "회원가입 성공!", () => {
             navigate("/");
           });
         } else {
           Popup.stopLoading();
-          Popup.openDialog(DialogTitle.Alert, result.message);
+          Popup.openConfirmDialog(DialogTitle.Alert, result.message);
         }
       } catch (err) {
         console.error(err);

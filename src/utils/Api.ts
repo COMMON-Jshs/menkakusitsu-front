@@ -16,11 +16,11 @@ import { parseJWT, redirectToHome } from "@/utils/Utility";
 const onApiError = (e: AxiosError) => {
   Popup.stopLoading();
   if (e.code == "ECONNABORTED") {
-    Popup.openDialog(DialogTitle.Alert, "서버와 통신에 실패하였습니다.");
+    Popup.openConfirmDialog(DialogTitle.Alert, "서버와 통신에 실패하였습니다.");
     return;
   }
   if (e.code == "ERR_NETWORK") {
-    Popup.openDialog(
+    Popup.openConfirmDialog(
       DialogTitle.Alert,
       "서버와 통신에 실패하였습니다.\n인터넷 연결 상태를 확인해주세요."
     );
@@ -28,15 +28,21 @@ const onApiError = (e: AxiosError) => {
   }
   if (e.code == "ERR_BAD_REQUEST") {
     if (e.response?.status == 400) {
-      Popup.openDialog(DialogTitle.Alert, "데이터 형식이 잘못되었습니다.");
+      Popup.openConfirmDialog(
+        DialogTitle.Alert,
+        "데이터 형식이 잘못되었습니다."
+      );
       return;
     } else if (e.response?.status == 403) {
-      Popup.openDialog(DialogTitle.Alert, "권한이 부족합니다.");
+      Popup.openConfirmDialog(DialogTitle.Alert, "권한이 부족합니다.");
       return;
     }
   }
   if (e.code == "ERR_BAD_RESPONSE") {
-    Popup.openDialog(DialogTitle.Alert, "데이터 처리 중 에러가 발생했습니다.");
+    Popup.openConfirmDialog(
+      DialogTitle.Alert,
+      "데이터 처리 중 에러가 발생했습니다."
+    );
     return;
   }
 };
@@ -106,7 +112,7 @@ export const checkTokenExpiration = async (accessToken: string) => {
       return false;
     } else {
       // console.error(result.message);
-      // Popup.openDialog(TITLE.Alert, result.message, onLogout);
+      // Popup.openConfirmDialog(TITLE.Alert, result.message, onLogout);
       return true;
     }
   }

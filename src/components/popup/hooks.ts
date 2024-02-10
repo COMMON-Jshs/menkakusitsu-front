@@ -27,20 +27,44 @@ export const useDialogStore = create<DialogProps>((set) => ({
     }),
 }));
 
-export const openDialog = (
+export const openConfirmDialog = (
+  title: ReactNode,
+  content: ReactNode,
+  onYes?: VoidFunction
+) => {
+  useDialogStore.setState({
+    isOpened: true,
+    title: title,
+    content: content,
+    onYes: onYes || (() => {}),
+  });
+};
+
+export const openYesNoDialog = (
   title: ReactNode,
   content: ReactNode,
   onYes?: VoidFunction,
-  onNo?: VoidFunction,
+  onNo?: VoidFunction
+) => {
+  useDialogStore.setState({
+    isOpened: true,
+    title: title,
+    content: content,
+    onYes: onYes || (() => {}),
+    onNo: onNo || (() => {}),
+  });
+};
+
+export const openCancelableDialog = (
+  title: ReactNode,
+  content: ReactNode,
   onCancel?: VoidFunction
 ) => {
   useDialogStore.setState({
     isOpened: true,
     title: title,
     content: content,
-    onYes: onYes,
-    onNo: onNo,
-    onCancel: onCancel,
+    onCancel: onCancel || (() => {}),
   });
 };
 

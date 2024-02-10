@@ -65,7 +65,7 @@ function Post() {
         });
       } else {
         Popup.stopLoading();
-        Popup.openDialog(DialogTitle.Info, result.message, () => {
+        Popup.openConfirmDialog(DialogTitle.Info, result.message, () => {
           navigate(`/bbs/${board}/list`);
         });
       }
@@ -94,7 +94,7 @@ function Post() {
 
           refresh();
         } else {
-          Popup.openDialog(DialogTitle.Info, result.message);
+          Popup.openConfirmDialog(DialogTitle.Info, result.message);
         }
       });
     },
@@ -193,7 +193,7 @@ function Post() {
                       variant="contained"
                       color="error"
                       onClick={() => {
-                        Popup.openDialog(
+                        Popup.openYesNoDialog(
                           DialogTitle.Alert,
                           "정말 피드백을 삭제하실 건가요?",
                           () => {
@@ -201,7 +201,7 @@ function Post() {
                               board: board,
                               postId: post.id,
                             }).then((result) => {
-                              Popup.openDialog(
+                              Popup.openConfirmDialog(
                                 DialogTitle.Info,
                                 "피드백이 삭제되었습니다.",
                                 () => {
@@ -209,8 +209,7 @@ function Post() {
                                 }
                               );
                             });
-                          },
-                          () => {}
+                          }
                         );
                       }}
                     >
@@ -260,7 +259,7 @@ function Post() {
                           <IconButton
                             size="small"
                             onClick={() => {
-                              Popup.openDialog(
+                              Popup.openYesNoDialog(
                                 DialogTitle.Alert,
                                 "정말 의견을 삭제하실 건가요?",
                                 () => {
@@ -269,7 +268,7 @@ function Post() {
                                     postId: postId,
                                     commentId: comment.id,
                                   }).then((result) => {
-                                    Popup.openDialog(
+                                    Popup.openConfirmDialog(
                                       DialogTitle.Info,
                                       "의견이 삭제되었습니다.",
                                       () => {
@@ -277,8 +276,7 @@ function Post() {
                                       }
                                     );
                                   });
-                                },
-                                () => {}
+                                }
                               );
                             }}
                           >

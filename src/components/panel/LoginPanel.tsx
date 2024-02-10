@@ -39,7 +39,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 
   if (result.callbacks) {
     if (result.callbacks.includes("needChangePw")) {
-      Popup.openDialog(
+      Popup.openConfirmDialog(
         DialogTitle.Alert,
         "기존 4자리 학번을 비밀번호로 사용하시는 경우, 비밀번호를 바꾸셔야합니다.",
         () => {
@@ -49,7 +49,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
       return;
     }
     if (result.callbacks.includes("needChangeEmail")) {
-      Popup.openDialog(
+      Popup.openConfirmDialog(
         DialogTitle.Alert,
         "비밀번호 복구 등의 서비스를 이용하시려면 이메일을 추가하셔야합니다.",
         () => {
@@ -64,7 +64,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 
 const onLoginFailed = (result: v1.PostLoginResponse) => {
   Popup.stopLoading();
-  Popup.openDialog(DialogTitle.Info, result.message);
+  Popup.openConfirmDialog(DialogTitle.Info, result.message);
 };
 
 export default function LoginPanel() {
@@ -140,7 +140,7 @@ export default function LoginPanel() {
             <Link
               href="#"
               onClick={() => {
-                Popup.openDialog(
+                Popup.openConfirmDialog(
                   DialogTitle.Info,
                   "현재 제공되지 않는 기능입니다."
                 );

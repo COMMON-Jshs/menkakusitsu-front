@@ -70,7 +70,7 @@ function Edit() {
     }).then((result) => {
       if (isSuccessed(result)) {
         Popup.stopLoading();
-        Popup.openDialog(
+        Popup.openConfirmDialog(
           DialogTitle.Info,
           "피드백 수정이 완료되었습니다.",
           () => {
@@ -79,7 +79,7 @@ function Edit() {
         );
       } else {
         Popup.stopLoading();
-        Popup.openDialog(DialogTitle.Info, result.message);
+        Popup.openConfirmDialog(DialogTitle.Info, result.message);
       }
     });
   }, []);

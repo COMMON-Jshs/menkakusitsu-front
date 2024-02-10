@@ -7,6 +7,7 @@ import {
   Slide,
   IconButton,
 } from "@mui/material";
+import { Close } from "@mui/icons-material";
 import { TransitionProps } from "@mui/material/transitions";
 import { ReactElement, forwardRef } from "react";
 
@@ -31,6 +32,12 @@ export function DialogComponent() {
       maxWidth="sm"
       TransitionComponent={Transition}
       fullWidth
+      onClose={() => {
+        if (onCancel) {
+          onCancel();
+          close();
+        }
+      }}
     >
       <DialogTitle>
         {title}
@@ -40,21 +47,23 @@ export function DialogComponent() {
               onCancel();
               close();
             }}
-          />
+          >
+            <Close />
+          </IconButton>
         )}
       </DialogTitle>
       <DialogContent>{content}</DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => {
-            if (onYes) {
+        {onYes && (
+          <Button
+            onClick={() => {
               onYes();
-            }
-            close();
-          }}
-        >
-          확인
-        </Button>
+              close();
+            }}
+          >
+            확인
+          </Button>
+        )}
         {onNo && (
           <Button
             onClick={() => {
@@ -63,16 +72,6 @@ export function DialogComponent() {
             }}
           >
             아니오
-          </Button>
-        )}
-        {onCancel && (
-          <Button
-            onClick={() => {
-              onCancel();
-              close();
-            }}
-          >
-            취소
           </Button>
         )}
       </DialogActions>

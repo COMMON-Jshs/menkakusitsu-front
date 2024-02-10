@@ -269,7 +269,7 @@ function Apply() {
     const data = new FormData(e.currentTarget);
     const location = data.get("location")?.toString();
     if (!location) {
-      Popup.openDialog(
+      Popup.openConfirmDialog(
         DialogTitle.Alert,
         "사용 장소 선택을 하지 않으셨습니다."
       );
@@ -278,7 +278,7 @@ function Apply() {
     }
     const purpose = data.get("purpose")?.toString();
     if (!purpose) {
-      Popup.openDialog(
+      Popup.openConfirmDialog(
         DialogTitle.Alert,
         "사용 목적 선택을 하지 않으셨습니다."
       );
@@ -286,7 +286,7 @@ function Apply() {
       return;
     }
     if (applicants.length === 0) {
-      Popup.openDialog(
+      Popup.openConfirmDialog(
         DialogTitle.Alert,
         "학생 명단 선택을 하지 않으셨습니다."
       );
@@ -294,7 +294,7 @@ function Apply() {
       return;
     }
     if (!teacher) {
-      Popup.openDialog(DialogTitle.Alert, "선생님 선택을 하지 않으셨습니다.");
+      Popup.openConfirmDialog(DialogTitle.Alert, "선생님 선택을 하지 않으셨습니다.");
       setActiveStep(4);
       return;
     }
@@ -308,13 +308,12 @@ function Apply() {
     }).then((result) => {
       if (isSuccessed(result)) {
         Popup.stopLoading();
-        Popup.openDialog(
+        Popup.openYesNoDialog(
           DialogTitle.Info,
           "특별실 신청에 성공했습니다. 신청 현황 페이지를 보시겠습니까?",
           () => {
             navigate("/specialroom/status");
-          },
-          () => {}
+          }
         );
         postUserPush({
           targetUid: teacher.uid,
@@ -326,7 +325,7 @@ function Apply() {
         });
       } else {
         Popup.stopLoading();
-        Popup.openDialog(DialogTitle.Info, result.message);
+        Popup.openConfirmDialog(DialogTitle.Info, result.message);
       }
     });
   };

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { openCancelableDialog } from "../popup";
+import { Popup } from "../";
 import { SubmitButton } from "../button";
 import { LoginPanel } from "../panel";
 
@@ -18,7 +18,7 @@ export default function LoginButton() {
       <SubmitButton
         color="primary.main"
         onClick={() => {
-          openCancelableDialog("", <LoginPanel />);
+          Popup.openCancelableDialog("", <LoginPanel />);
         }}
       >
         {import.meta.env.VITE_WEB_TITLE} LOGIN

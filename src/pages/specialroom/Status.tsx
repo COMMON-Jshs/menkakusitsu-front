@@ -145,7 +145,7 @@ function Status() {
 
   const onCancelApply = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    Popup.openDialog(
+    Popup.openYesNoDialog(
       DialogTitle.Info,
       "정말 특별실 신청을 취소하시겠습니까?",
       () => {
@@ -155,7 +155,7 @@ function Status() {
           if (isSuccessed(result)) {
             refresh();
           } else {
-            Popup.openDialog(DialogTitle.Info, result.message);
+            Popup.openConfirmDialog(DialogTitle.Info, result.message);
             refresh();
           }
         });

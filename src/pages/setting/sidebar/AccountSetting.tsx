@@ -45,7 +45,7 @@ function ChangeEmail() {
           if (isSuccessed(result)) {
             setEmail(result.newEmail);
           } else {
-            Popup.openDialog(DialogTitle.Info, result.message);
+            Popup.openConfirmDialog(DialogTitle.Info, result.message);
           }
         });
       }}
@@ -103,7 +103,7 @@ function ChangePassword() {
           if (isSuccessed(result)) {
             window.location.reload();
           } else {
-            Popup.openDialog(DialogTitle.Info, result.message);
+            Popup.openConfirmDialog(DialogTitle.Info, result.message);
           }
         });
       }}

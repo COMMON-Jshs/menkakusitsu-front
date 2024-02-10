@@ -9,7 +9,7 @@ function LogoutButton() {
   return (
     <MenuItem
       onClick={() => {
-        Popup.openDialog(
+        Popup.openYesNoDialog(
           DialogTitle.Info,
           "정말 로그아웃 하시겠습니까?",
           () => {
@@ -20,11 +20,10 @@ function LogoutButton() {
                 onLogout();
               } else {
                 Popup.stopLoading();
-                Popup.openDialog(DialogTitle.Info, result.message);
+                Popup.openConfirmDialog(DialogTitle.Info, result.message);
               }
             });
-          },
-          () => {}
+          }
         );
       }}
     >
