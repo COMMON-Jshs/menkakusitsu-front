@@ -2,7 +2,7 @@ import { Fragment, useCallback } from "react";
 import { Box, Container, Paper, TextField } from "@mui/material";
 import PaperTitle from "../PaperTitle";
 import { SubmitButton } from "../button";
-import { closeWaitDialog, openConfirmDialog, openWaitDialog } from "../popup";
+import { Popup } from "../";
 import { DialogTitle } from "../../utils/Constants";
 import { isSuccessed, postRegister } from "../../utils/Api";
 import { Sha3 } from "../../utils/Utility";
@@ -22,20 +22,20 @@ export default function RegisterPanel() {
       const password = data.get("password")?.toString().trim();
       const passwordCheck = data.get("passwordCheck")?.toString().trim();
       if (Number.isNaN(sid)) {
-        openConfirmDialog(DialogTitle.Info, "학번의 형식이 잘못되었습니다.");
+        Popup.openDialog(DialogTitle.Info, "학번의 형식이 잘못되었습니다.");
         return;
       }
       if (!name || !sid || !email || !id || !password || !passwordCheck) {
         return;
       }
       if (password != passwordCheck) {
-        openConfirmDialog(
+        Popup.openDialog(
           DialogTitle.Info,
           "비밀번호 확인을 잘못 입력하셨습니다."
         );
         return;
       }
-      openWaitDialog(DialogTitle.Info, "회원가입 중입니다...");
+      Popup.startLoading("회원가입 중입니다...");
       try {
         const result = await postRegister({
           name: name,
@@ -45,13 +45,13 @@ export default function RegisterPanel() {
           password: Sha3(password),
         });
         if (isSuccessed(result)) {
-          closeWaitDialog();
-          openConfirmDialog(DialogTitle.Info, "회원가입 성공!", () => {
+          Popup.stopLoading();
+          Popup.openDialog(DialogTitle.Info, "회원가입 성공!", () => {
             navigate("/");
           });
         } else {
-          closeWaitDialog();
-          openConfirmDialog(DialogTitle.Alert, result.message);
+          Popup.stopLoading();
+          Popup.openDialog(DialogTitle.Alert, result.message);
         }
       } catch (err) {
         console.error(err);

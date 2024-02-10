@@ -1,7 +1,7 @@
 import "../../styles/LoginForm.css";
 
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { openConfirmDialog, closeWaitDialog, openWaitDialog } from "../popup";
+import { Popup } from "../";
 import { DialogTitle } from "../../utils/Constants";
 import { getPushToken } from "../../utils/FirebaseManager";
 import { getPushApproved } from "../../utils/PushManager";
@@ -20,7 +20,7 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   if (!id || !password) {
     return;
   }
-  openWaitDialog(DialogTitle.Info, "로그인 중입니다...");
+  Popup.startLoading("로그인 중입니다...");
   postLogin({ id: id, password: Sha3(password) }).then((result) => {
     if (isSuccessed(result)) {
       onLoginSuccessed(result);
@@ -39,7 +39,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 
   if (result.callbacks) {
     if (result.callbacks.includes("needChangePw")) {
-      openConfirmDialog(
+      Popup.openDialog(
         DialogTitle.Alert,
         "기존 4자리 학번을 비밀번호로 사용하시는 경우, 비밀번호를 바꾸셔야합니다.",
         () => {
@@ -49,7 +49,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
       return;
     }
     if (result.callbacks.includes("needChangeEmail")) {
-      openConfirmDialog(
+      Popup.openDialog(
         DialogTitle.Alert,
         "비밀번호 복구 등의 서비스를 이용하시려면 이메일을 추가하셔야합니다.",
         () => {
@@ -63,8 +63,8 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 };
 
 const onLoginFailed = (result: v1.PostLoginResponse) => {
-  closeWaitDialog();
-  openConfirmDialog(DialogTitle.Info, result.message);
+  Popup.stopLoading();
+  Popup.openDialog(DialogTitle.Info, result.message);
 };
 
 export default function LoginPanel() {
@@ -140,7 +140,7 @@ export default function LoginPanel() {
             <Link
               href="#"
               onClick={() => {
-                openConfirmDialog(
+                Popup.openDialog(
                   DialogTitle.Info,
                   "현재 제공되지 않는 기능입니다."
                 );

@@ -23,12 +23,7 @@ import {
   putBbsPost,
 } from "../../utils/Api";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  closeWaitDialog,
-  openConfirmDialog,
-  openWaitDialog,
-  SubmitButton,
-} from "../../components";
+import { Popup, SubmitButton } from "../../components";
 import { DialogTitle } from "../../utils/Constants";
 
 function Edit() {
@@ -64,7 +59,7 @@ function Edit() {
     if (!title || !content || !header) {
       return;
     }
-    openWaitDialog(DialogTitle.Info, "수정 중입니다...");
+    Popup.startLoading("수정 중입니다...");
     putBbsPost({
       postId: parseInt(params.postId!),
       board: params.board!,
@@ -74,8 +69,8 @@ function Edit() {
       isPublic: isPublic,
     }).then((result) => {
       if (isSuccessed(result)) {
-        closeWaitDialog();
-        openConfirmDialog(
+        Popup.stopLoading();
+        Popup.openDialog(
           DialogTitle.Info,
           "피드백 수정이 완료되었습니다.",
           () => {
@@ -83,8 +78,8 @@ function Edit() {
           }
         );
       } else {
-        closeWaitDialog();
-        openConfirmDialog(DialogTitle.Info, result.message);
+        Popup.stopLoading();
+        Popup.openDialog(DialogTitle.Info, result.message);
       }
     });
   }, []);

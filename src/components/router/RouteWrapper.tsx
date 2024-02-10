@@ -5,12 +5,7 @@ import RouteTracker from "../RouteTracker";
 import { create } from "zustand";
 import FixedNavbar from "../navbar";
 import Footer from "../Footer";
-import {
-  CancelableDialog,
-  ConfirmDialog,
-  WaitDialog,
-  YesNoDialog,
-} from "../popup";
+import { DialogComponent, LoadingComponent } from "@/components/popup";
 import { getThemeType, ThemeAddon } from "../theme";
 import ParticleManager from "../particles";
 
@@ -31,10 +26,8 @@ export default function RouteWrapper() {
 
   return (
     <>
-      <ConfirmDialog />
-      <WaitDialog />
-      <YesNoDialog />
-      <CancelableDialog />
+      <DialogComponent />
+      <LoadingComponent />
       <SnackbarProvider
         maxSnack={5}
         autoHideDuration={6000}

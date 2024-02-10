@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { closeWaitDialog, openWaitDialog } from "../../components";
+import { Popup } from "../../components";
 import PaperTitle from "../../components/PaperTitle";
 import { deleteSecession, getSpecialroomStudentInfo } from "../../utils/Api";
 import { DialogTitle } from "../../utils/Constants";
@@ -29,11 +29,11 @@ function UserBox(props: UserBoxProps) {
             color="secondary"
             onChange={(event) => {
               if (event.target.checked) {
-                openWaitDialog(DialogTitle.Info, "처리 중입니다...");
+                Popup.startLoading("처리 중입니다...");
                 deleteSecession({
                   name: user.name,
                 }).then((result) => {
-                  closeWaitDialog();
+                  Popup.stopLoading();
                   getSpecialroomStudentInfo({}).then((result) => {
                     setUsers(result.studentInfo);
                   });

@@ -15,11 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import PaperTitle from "../../components/PaperTitle";
 import { arrayRemove, getTokenPayload } from "../../utils/Utility";
-import {
-  closeWaitDialog,
-  openWaitDialog,
-  SpecialroomInfoPanel,
-} from "../../components";
+import { Popup, SpecialroomInfoPanel } from "../../components";
 import { getSpecialroomInfo, putSpecialroomInfo } from "../../utils/Api";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 import { DialogTitle } from "../../utils/Constants";
@@ -93,14 +89,14 @@ function InfoCell(props: InfoCellProps) {
             <Button
               color="success"
               onClick={() => {
-                openWaitDialog(DialogTitle.Info, "처리 중입니다...");
+                Popup.startLoading("처리 중입니다...");
                 putSpecialroomInfo({
                   information: final.map((information) => {
                     information.state = 1;
                     return information;
                   }),
                 }).then((result) => {
-                  closeWaitDialog();
+                  Popup.stopLoading();
                   setInformation(
                     result.information.filter(
                       (info) => info.teacher.uid == payload?.uid
@@ -116,14 +112,14 @@ function InfoCell(props: InfoCellProps) {
             <Button
               color="error"
               onClick={() => {
-                openWaitDialog(DialogTitle.Info, "처리 중입니다...");
+                Popup.startLoading("처리 중입니다...");
                 putSpecialroomInfo({
                   information: final.map((information) => {
                     information.state = -1;
                     return information;
                   }),
                 }).then((result) => {
-                  closeWaitDialog();
+                  Popup.stopLoading();
                   setInformation(
                     result.information.filter(
                       (info) => info.teacher.uid == payload?.uid

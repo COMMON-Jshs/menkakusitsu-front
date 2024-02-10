@@ -27,12 +27,7 @@ import {
   getParameter,
   hasPermissionLevel,
 } from "../../utils/Utility";
-import {
-  closeWaitDialog,
-  openConfirmDialog,
-  openWaitDialog,
-  openYesNoDialog,
-} from "../../components";
+import { Popup } from "../../components";
 import { COMMENT_LIST_SIZE, DialogTitle } from "../../utils/Constants";
 import List from "./List";
 import { Permission } from "@common-jshs/menkakusitsu-lib";
@@ -69,8 +64,8 @@ function Post() {
           setCommentList(result.list);
         });
       } else {
-        closeWaitDialog();
-        openConfirmDialog(DialogTitle.Info, result.message, () => {
+        Popup.stopLoading();
+        Popup.openDialog(DialogTitle.Info, result.message, () => {
           navigate(`/bbs/${board}/list`);
         });
       }
@@ -85,21 +80,21 @@ function Post() {
       if (!post || !comment) {
         return;
       }
-      openWaitDialog(DialogTitle.Info, "작성 중입니다...");
+      Popup.startLoading("작성 중입니다...");
       postBbsComment({
         board: board,
         postId: post.id,
         content: comment,
       }).then((result) => {
+        Popup.stopLoading();
         if (isSuccessed(result)) {
           if (commentRef?.current) {
             commentRef.current.value = "";
           }
-          closeWaitDialog();
+
           refresh();
         } else {
-          closeWaitDialog();
-          openConfirmDialog(DialogTitle.Info, result.message);
+          Popup.openDialog(DialogTitle.Info, result.message);
         }
       });
     },
@@ -198,7 +193,7 @@ function Post() {
                       variant="contained"
                       color="error"
                       onClick={() => {
-                        openYesNoDialog(
+                        Popup.openDialog(
                           DialogTitle.Alert,
                           "정말 피드백을 삭제하실 건가요?",
                           () => {
@@ -206,7 +201,7 @@ function Post() {
                               board: board,
                               postId: post.id,
                             }).then((result) => {
-                              openConfirmDialog(
+                              Popup.openDialog(
                                 DialogTitle.Info,
                                 "피드백이 삭제되었습니다.",
                                 () => {
@@ -214,7 +209,8 @@ function Post() {
                                 }
                               );
                             });
-                          }
+                          },
+                          () => {}
                         );
                       }}
                     >
@@ -264,7 +260,7 @@ function Post() {
                           <IconButton
                             size="small"
                             onClick={() => {
-                              openYesNoDialog(
+                              Popup.openDialog(
                                 DialogTitle.Alert,
                                 "정말 의견을 삭제하실 건가요?",
                                 () => {
@@ -273,7 +269,7 @@ function Post() {
                                     postId: postId,
                                     commentId: comment.id,
                                   }).then((result) => {
-                                    openConfirmDialog(
+                                    Popup.openDialog(
                                       DialogTitle.Info,
                                       "의견이 삭제되었습니다.",
                                       () => {
@@ -281,7 +277,8 @@ function Post() {
                                       }
                                     );
                                   });
-                                }
+                                },
+                                () => {}
                               );
                             }}
                           >

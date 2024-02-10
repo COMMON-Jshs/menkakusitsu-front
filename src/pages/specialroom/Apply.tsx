@@ -23,12 +23,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  openConfirmDialog,
-  closeWaitDialog,
-  openWaitDialog,
-  openYesNoDialog,
-} from "../../components/popup";
+import { Popup } from "../../components";
 import {
   getSpecialroomLocationInfo,
   getSpecialroomManagerInfo,
@@ -274,7 +269,7 @@ function Apply() {
     const data = new FormData(e.currentTarget);
     const location = data.get("location")?.toString();
     if (!location) {
-      openConfirmDialog(
+      Popup.openDialog(
         DialogTitle.Alert,
         "사용 장소 선택을 하지 않으셨습니다."
       );
@@ -283,7 +278,7 @@ function Apply() {
     }
     const purpose = data.get("purpose")?.toString();
     if (!purpose) {
-      openConfirmDialog(
+      Popup.openDialog(
         DialogTitle.Alert,
         "사용 목적 선택을 하지 않으셨습니다."
       );
@@ -291,7 +286,7 @@ function Apply() {
       return;
     }
     if (applicants.length === 0) {
-      openConfirmDialog(
+      Popup.openDialog(
         DialogTitle.Alert,
         "학생 명단 선택을 하지 않으셨습니다."
       );
@@ -299,11 +294,11 @@ function Apply() {
       return;
     }
     if (!teacher) {
-      openConfirmDialog(DialogTitle.Alert, "선생님 선택을 하지 않으셨습니다.");
+      Popup.openDialog(DialogTitle.Alert, "선생님 선택을 하지 않으셨습니다.");
       setActiveStep(4);
       return;
     }
-    openWaitDialog(DialogTitle.Info, "특별실을 신청하는 중입니다...");
+    Popup.startLoading("특별실을 신청하는 중입니다...");
     postSpecialroomApply({
       location: location,
       purpose: purpose,
@@ -312,13 +307,14 @@ function Apply() {
       when: when,
     }).then((result) => {
       if (isSuccessed(result)) {
-        closeWaitDialog();
-        openYesNoDialog(
+        Popup.stopLoading();
+        Popup.openDialog(
           DialogTitle.Info,
           "특별실 신청에 성공했습니다. 신청 현황 페이지를 보시겠습니까?",
           () => {
             navigate("/specialroom/status");
-          }
+          },
+          () => {}
         );
         postUserPush({
           targetUid: teacher.uid,
@@ -329,8 +325,8 @@ function Apply() {
           },
         });
       } else {
-        closeWaitDialog();
-        openConfirmDialog(DialogTitle.Info, result.message);
+        Popup.stopLoading();
+        Popup.openDialog(DialogTitle.Info, result.message);
       }
     });
   };

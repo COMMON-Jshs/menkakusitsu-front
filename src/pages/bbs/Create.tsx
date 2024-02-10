@@ -24,9 +24,7 @@ import {
 } from "../../utils/Api";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  closeWaitDialog,
-  openConfirmDialog,
-  openWaitDialog,
+  Popup,
   SubmitButton,
 } from "../../components";
 import { DialogTitle } from "../../utils/Constants";
@@ -68,7 +66,7 @@ function Create() {
       if (!title || !content || !header) {
         return;
       }
-      openWaitDialog(DialogTitle.Info, "제출 중입니다...");
+      Popup.startLoading("제출 중입니다...");
       postBbsPost(
         {
           title: title,
@@ -80,8 +78,8 @@ function Create() {
         files
       ).then((result) => {
         if (isSuccessed(result)) {
-          closeWaitDialog();
-          openConfirmDialog(
+          Popup.stopLoading();
+          Popup.openDialog(
             DialogTitle.Info,
             "피드백 제출이 완료되었습니다.",
             () => {
@@ -89,8 +87,8 @@ function Create() {
             }
           );
         } else {
-          closeWaitDialog();
-          openConfirmDialog(DialogTitle.Info, result.message);
+          Popup.stopLoading();
+          Popup.openDialog(DialogTitle.Info, result.message);
         }
       });
     },

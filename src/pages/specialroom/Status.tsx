@@ -31,12 +31,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useCallback } from "react";
 import SubmitButton from "../../components/button/SubmitButton";
 import { DialogTitle } from "../../utils/Constants";
-import {
-  openConfirmDialog,
-  openYesNoDialog,
-  closeWaitDialog,
-  openWaitDialog,
-} from "../../components/popup";
+import { Popup } from "../../components";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 
 const ColorlibConnector = styled(StepConnector)<{ isapproved: number }>(
@@ -150,18 +145,17 @@ function Status() {
 
   const onCancelApply = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    openYesNoDialog(
+    Popup.openDialog(
       DialogTitle.Info,
       "정말 특별실 신청을 취소하시겠습니까?",
       () => {
-        openWaitDialog(DialogTitle.Info, "특별실 신청을 취소 중입니다...");
+        Popup.startLoading("특별실 신청을 취소 중입니다...");
         deleteSpecialroomApply({ when: when }).then((result) => {
+          Popup.stopLoading();
           if (isSuccessed(result)) {
-            closeWaitDialog();
             refresh();
           } else {
-            closeWaitDialog();
-            openConfirmDialog(DialogTitle.Info, result.message);
+            Popup.openDialog(DialogTitle.Info, result.message);
             refresh();
           }
         });

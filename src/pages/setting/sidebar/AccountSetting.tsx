@@ -1,11 +1,6 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import {
-  closeWaitDialog,
-  openConfirmDialog,
-  openWaitDialog,
-  SubmitButton,
-} from "../../../components";
+import { Popup, SubmitButton } from "../../../components";
 import { Sha3, validateEmail } from "../../../utils/Utility";
 import {
   getMyPrivateInfo,
@@ -44,14 +39,13 @@ function ChangeEmail() {
           setErrorText("유효하지 않은 이메일입니다!");
           return;
         }
-        openWaitDialog(DialogTitle.Info, "잠시만 기다려주세요...");
+        Popup.startLoading("잠시만 기다려주세요...");
         putMyEmail({ oldEmail: email, newEmail: newEmail }).then((result) => {
+          Popup.stopLoading();
           if (isSuccessed(result)) {
-            closeWaitDialog();
             setEmail(result.newEmail);
           } else {
-            closeWaitDialog();
-            openConfirmDialog(DialogTitle.Info, result.message);
+            Popup.openDialog(DialogTitle.Info, result.message);
           }
         });
       }}
@@ -100,17 +94,16 @@ function ChangePassword() {
           setErrorText("비밀번호와 비밀번호 다시 입력이 다릅니다.");
           return;
         }
-        openWaitDialog(DialogTitle.Info, "잠시만 기다려주세요...");
+        Popup.startLoading("잠시만 기다려주세요...");
         putMyPassword({
           oldPassword: Sha3(oldPassword),
           newPassword: Sha3(newPassword),
         }).then((result) => {
+          Popup.stopLoading();
           if (isSuccessed(result)) {
-            closeWaitDialog();
             window.location.reload();
           } else {
-            closeWaitDialog();
-            openConfirmDialog(DialogTitle.Info, result.message);
+            Popup.openDialog(DialogTitle.Info, result.message);
           }
         });
       }}

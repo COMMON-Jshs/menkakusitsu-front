@@ -1,7 +1,7 @@
 import { v1, DefaultResponse } from "@common-jshs/menkakusitsu-lib";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { closeWaitDialog, openConfirmDialog } from "@/components/popup";
+import { Popup } from "@/components";
 import { DialogTitle } from "@/utils/Constants";
 import { deletePushToken } from "@/utils/FirebaseManager";
 import { getPushApproved } from "@/utils/PushManager";
@@ -14,13 +14,13 @@ import {
 import { parseJWT, redirectToHome } from "@/utils/Utility";
 
 const onApiError = (e: AxiosError) => {
-  closeWaitDialog();
+  Popup.stopLoading();
   if (e.code == "ECONNABORTED") {
-    openConfirmDialog(DialogTitle.Alert, "서버와 통신에 실패하였습니다.");
+    Popup.openDialog(DialogTitle.Alert, "서버와 통신에 실패하였습니다.");
     return;
   }
   if (e.code == "ERR_NETWORK") {
-    openConfirmDialog(
+    Popup.openDialog(
       DialogTitle.Alert,
       "서버와 통신에 실패하였습니다.\n인터넷 연결 상태를 확인해주세요."
     );
@@ -28,15 +28,15 @@ const onApiError = (e: AxiosError) => {
   }
   if (e.code == "ERR_BAD_REQUEST") {
     if (e.response?.status == 400) {
-      openConfirmDialog(DialogTitle.Alert, "데이터 형식이 잘못되었습니다.");
+      Popup.openDialog(DialogTitle.Alert, "데이터 형식이 잘못되었습니다.");
       return;
     } else if (e.response?.status == 403) {
-      openConfirmDialog(DialogTitle.Alert, "권한이 부족합니다.");
+      Popup.openDialog(DialogTitle.Alert, "권한이 부족합니다.");
       return;
     }
   }
   if (e.code == "ERR_BAD_RESPONSE") {
-    openConfirmDialog(DialogTitle.Alert, "데이터 처리 중 에러가 발생했습니다.");
+    Popup.openDialog(DialogTitle.Alert, "데이터 처리 중 에러가 발생했습니다.");
     return;
   }
 };
@@ -106,7 +106,7 @@ export const checkTokenExpiration = async (accessToken: string) => {
       return false;
     } else {
       // console.error(result.message);
-      // openConfirmDialog(TITLE.Alert, result.message, onLogout);
+      // Popup.openDialog(TITLE.Alert, result.message, onLogout);
       return true;
     }
   }
