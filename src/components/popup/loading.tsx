@@ -21,7 +21,9 @@ export function LoadingComponent() {
         flexDirection="column"
       >
         <CircularProgress />
-        <Typography>{text}</Typography>
+        <Typography sx={{ paddingTop: "4px" }} variant="h5">
+          {text}
+        </Typography>
       </Box>
     </Backdrop>
   );
