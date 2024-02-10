@@ -9,29 +9,30 @@ import {
 } from "@mui/material";
 import { ManageAccounts, MoreHoriz } from "@mui/icons-material";
 import { ReactNode, useState } from "react";
-import { AccountSetting, EtcSetting } from "./sidebar";
 
-interface SidebarItem {
+import { AccountSetting, EtcSetting } from "@/pages/setting/sidebar";
+
+type SidebarItem = {
   title: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   icon: ReactNode;
-  drawPanel: () => ReactNode;
-}
+  item: ReactNode;
+};
 
 const sidebarItems: SidebarItem[] = [
   {
     title: "계정",
     icon: <ManageAccounts />,
-    drawPanel: () => <AccountSetting />,
+    item: <AccountSetting />,
   },
   {
     title: "기타",
     icon: <MoreHoriz />,
-    drawPanel: () => <EtcSetting />,
+    item: <EtcSetting />,
   },
 ];
 
-function Setting() {
+export function Setting() {
   const [currentSidebarItem, setCurrentSidebarItem] = useState<SidebarItem>(
     sidebarItems[0]
   );
@@ -72,7 +73,7 @@ function Setting() {
                 width: "100%",
               }}
             >
-              {currentSidebarItem.drawPanel()}
+              {currentSidebarItem.item}
             </Box>
           </Box>
         </Paper>
@@ -80,5 +81,3 @@ function Setting() {
     </>
   );
 }
-
-export default Setting;

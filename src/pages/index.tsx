@@ -1,30 +1,30 @@
-export { default as Main } from "./main";
+export { Main } from "./main";
 
-export { default as Login } from "./auth/Login";
-export { default as Register } from "./auth/Register";
+export { Login } from "./auth/login";
+export { Register } from "./auth/register";
 
-export { default as AttendanceDownload } from "./attendance/Download";
-export { default as AttendanceInfo } from "./attendance/Info";
+export { Download as AttendanceDownload } from "./attendance/download";
+export { Info as AttendanceInfo } from "./attendance/info";
 
-export { default as BbsCreate } from "./bbs/Create";
-export { default as BbsEdit } from "./bbs/Edit";
-export { default as BbsList } from "./bbs/List";
-export { default as BbsPost } from "./bbs/Post";
+export { Create as BbsCreate } from "./bbs/create";
+export { Edit as BbsEdit } from "./bbs/edit";
+export { List as BbsList } from "./bbs/list";
+export { Post as BbsPost } from "./bbs/post";
 
-export { default as ChatIdbot } from "./chat/Idbot";
+export { Idbot as ChatIdbot } from "./chat/idbot";
 
-export { default as Contributors } from "./contributors";
+export { Contributors } from "./contributors";
 
-export { default as UserManagement } from "./dev/User";
+export { UserManagement } from "./dev/user";
 
-export { default as SpecialroomApply } from "./specialroom/Apply";
-export { default as SpecialroomStatus } from "./specialroom/Status";
-export { default as SpecialroomManagement } from "./specialroom/Management";
-export { default as SpecialroomOuter } from "./specialroom/Outer";
+export { Apply as SpecialroomApply } from "./specialroom/apply";
+export { Status as SpecialroomStatus } from "./specialroom/status";
+export { Management as SpecialroomManagement } from "./specialroom/management";
+export { Outer as SpecialroomOuter } from "./specialroom/outer";
 
-export { default as About } from "./About";
+export { About } from "./about";
 
-export { default as Setting } from "./setting";
+export { Setting } from "./setting";
 
-export { default as NotFound } from "./NotFound";
-export { default as Construct } from "./Construct";
+export { NotFound } from "./error";
+export { Construct } from "./construct";

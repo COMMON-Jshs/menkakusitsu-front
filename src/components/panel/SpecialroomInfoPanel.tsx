@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { useCallback, useEffect, useState } from "react";
 import {
   Paper,
   Table,
@@ -8,10 +9,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useCallback } from "react";
-import { getSpecialroomInfo } from "../../utils/Api";
-import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { SPECIALROOM_INFO_INTERVAL } from "../../utils/Constants";
+
+import { Api, Constants } from "@/utils";
 
 type FilterFunction = (specialroomInfo: v1.SpecialroomInfo) => boolean;
 
@@ -74,11 +73,11 @@ export function InfoTable(props: InfoTableProps) {
   );
 }
 
-interface SpecialroomInfoPanelProps {
+type SpecialroomInfoPanelProps = {
   filter?: FilterFunction;
-}
+};
 
-function SpecialroomInfoPanel(props: SpecialroomInfoPanelProps) {
+export function SpecialroomInfoPanel(props: SpecialroomInfoPanelProps) {
   const { filter } = props;
 
   const [information, setInformation] = useState<v1.SpecialroomInfo[] | null>(
@@ -87,7 +86,7 @@ function SpecialroomInfoPanel(props: SpecialroomInfoPanelProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   const updateInformation = useCallback(() => {
-    getSpecialroomInfo({}).then((result) => {
+    Api.getSpecialroomInfo({}).then((result) => {
       setInformation(result.information);
       setIsLoading(false);
     });
@@ -95,7 +94,10 @@ function SpecialroomInfoPanel(props: SpecialroomInfoPanelProps) {
 
   useEffect(() => {
     updateInformation();
-    const interval = setInterval(updateInformation, SPECIALROOM_INFO_INTERVAL);
+    const interval = setInterval(
+      updateInformation,
+      Constants.SPECIALROOM_INFO_INTERVAL
+    );
     return () => clearInterval(interval);
   }, [updateInformation]);
 
@@ -107,5 +109,3 @@ function SpecialroomInfoPanel(props: SpecialroomInfoPanelProps) {
     />
   );
 }
-
-export default SpecialroomInfoPanel;

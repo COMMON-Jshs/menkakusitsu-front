@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
-import { Popup } from "../";
-import { SubmitButton } from "../button";
-import { LoginPanel } from "../panel";
 
-export default function LoginButton() {
+import { Popup, SubmitButton, LoginPanel } from "@/components";
+
+export function LoginButton() {
   return (
     <Box
       sx={{

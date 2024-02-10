@@ -1,11 +1,10 @@
-import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function Logo() {
+export function Logo() {
   return (
     <Box
-      style={{
+      sx={{
         display: "inline-block",
         marginLeft: "64px",
       }}
@@ -30,5 +29,3 @@ function Logo() {
     </Box>
   );
 }
-
-export default Logo;

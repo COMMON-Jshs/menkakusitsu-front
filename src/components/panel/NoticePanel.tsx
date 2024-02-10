@@ -1,11 +1,9 @@
-import PaperTitle from "../PaperTitle";
+import { PaperTitle } from "@/components";
 
-function NoticePanel() {
+export function NoticePanel() {
   return (
     <>
       <PaperTitle>공지사항</PaperTitle>
     </>
   );
 }
-
-export default NoticePanel;

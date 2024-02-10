@@ -1,7 +1,8 @@
 import { Container } from "@mui/material";
-import { MealPanel } from "../../components/panel";
 
-function Teacher() {
+import { MealPanel } from "@/components";
+
+export function Teacher() {
   return (
     <>
       <Container
@@ -16,5 +17,3 @@ function Teacher() {
     </>
   );
 }
-
-export default Teacher;

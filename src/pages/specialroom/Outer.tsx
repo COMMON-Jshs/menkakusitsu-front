@@ -1,8 +1,9 @@
 import { Box, Container, Paper } from "@mui/material";
 import { useState } from "react";
-import PaperTitle from "../../components/PaperTitle";
 
-function Outer() {
+import { PaperTitle } from "@/components";
+
+export function Outer() {
   const [outsiders, setOutsiders] = useState([]);
   return (
     <>
@@ -21,5 +22,3 @@ function Outer() {
     </>
   );
 }
-
-export default Outer;

@@ -1,3 +1,4 @@
+import { v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Alert,
   Box,
@@ -13,22 +14,20 @@ import {
   Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import PaperTitle from "../../components/PaperTitle";
-import { arrayRemove, getTokenPayload } from "../../utils/Utility";
-import { Popup, SpecialroomInfoPanel } from "../../components";
-import { getSpecialroomInfo, putSpecialroomInfo } from "../../utils/Api";
-import { v1 } from "@common-jshs/menkakusitsu-lib";
 
-interface InfoCellProps {
+import { Popup, SpecialroomInfoPanel, PaperTitle } from "@/components";
+import { Api, Utility } from "@/utils";
+
+type InfoCellProps = {
   state: number;
   information: v1.SpecialroomInfo[];
   setInformation: React.Dispatch<React.SetStateAction<v1.SpecialroomInfo[]>>;
-}
+};
 
 function InfoCell(props: InfoCellProps) {
   const { state, information, setInformation } = props;
 
-  const payload = getTokenPayload();
+  const payload = Utility.getTokenPayload();
 
   let count = 0;
   const final: v1.SpecialroomInfo[] = [];
@@ -71,7 +70,7 @@ function InfoCell(props: InfoCellProps) {
                         if (event.target.checked) {
                           final.push(information);
                         } else {
-                          arrayRemove(final, information);
+                          Utility.arrayRemove(final, information);
                         }
                       }}
                     />
@@ -89,7 +88,7 @@ function InfoCell(props: InfoCellProps) {
               color="success"
               onClick={() => {
                 Popup.startLoading("처리 중입니다...");
-                putSpecialroomInfo({
+                Api.putSpecialroomInfo({
                   information: final.map((information) => {
                     information.state = 1;
                     return information;
@@ -112,7 +111,7 @@ function InfoCell(props: InfoCellProps) {
               color="error"
               onClick={() => {
                 Popup.startLoading("처리 중입니다...");
-                putSpecialroomInfo({
+                Api.putSpecialroomInfo({
                   information: final.map((information) => {
                     information.state = -1;
                     return information;
@@ -139,20 +138,21 @@ function InfoCell(props: InfoCellProps) {
   }
   return result;
 }
-function Management() {
+
+export function Management() {
   const [information, setInformation] = useState<v1.SpecialroomInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const payload = getTokenPayload();
+  const payload = Utility.getTokenPayload();
 
   useEffect(() => {
-    getSpecialroomInfo({}).then((result) => {
+    Api.getSpecialroomInfo({}).then((result) => {
       setInformation(
         result.information.filter((info) => info.teacher.uid == payload?.uid)
       );
       setIsLoading(false);
     });
-  }, []);
+  }, [payload]);
 
   return (
     <>
@@ -246,5 +246,3 @@ function Management() {
     </>
   );
 }
-
-export default Management;

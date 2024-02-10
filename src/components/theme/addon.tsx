@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
-import { ThemeType } from ".";
-import christmasImg from "../../assets/christmas.png";
 
-interface ThemeLayoutProps {
+import { ThemeType } from "@/components/theme";
+import christmasImg from "@/assets/christmas.png";
+
+type ThemeLayoutProps = {
   type: ThemeType;
-}
+};
 
-function ThemeAddon(props: ThemeLayoutProps) {
+export function AddonComponent(props: ThemeLayoutProps) {
   const { type } = props;
 
   if (type == "april-fools") {
@@ -38,5 +39,3 @@ function ThemeAddon(props: ThemeLayoutProps) {
       return <></>;
   }
 }
-
-export default ThemeAddon;

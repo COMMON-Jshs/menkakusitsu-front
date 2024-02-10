@@ -23,7 +23,7 @@ function useInterval(callback: VoidFunction, delay: number) {
   }, [delay]);
 }
 
-function PagePanel(props: PagePanelProps) {
+export function PagePanel(props: PagePanelProps) {
   const [page, setPage] = useState(0);
   const [childs, setChilds] = useState(
     Children.toArray(props.children) as ReactElement<any, any>[]
@@ -39,5 +39,3 @@ function PagePanel(props: PagePanelProps) {
 
   return childs[page];
 }
-
-export default PagePanel;

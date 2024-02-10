@@ -1,17 +1,14 @@
 import { useEffect } from "react";
-import { LoginPanel } from "../../components";
-import {
-  setFooterActive,
-  setHeaderActive,
-} from "../../components/router/RouteWrapper";
 
-export default function Login() {
+import { LoginPanel, Router } from "@/components";
+
+export function Login() {
   useEffect(() => {
-    setHeaderActive(false);
-    setFooterActive(false);
+    Router.setHeaderActive(false);
+    Router.setFooterActive(false);
     return () => {
-      setHeaderActive(true);
-      setFooterActive(true);
+      Router.setHeaderActive(true);
+      Router.setFooterActive(true);
     };
   });
 

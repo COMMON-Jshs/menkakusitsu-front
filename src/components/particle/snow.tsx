@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadBasic } from "@tsparticles/basic";
 import { loadWobbleUpdater } from "@tsparticles/updater-wobble";
+import { useEffect, useState } from "react";
 
-export default function SnowParticle() {
+export function SnowParticle() {
   const [init, setInit] = useState(false);
 
   useEffect(() => {

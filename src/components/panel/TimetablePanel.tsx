@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { getTimetable, putTimetable } from "../../utils/Api";
-import { SubmitButton } from "../button";
+
+import { Api } from "@/utils";
+import { SubmitButton } from "@/components";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -27,18 +28,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-interface TimetableProps {
+type TimetableProps = {
   edit?: boolean;
-}
+};
 
-function TimetablePanel(props: TimetableProps) {
+export function TimetablePanel(props: TimetableProps) {
   const [timetable, setTimetable] = useState<v1.Timetable | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const tableCellSx: SxProps<Theme> = { fontSize: "16px" };
 
   useEffect(() => {
-    getTimetable({
+    Api.getTimetable({
       when: dayjs().startOf("day").format("YYYY-MM-DD"),
     }).then((result) => {
       setTimetable(result.timetable);
@@ -57,7 +58,7 @@ function TimetablePanel(props: TimetableProps) {
       }
       timetableCells.push({ key: key, value: value.toString() });
     }
-    putTimetable({
+    Api.putTimetable({
       timetableInfo: timetableCells,
       when: dayjs().startOf("day").format("YYYY-MM-DD"),
     }).then((result) => {

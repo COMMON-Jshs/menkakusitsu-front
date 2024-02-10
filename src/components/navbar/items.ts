@@ -1,6 +1,6 @@
 import { Permission } from "@common-jshs/menkakusitsu-lib";
 
-export const navbarItems = [
+export const headerItems = [
   {
     color: "primary.main",
     title: "특별실",

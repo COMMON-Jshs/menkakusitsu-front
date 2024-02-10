@@ -1,12 +1,10 @@
 import { Divider, Stack } from "@mui/material";
-import { IconLink, IconNavLink } from "./basic/Link";
-import SchoolIcon from "@mui/icons-material/School";
-import PolicyIcon from "@mui/icons-material/Policy";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import { InstagramLogo } from "./images/Instagram";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import { School, Policy, GitHub, PeopleAlt } from "@mui/icons-material";
 
-function Footer() {
+import { IconLink, IconNavLink } from "@/components";
+import { InstagramLogo } from "@/components/images";
+
+export function FooterComponent() {
   return (
     <>
       <br />
@@ -20,7 +18,7 @@ function Footer() {
         >
           <IconLink
             href="http://jeju-s.jje.hs.kr/jeju-s"
-            icon={<SchoolIcon />}
+            icon={<School />}
             label="제주과학고 공식 홈페이지"
             newTab
           />
@@ -44,20 +42,20 @@ function Footer() {
         >
           <IconLink
             href="/policy.html"
-            icon={<PolicyIcon />}
+            icon={<Policy />}
             label="개인정보처리방침"
             newTab
           />
           <IconLink
             href="https://github.com/COMMON-Jshs"
-            icon={<GitHubIcon />}
+            icon={<GitHub />}
             label="Made by 제주과학고 정보 동아리 COMMON"
             newTab
           />
           <IconNavLink
             to="/contributors"
             label="만든 사람들"
-            icon={<PeopleAltIcon />}
+            icon={<PeopleAlt />}
           />
         </Stack>
       </Stack>
@@ -65,5 +63,3 @@ function Footer() {
     </>
   );
 }
-
-export default Footer;

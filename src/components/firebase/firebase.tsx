@@ -2,10 +2,10 @@
 import { onMessage } from "firebase/messaging";
 import { useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
-import { DefaultSnackbar } from "./snackbar";
-import { getFirebaseMessaging } from "../utils/FirebaseManager";
+import { DefaultSnackbar } from "../snackbar";
+import { getFirebaseMessaging } from "./utils";
 
-function Firebase() {
+export function FirebaseComponent() {
   const [messaging] = useState(getFirebaseMessaging());
   const { enqueueSnackbar } = useSnackbar();
 
@@ -22,5 +22,3 @@ function Firebase() {
 
   return <></>;
 }
-
-export default Firebase;

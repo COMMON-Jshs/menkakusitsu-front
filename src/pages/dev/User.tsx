@@ -9,14 +9,14 @@ import {
   TextField,
 } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Popup } from "../../components";
-import PaperTitle from "../../components/PaperTitle";
-import { deleteSecession, getSpecialroomStudentInfo } from "../../utils/Api";
-import { DialogTitle } from "../../utils/Constants";
-interface UserBoxProps {
+
+import { Popup, PaperTitle } from "@/components";
+import { Api, Constants } from "@/utils";
+
+type UserBoxProps = {
   user: v1.UserInfo;
   setUsers: Dispatch<SetStateAction<v1.UserInfo[]>>;
-}
+};
 
 function UserBox(props: UserBoxProps) {
   const { user, setUsers } = props;
@@ -30,11 +30,11 @@ function UserBox(props: UserBoxProps) {
             onChange={(event) => {
               if (event.target.checked) {
                 Popup.startLoading("처리 중입니다...");
-                deleteSecession({
+                Api.deleteSecession({
                   name: user.name,
                 }).then((result) => {
                   Popup.stopLoading();
-                  getSpecialroomStudentInfo({}).then((result) => {
+                  Api.getSpecialroomStudentInfo({}).then((result) => {
                     setUsers(result.studentInfo);
                   });
                 });
@@ -47,11 +47,11 @@ function UserBox(props: UserBoxProps) {
   );
 }
 
-export default function UserManagement() {
+export function UserManagement() {
   const [users, setUsers] = useState<v1.UserInfo[]>([]);
 
   useEffect(() => {
-    getSpecialroomStudentInfo({}).then((result) => {
+    Api.getSpecialroomStudentInfo({}).then((result) => {
       setUsers(result.studentInfo);
     });
   }, []);

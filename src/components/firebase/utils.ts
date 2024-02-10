@@ -7,8 +7,7 @@ import {
   getToken,
   Messaging,
 } from "firebase/messaging";
-import { getDeviceUuid } from "./StorageManager";
-import { putUserPush, deleteUserPush } from "./Api";
+import { Api, Utility, Storage } from "@/utils";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -38,7 +37,7 @@ export const getFirebaseMessaging = () => {
   return messaging;
 };
 
-export const getPushToken = async (): Promise<boolean> => {
+export const createPushToken = async (): Promise<boolean> => {
   if (messaging) {
     try {
       const token = await getToken(messaging, {
@@ -46,9 +45,9 @@ export const getPushToken = async (): Promise<boolean> => {
           "BG_LNhZiWNMNjuR-PTiY8pLm0SJ8itD0lVcEr3cRtkhBEOtzcDbiUVVQ3i5ZERbsmw5Q8kPDqJ1KpvvYF7nKcbk",
       });
       if (token) {
-        await putUserPush({
+        await Api.putUserPush({
           pushToken: token,
-          deviceId: getDeviceUuid(),
+          deviceId: Storage.getDeviceUuid(),
         });
         return true;
       } else {
@@ -67,8 +66,8 @@ export const deletePushToken = async (): Promise<boolean> => {
     try {
       const result = await deleteToken(messaging);
       if (result) {
-        await deleteUserPush({
-          devcieId: getDeviceUuid(),
+        await Api.deleteUserPush({
+          devcieId: Storage.getDeviceUuid(),
         });
         return true;
       } else {
@@ -92,4 +91,23 @@ export const logPageView = () => {
     page_location: window.location.pathname,
     page_path: window.location.pathname,
   });
+};
+
+export const getPushApproved = () => {
+  const pushList = Storage.getPushList();
+  const payload = Utility.getTokenPayload();
+  if (!payload) {
+    return false;
+  }
+  return pushList[payload.uid] === true;
+};
+
+export const setPushApproved = (value: boolean) => {
+  const payload = Utility.getTokenPayload();
+  if (!payload) {
+    return;
+  }
+  const pushList = Storage.getPushList();
+  pushList[payload.uid] = value;
+  Storage.savePushList(pushList);
 };

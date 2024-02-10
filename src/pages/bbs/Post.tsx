@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { v1, Permission } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Button,
@@ -11,38 +11,24 @@ import {
   Stack,
   IconButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Close } from "@mui/icons-material";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  deleteBbsComment,
-  deleteBbsPost,
-  getBbsCommentList,
-  getBbsPost,
-  isSuccessed,
-  postBbsComment,
-} from "../../utils/Api";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getTokenPayload,
-  getParameter,
-  hasPermissionLevel,
-} from "../../utils/Utility";
-import { Popup } from "../../components";
-import { COMMENT_LIST_SIZE, DialogTitle } from "../../utils/Constants";
-import List from "./List";
-import { Permission } from "@common-jshs/menkakusitsu-lib";
-import { IconLink } from "../../components/basic/Link";
 
-function Post() {
+import { Api, Utility, Constants } from "@/utils/";
+import { Popup, IconLink } from "@/components";
+import { List } from "@/pages/bbs/list";
+
+export function Post() {
   const params = useParams();
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
 
   const board = params.board!;
   const postId = parseInt(params.postId!);
-  const page = Number(getParameter("page", "1"));
-  const commentPage = Number(getParameter("commentPage", "1"));
-  const payload = getTokenPayload();
+  const page = Number(Utility.getParameter("page", "1"));
+  const commentPage = Number(Utility.getParameter("commentPage", "1"));
+  const payload = Utility.getTokenPayload();
 
   const [post, setPost] = useState<v1.BbsPost | null>(null);
   const [attachments, setAttachments] = useState<v1.FileInfo[] | undefined>([]);
@@ -50,56 +36,57 @@ function Post() {
   const [commentList, setCommentList] = useState<v1.BbsComment[] | null>(null);
 
   const refresh = useCallback(() => {
-    getBbsPost({ board: board, postId: postId }).then((result) => {
-      if (isSuccessed(result)) {
+    Api.getBbsPost({ board: board, postId: postId }).then((result) => {
+      if (Api.isSuccessed(result)) {
         setPost(result.post);
         setAttachments(result.attachments);
-        getBbsCommentList({
+        Api.getBbsCommentList({
           board: board,
           postId: postId,
           commentPage: commentPage,
-          commentListSize: COMMENT_LIST_SIZE,
+          commentListSize: Constants.COMMENT_LIST_SIZE,
         }).then((result) => {
           setCommentCount(result.commentCount);
           setCommentList(result.list);
         });
       } else {
         Popup.stopLoading();
-        Popup.openConfirmDialog(DialogTitle.Info, result.message, () => {
-          navigate(`/bbs/${board}/list`);
-        });
+        Popup.openConfirmDialog(
+          Constants.DialogTitle.Info,
+          result.message,
+          () => {
+            navigate(`/bbs/${board}/list`);
+          }
+        );
       }
     });
-  }, [commentPage, params]);
+  }, [commentPage, board, navigate, postId]);
 
-  const onPostComment = useCallback(
-    (event: React.MouseEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const comment = data.get("comment")?.toString();
-      if (!post || !comment) {
-        return;
-      }
-      Popup.startLoading("작성 중입니다...");
-      postBbsComment({
-        board: board,
-        postId: post.id,
-        content: comment,
-      }).then((result) => {
-        Popup.stopLoading();
-        if (isSuccessed(result)) {
-          if (commentRef?.current) {
-            commentRef.current.value = "";
-          }
-
-          refresh();
-        } else {
-          Popup.openConfirmDialog(DialogTitle.Info, result.message);
+  const onPostComment = (event: React.MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const comment = data.get("comment")?.toString();
+    if (!post || !comment) {
+      return;
+    }
+    Popup.startLoading("작성 중입니다...");
+    Api.postBbsComment({
+      board: board,
+      postId: post.id,
+      content: comment,
+    }).then((result) => {
+      Popup.stopLoading();
+      if (Api.isSuccessed(result)) {
+        if (commentRef?.current) {
+          commentRef.current.value = "";
         }
-      });
-    },
-    [post, commentRef]
-  );
+
+        refresh();
+      } else {
+        Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
+      }
+    });
+  };
 
   useEffect(() => {
     refresh();
@@ -175,7 +162,7 @@ function Post() {
                 </Button>
                 {post &&
                   (payload?.uid === post.owner.uid ||
-                    hasPermissionLevel(Permission.Dev)) && (
+                    Utility.hasPermissionLevel(Permission.Dev)) && (
                     <Button
                       variant="contained"
                       color="primary"
@@ -188,21 +175,21 @@ function Post() {
                   )}
                 {post &&
                   (payload?.uid === post.owner.uid ||
-                    hasPermissionLevel(Permission.Dev)) && (
+                    Utility.hasPermissionLevel(Permission.Dev)) && (
                     <Button
                       variant="contained"
                       color="error"
                       onClick={() => {
                         Popup.openYesNoDialog(
-                          DialogTitle.Alert,
+                          Constants.DialogTitle.Alert,
                           "정말 피드백을 삭제하실 건가요?",
                           () => {
-                            deleteBbsPost({
+                            Api.deleteBbsPost({
                               board: board,
                               postId: post.id,
                             }).then((result) => {
                               Popup.openConfirmDialog(
-                                DialogTitle.Info,
+                                Constants.DialogTitle.Info,
                                 "피드백이 삭제되었습니다.",
                                 () => {
                                   navigate(`/bbs/${post.board}/list`);
@@ -255,21 +242,21 @@ function Post() {
                           {comment.createdDate}
                         </Typography>
                         {(payload?.uid === comment.owner.uid ||
-                          hasPermissionLevel(Permission.Dev)) && (
+                          Utility.hasPermissionLevel(Permission.Dev)) && (
                           <IconButton
                             size="small"
                             onClick={() => {
                               Popup.openYesNoDialog(
-                                DialogTitle.Alert,
+                                Constants.DialogTitle.Alert,
                                 "정말 의견을 삭제하실 건가요?",
                                 () => {
-                                  deleteBbsComment({
+                                  Api.deleteBbsComment({
                                     board: board,
                                     postId: postId,
                                     commentId: comment.id,
                                   }).then((result) => {
                                     Popup.openConfirmDialog(
-                                      DialogTitle.Info,
+                                      Constants.DialogTitle.Info,
                                       "의견이 삭제되었습니다.",
                                       () => {
                                         refresh();
@@ -280,7 +267,7 @@ function Post() {
                               );
                             }}
                           >
-                            <CloseIcon fontSize="inherit" />
+                            <Close fontSize="inherit" />
                           </IconButton>
                         )}
                       </Box>
@@ -295,7 +282,7 @@ function Post() {
             <br />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Pagination
-                count={Math.ceil(commentCount / COMMENT_LIST_SIZE)}
+                count={Math.ceil(commentCount / Constants.COMMENT_LIST_SIZE)}
                 page={commentPage}
                 onChange={(
                   event: React.ChangeEvent<unknown>,
@@ -316,5 +303,3 @@ function Post() {
     </>
   );
 }
-
-export default Post;

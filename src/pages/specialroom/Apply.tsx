@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
-import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Autocomplete,
@@ -23,24 +22,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Popup } from "../../components";
-import {
-  getSpecialroomLocationInfo,
-  getSpecialroomManagerInfo,
-  getSpecialroomPurposeInfo,
-  getSpecialroomStudentInfo,
-  getSpecialroomTeacherInfo,
-  isSuccessed,
-  postSpecialroomApply,
-  postUserPush,
-} from "../../utils/Api";
-import { DialogTitle } from "../../utils/Constants";
-import { SpecialroomInfoPanel } from "../../components/panel";
-import PaperTitle from "../../components/PaperTitle";
-import { SubmitButton } from "../../components/button";
-import { getDayInfo } from "../../utils/Utility";
+import dayjs from "dayjs";
 
-function Apply() {
+import {
+  Popup,
+  SpecialroomInfoPanel,
+  PaperTitle,
+  SubmitButton,
+} from "@/components";
+import { Api, Constants, Utility } from "@/utils";
+
+export function Apply() {
   const [managerInfo, setManagerInfo] = useState<v1.UserInfo | null>(null);
   const [locationInfos, setLocationInfos] = useState<v1.LocationInfo[]>([]);
   const [purposeInfos, setPurposeInfos] = useState<v1.PurposeInfo[]>([]);
@@ -54,7 +46,7 @@ function Apply() {
   const [activeStep, setActiveStep] = useState(0);
 
   const today = dayjs();
-  const { year, month, date } = getDayInfo();
+  const { year, month, date } = Utility.getDayInfo();
   const navigate = useNavigate();
 
   const steps = [
@@ -243,18 +235,18 @@ function Apply() {
   };
 
   useEffect(() => {
-    getSpecialroomManagerInfo({ when: today.format("YYYY-MM-DD") }).then(
+    Api.getSpecialroomManagerInfo({ when: today.format("YYYY-MM-DD") }).then(
       (result) => {
         if (result.status >= 0) {
           setManagerInfo(result.manager);
         }
-        getSpecialroomLocationInfo({}).then((result) => {
+        Api.getSpecialroomLocationInfo({}).then((result) => {
           setLocationInfos(result.locationInfo);
-          getSpecialroomPurposeInfo({}).then((result) => {
+          Api.getSpecialroomPurposeInfo({}).then((result) => {
             setPurposeInfos(result.purposeInfo);
-            getSpecialroomStudentInfo({}).then((result) => {
+            Api.getSpecialroomStudentInfo({}).then((result) => {
               setStudentInfos(result.studentInfo);
-              getSpecialroomTeacherInfo({}).then((result) => {
+              Api.getSpecialroomTeacherInfo({}).then((result) => {
                 setTeacherInfos(result.teacherInfo);
               });
             });
@@ -262,7 +254,7 @@ function Apply() {
         });
       }
     );
-  }, []);
+  }, [today]);
 
   const onPostApply = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -270,7 +262,7 @@ function Apply() {
     const location = data.get("location")?.toString();
     if (!location) {
       Popup.openConfirmDialog(
-        DialogTitle.Alert,
+        Constants.DialogTitle.Alert,
         "사용 장소 선택을 하지 않으셨습니다."
       );
       setActiveStep(1);
@@ -279,7 +271,7 @@ function Apply() {
     const purpose = data.get("purpose")?.toString();
     if (!purpose) {
       Popup.openConfirmDialog(
-        DialogTitle.Alert,
+        Constants.DialogTitle.Alert,
         "사용 목적 선택을 하지 않으셨습니다."
       );
       setActiveStep(2);
@@ -287,35 +279,38 @@ function Apply() {
     }
     if (applicants.length === 0) {
       Popup.openConfirmDialog(
-        DialogTitle.Alert,
+        Constants.DialogTitle.Alert,
         "학생 명단 선택을 하지 않으셨습니다."
       );
       setActiveStep(3);
       return;
     }
     if (!teacher) {
-      Popup.openConfirmDialog(DialogTitle.Alert, "선생님 선택을 하지 않으셨습니다.");
+      Popup.openConfirmDialog(
+        Constants.DialogTitle.Alert,
+        "선생님 선택을 하지 않으셨습니다."
+      );
       setActiveStep(4);
       return;
     }
     Popup.startLoading("특별실을 신청하는 중입니다...");
-    postSpecialroomApply({
+    Api.postSpecialroomApply({
       location: location,
       purpose: purpose,
       applicants: applicants,
       teacherUid: teacher.uid,
       when: when,
     }).then((result) => {
-      if (isSuccessed(result)) {
+      if (Api.isSuccessed(result)) {
         Popup.stopLoading();
         Popup.openYesNoDialog(
-          DialogTitle.Info,
+          Constants.DialogTitle.Info,
           "특별실 신청에 성공했습니다. 신청 현황 페이지를 보시겠습니까?",
           () => {
             navigate("/specialroom/status");
           }
         );
-        postUserPush({
+        Api.postUserPush({
           targetUid: teacher.uid,
           notification: {
             title: "학생들이 특별실을 신청했습니다.",
@@ -325,7 +320,7 @@ function Apply() {
         });
       } else {
         Popup.stopLoading();
-        Popup.openConfirmDialog(DialogTitle.Info, result.message);
+        Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
       }
     });
   };
@@ -404,5 +399,3 @@ function Apply() {
     </>
   );
 }
-
-export default Apply;

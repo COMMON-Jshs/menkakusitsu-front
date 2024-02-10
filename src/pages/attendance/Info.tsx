@@ -6,9 +6,9 @@ import {
   ListItemText,
   Paper,
 } from "@mui/material";
-import PaperTitle from "../../components/PaperTitle";
-import { SubmitButton } from "../../components";
-import { openInNewTab } from "../../utils/Utility";
+
+import { PaperTitle, SubmitButton } from "@/components";
+import { Utility } from "@/utils/";
 
 const info = [
   "출석부 학생 배치는 면학실 자리 배치와 같습니다.",
@@ -18,7 +18,7 @@ const info = [
   "대부분의 경우 1차 면학 출석부를 다운받으시면 됩니다.",
 ];
 
-function Info() {
+export function Info() {
   return (
     <>
       <Container
@@ -46,7 +46,7 @@ function Info() {
               width="25%"
               style={{ margin: "20px" }}
               onClick={() => {
-                openInNewTab("./download?when=1");
+                Utility.openInNewTab("./download?when=1");
               }}
             >
               1차 면학 출석부 다운로드
@@ -56,7 +56,7 @@ function Info() {
               color="primary.main"
               width="25%"
               onClick={() => {
-                openInNewTab("./download?when=2");
+                Utility.openInNewTab("./download?when=2");
               }}
             >
               2차 면학 출석부 다운로드
@@ -68,4 +68,3 @@ function Info() {
   );
 }
 
-export default Info;

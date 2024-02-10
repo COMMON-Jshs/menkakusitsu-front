@@ -1,24 +1,27 @@
+import { Box, Button, Menu, MenuItem, Typography, Paper } from "@mui/material";
 import { useState } from "react";
-import Typography from "@mui/material/Typography";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { getPermissionLevel, openInNewTab } from "../../utils/Utility";
 
-interface NavbarItemProps {
+import { AccountPanel } from "@/components";
+import { Logo } from "@/components/navbar/logo";
+import { headerItems } from "@/components/navbar/items";
+import { Utility } from "@/utils";
+
+type NavbarItemProps = {
   permission: number;
   href: string;
   color?: string;
   title: string;
   newTab?: boolean;
-}
+};
 
-interface NavbarMenuProps {
+type NavbarMenuProps = {
   title: string;
   color: string;
   menu: NavbarItemProps[];
-}
+};
 
-export function NavbarMenu(props: NavbarMenuProps) {
+function NavbarMenu(props: NavbarMenuProps) {
   const { title, color, menu } = props;
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -52,13 +55,13 @@ export function NavbarMenu(props: NavbarMenuProps) {
       </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={closeMenu}>
         {menu.map((menu) => {
-          if (getPermissionLevel() >= menu.permission) {
+          if (Utility.getPermissionLevel() >= menu.permission) {
             return (
               <MenuItem
                 key={menu.title}
                 onClick={() => {
                   if (menu.newTab) {
-                    openInNewTab(menu.href);
+                    Utility.openInNewTab(menu.href);
                   } else {
                     navigate(menu.href);
                   }
@@ -77,11 +80,11 @@ export function NavbarMenu(props: NavbarMenuProps) {
   );
 }
 
-export function NavbarButton(props: NavbarItemProps) {
+function NavbarButton(props: NavbarItemProps) {
   const { permission, href, color, title, newTab } = props;
   const navigate = useNavigate();
 
-  if (getPermissionLevel() >= permission) {
+  if (Utility.getPermissionLevel() >= permission) {
     return (
       <Box
         style={{
@@ -92,7 +95,7 @@ export function NavbarButton(props: NavbarItemProps) {
         <Button
           onClick={() => {
             if (newTab) {
-              openInNewTab(href);
+              Utility.openInNewTab(href);
             } else {
               navigate(href);
             }
@@ -111,4 +114,71 @@ export function NavbarButton(props: NavbarItemProps) {
   } else {
     return <></>;
   }
+}
+
+function HeaderItems() {
+  return (
+    <>
+      <Logo />
+      {headerItems.map((navbarItem) => {
+        if (navbarItem.menu) {
+          return (
+            <NavbarMenu
+              key={navbarItem.title}
+              color={navbarItem.color}
+              menu={navbarItem.menu}
+              title={navbarItem.title}
+            />
+          );
+        } else {
+          return (
+            <NavbarButton
+              key={navbarItem.title}
+              permission={navbarItem.permission}
+              href={navbarItem.href}
+              color={navbarItem.color}
+              title={navbarItem.title}
+            />
+          );
+        }
+      })}
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          justifyContent: "flex-end",
+        }}
+      >
+        <Box
+          style={{
+            display: "inline-block",
+            marginRight: "64px",
+          }}
+        >
+          <AccountPanel />
+        </Box>
+      </Box>
+    </>
+  );
+}
+
+export function HeaderComponent() {
+  return (
+    <>
+      <Box bgcolor="primary.dark" height="16px" />
+      <Paper elevation={3}>
+        <Box
+          bgcolor="white"
+          height="80px"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            margin: "0px auto",
+          }}
+        >
+          <HeaderItems />
+        </Box>
+      </Paper>
+    </>
+  );
 }

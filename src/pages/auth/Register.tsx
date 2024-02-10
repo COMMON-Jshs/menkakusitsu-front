@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { RegisterPanel } from "../../components";
-import { setHeaderActive } from "../../components/router/RouteWrapper";
+import { RegisterPanel, Router } from "@/components";
 
-export default function Register() {
+export function Register() {
   useEffect(() => {
-    setHeaderActive(false);
+    Router.setHeaderActive(false);
     return () => {
-      setHeaderActive(true);
+      Router.setHeaderActive(true);
     };
   });
 

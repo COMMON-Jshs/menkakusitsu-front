@@ -1,11 +1,12 @@
-import { getPermissionLevel } from "../../utils/Utility";
-import Teacher from "./Teacher";
-import Student from "./Student";
-import Guest from "./Guest";
 import { Permission } from "@common-jshs/menkakusitsu-lib";
 
-function Main() {
-  const permission = getPermissionLevel();
+import { Utility } from "@/utils";
+import { Teacher } from "@/pages/main/teacher";
+import { Student } from "@/pages/main/student";
+import { Guest } from "@/pages/main/guest";
+
+export function Main() {
+  const permission = Utility.getPermissionLevel();
   switch (permission) {
     case Permission.Dev:
       return <Student />;
@@ -19,5 +20,3 @@ function Main() {
       return <Guest />;
   }
 }
-
-export default Main;

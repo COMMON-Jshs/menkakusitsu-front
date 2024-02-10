@@ -1,64 +1,65 @@
-import { Fragment, useCallback } from "react";
 import { Box, Container, Paper, TextField } from "@mui/material";
-import PaperTitle from "../PaperTitle";
-import { SubmitButton } from "../button";
-import { Popup } from "../";
-import { DialogTitle } from "../../utils/Constants";
-import { isSuccessed, postRegister } from "../../utils/Api";
-import { Sha3 } from "../../utils/Utility";
+import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterPanel() {
+import { PaperTitle, SubmitButton, Popup } from "@/components";
+import { Api, Constants, Utility } from "@/utils";
+
+export function RegisterPanel() {
   const navigate = useNavigate();
 
-  const onPostRegister = useCallback(
-    async (event: React.MouseEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const name = data.get("name")?.toString().trim();
-      const sid = Number(data.get("sid")?.toString().trim());
-      const email = data.get("email")?.toString().trim();
-      const id = data.get("id")?.toString().trim();
-      const password = data.get("password")?.toString().trim();
-      const passwordCheck = data.get("passwordCheck")?.toString().trim();
-      if (Number.isNaN(sid)) {
-        Popup.openConfirmDialog(DialogTitle.Info, "학번의 형식이 잘못되었습니다.");
-        return;
-      }
-      if (!name || !sid || !email || !id || !password || !passwordCheck) {
-        return;
-      }
-      if (password != passwordCheck) {
+  const onPostRegister = async (event: React.MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const name = data.get("name")?.toString().trim();
+    const sid = Number(data.get("sid")?.toString().trim());
+    const email = data.get("email")?.toString().trim();
+    const id = data.get("id")?.toString().trim();
+    const password = data.get("password")?.toString().trim();
+    const passwordCheck = data.get("passwordCheck")?.toString().trim();
+    if (Number.isNaN(sid)) {
+      Popup.openConfirmDialog(
+        Constants.DialogTitle.Info,
+        "학번의 형식이 잘못되었습니다."
+      );
+      return;
+    }
+    if (!name || !sid || !email || !id || !password || !passwordCheck) {
+      return;
+    }
+    if (password != passwordCheck) {
+      Popup.openConfirmDialog(
+        Constants.DialogTitle.Info,
+        "비밀번호 확인을 잘못 입력하셨습니다."
+      );
+      return;
+    }
+    Popup.startLoading("회원가입 중입니다...");
+    try {
+      const result = await Api.postRegister({
+        name: name,
+        sid: sid,
+        email: email,
+        id: id,
+        password: Utility.Sha3(password),
+      });
+      if (Api.isSuccessed(result)) {
+        Popup.stopLoading();
         Popup.openConfirmDialog(
-          DialogTitle.Info,
-          "비밀번호 확인을 잘못 입력하셨습니다."
-        );
-        return;
-      }
-      Popup.startLoading("회원가입 중입니다...");
-      try {
-        const result = await postRegister({
-          name: name,
-          sid: sid,
-          email: email,
-          id: id,
-          password: Sha3(password),
-        });
-        if (isSuccessed(result)) {
-          Popup.stopLoading();
-          Popup.openConfirmDialog(DialogTitle.Info, "회원가입 성공!", () => {
+          Constants.DialogTitle.Info,
+          "회원가입 성공!",
+          () => {
             navigate("/");
-          });
-        } else {
-          Popup.stopLoading();
-          Popup.openConfirmDialog(DialogTitle.Alert, result.message);
-        }
-      } catch (err) {
-        console.error(err);
+          }
+        );
+      } else {
+        Popup.stopLoading();
+        Popup.openConfirmDialog(Constants.DialogTitle.Alert, result.message);
       }
-    },
-    []
-  );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Fragment>

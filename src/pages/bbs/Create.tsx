@@ -15,22 +15,14 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import PaperTitle from "../../components/PaperTitle";
-import {
-  getBbsPostHeaders,
-  isSuccessed,
-  postBbsPost,
-} from "../../utils/Api";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  Popup,
-  SubmitButton,
-} from "../../components";
-import { DialogTitle } from "../../utils/Constants";
 import { DeleteOutline, UploadFile } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-function Create() {
+import { Popup, SubmitButton, PaperTitle } from "@/components";
+import { Api, Constants } from "@/utils";
+
+export function Create() {
   const navigate = useNavigate();
   const params = useParams();
   const [headers, setHeaders] = useState<string[]>([]);
@@ -38,62 +30,59 @@ function Create() {
 
   const board = params.board!;
 
-  const onFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
     setFiles(Array.from(e.target.files));
-  }, []);
+  };
 
   const removeFile = (file: File) => {
     setFiles(files.filter((_file) => _file != file));
   };
 
   useEffect(() => {
-    getBbsPostHeaders({ board: board }).then((result) => {
+    Api.getBbsPostHeaders({ board: board }).then((result) => {
       setHeaders(result.headers);
     });
-  }, []);
+  }, [board]);
 
-  const onPostBbsPost = useCallback(
-    (e: React.MouseEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const data = new FormData(e.currentTarget);
-      const title = data.get("title")?.toString();
-      const content = data.get("content")?.toString();
-      const header = data.get("header")?.toString();
-      const isPublic = data.get("isPrivate")?.toString() != "on";
-      if (!title || !content || !header) {
-        return;
+  const onPostBbsPost = (e: React.MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const title = data.get("title")?.toString();
+    const content = data.get("content")?.toString();
+    const header = data.get("header")?.toString();
+    const isPublic = data.get("isPrivate")?.toString() != "on";
+    if (!title || !content || !header) {
+      return;
+    }
+    Popup.startLoading("제출 중입니다...");
+    Api.postBbsPost(
+      {
+        title: title,
+        content: content,
+        header: header,
+        board: board,
+        isPublic: isPublic,
+      },
+      files
+    ).then((result) => {
+      if (Api.isSuccessed(result)) {
+        Popup.stopLoading();
+        Popup.openConfirmDialog(
+          Constants.DialogTitle.Info,
+          "피드백 제출이 완료되었습니다.",
+          () => {
+            navigate(`/bbs/${board}/list`);
+          }
+        );
+      } else {
+        Popup.stopLoading();
+        Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
       }
-      Popup.startLoading("제출 중입니다...");
-      postBbsPost(
-        {
-          title: title,
-          content: content,
-          header: header,
-          board: board,
-          isPublic: isPublic,
-        },
-        files
-      ).then((result) => {
-        if (isSuccessed(result)) {
-          Popup.stopLoading();
-          Popup.openConfirmDialog(
-            DialogTitle.Info,
-            "피드백 제출이 완료되었습니다.",
-            () => {
-              navigate(`/bbs/${board}/list`);
-            }
-          );
-        } else {
-          Popup.stopLoading();
-          Popup.openConfirmDialog(DialogTitle.Info, result.message);
-        }
-      });
-    },
-    [files]
-  );
+    });
+  };
 
   return (
     <>
@@ -248,5 +237,3 @@ function Create() {
     </>
   );
 }
-
-export default Create;

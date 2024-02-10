@@ -1,7 +1,5 @@
 import { Navigate } from "react-router-dom";
 
-function NotFound() {
+export function NotFound() {
   return <Navigate to="/" />;
 }
-
-export default NotFound;

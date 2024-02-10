@@ -1,15 +1,55 @@
 import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { ReactNode, useState, useEffect } from "react";
-import { getMeal } from "../../utils/Api";
-import dayjs from "dayjs";
 import { Box, Divider, Paper, Skeleton, Typography } from "@mui/material";
+import { ReactNode, useState, useEffect } from "react";
+import dayjs from "dayjs";
+
+import { Api } from "@/utils";
+
+type MealProps = {
+  isHighlighted: boolean;
+  children: ReactNode;
+};
+
+function Meal(props: MealProps) {
+  const { isHighlighted, children } = props;
+
+  if (isHighlighted) {
+    return (
+      <Box
+        sx={{
+          display: "block",
+          padding: "34px 30px 30px 30px",
+          borderRadius: "1px",
+          borderStyle: "solid none none none",
+          borderColor: "primary.main",
+          borderWidth: "8px",
+          flex: 1,
+        }}
+      >
+        {children}
+      </Box>
+    );
+  } else {
+    return (
+      <Box
+        sx={{
+          display: "block",
+          padding: "50px 30px 30px 30px",
+          flex: 1,
+        }}
+      >
+        {children}
+      </Box>
+    );
+  }
+}
 
 interface MealInfoProps {
   type: "breakfast" | "lunch" | "dinner";
   meals?: string[];
 }
 
-const MealInfo = (props: MealInfoProps) => {
+function MealInfo(props: MealInfoProps) {
   const { type, meals } = props;
 
   const currentHour = dayjs().hour();
@@ -29,39 +69,9 @@ const MealInfo = (props: MealInfoProps) => {
       isHighlighted = currentHour >= 13 && currentHour < 19;
       break;
   }
-  const Meal = ({ children }: { children: ReactNode }) => {
-    if (isHighlighted) {
-      return (
-        <Box
-          sx={{
-            display: "block",
-            padding: "34px 30px 30px 30px",
-            borderRadius: "1px",
-            borderStyle: "solid none none none",
-            borderColor: "primary.main",
-            borderWidth: "8px",
-            flex: 1,
-          }}
-        >
-          {children}
-        </Box>
-      );
-    } else {
-      return (
-        <Box
-          sx={{
-            display: "block",
-            padding: "50px 30px 30px 30px",
-            flex: 1,
-          }}
-        >
-          {children}
-        </Box>
-      );
-    }
-  };
+
   return (
-    <Meal>
+    <Meal isHighlighted={isHighlighted}>
       <Typography variant="h5">{mealName}</Typography>
       {meals ? (
         meals.map((meal) => {
@@ -83,14 +93,14 @@ const MealInfo = (props: MealInfoProps) => {
       )}
     </Meal>
   );
-};
+}
 
-function MealPanel() {
+export function MealPanel() {
   const [mealInfo, setMealInfo] = useState<v1.GetMealResponse | null>(null);
 
   useEffect(() => {
     const today = dayjs();
-    getMeal({ when: today.startOf("day").format("YYYY-MM-DD") }).then(
+    Api.getMeal({ when: today.startOf("day").format("YYYY-MM-DD") }).then(
       (result) => {
         setMealInfo(result);
       }
@@ -119,5 +129,3 @@ function MealPanel() {
     </>
   );
 }
-
-export default MealPanel;

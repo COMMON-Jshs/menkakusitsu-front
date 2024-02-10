@@ -3,13 +3,12 @@ import { Typography } from "@mui/material";
 
 type PaperTitleProps = { children: ReactNode };
 
-function PaperTitle(props: PaperTitleProps) {
+export function PaperTitle(props: PaperTitleProps) {
   const { children } = props;
   
   return (
     <Typography
       sx={{
-        // fontSize: "60px",
         fontFamily: "BMDoHyeon",
         textAlign: "center",
         color: "primary.light",
@@ -22,4 +21,3 @@ function PaperTitle(props: PaperTitleProps) {
   );
 }
 
-export default PaperTitle;

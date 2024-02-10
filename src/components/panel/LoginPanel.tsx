@@ -1,16 +1,11 @@
-import "../../styles/LoginForm.css";
+import "@/styles/LoginForm.css";
 
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { Popup } from "../";
-import { DialogTitle } from "../../utils/Constants";
-import { getPushToken } from "../../utils/FirebaseManager";
-import { getPushApproved } from "../../utils/PushManager";
-import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { isSuccessed, postLogin } from "../../utils/Api";
-import { IconNavLink } from "../basic/Link";
 import { AccountBox } from "@mui/icons-material";
-import { Sha3 } from "../../utils/Utility";
-import { saveTokens } from "../../utils/StorageManager";
+import { v1 } from "@common-jshs/menkakusitsu-lib";
+
+import { Popup, IconNavLink, Firebase } from "@/components";
+import { Api, Constants, Storage, Utility } from "@/utils";
 
 const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   event.preventDefault();
@@ -22,8 +17,8 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   }
   Popup.closeDialog();
   Popup.startLoading("로그인 중입니다...");
-  postLogin({ id: id, password: Sha3(password) }).then((result) => {
-    if (isSuccessed(result)) {
+  Api.postLogin({ id: id, password: Utility.Sha3(password) }).then((result) => {
+    if (Api.isSuccessed(result)) {
       onLoginSuccessed(result);
     } else {
       onLoginFailed(result);
@@ -32,16 +27,16 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
 };
 
 const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
-  saveTokens(result.accessToken, result.refreshToken);
+  Storage.saveTokens(result.accessToken, result.refreshToken);
 
-  if (getPushApproved()) {
-    await getPushToken();
+  if (Firebase.getPushApproved()) {
+    await Firebase.createPushToken();
   }
 
   if (result.callbacks) {
     if (result.callbacks.includes("needChangePw")) {
       Popup.openConfirmDialog(
-        DialogTitle.Alert,
+        Constants.DialogTitle.Alert,
         "기존 4자리 학번을 비밀번호로 사용하시는 경우, 비밀번호를 바꾸셔야합니다.",
         () => {
           window.location.href = "/setting";
@@ -51,7 +46,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
     }
     if (result.callbacks.includes("needChangeEmail")) {
       Popup.openConfirmDialog(
-        DialogTitle.Alert,
+        Constants.DialogTitle.Alert,
         "비밀번호 복구 등의 서비스를 이용하시려면 이메일을 추가하셔야합니다.",
         () => {
           window.location.href = "/setting";
@@ -65,12 +60,12 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 
 const onLoginFailed = (result: v1.PostLoginResponse) => {
   Popup.stopLoading();
-  Popup.openConfirmDialog(DialogTitle.Info, result.message, () => {
+  Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message, () => {
     Popup.openCancelableDialog("", <LoginPanel />);
   });
 };
 
-export default function LoginPanel() {
+export function LoginPanel() {
   return (
     <Box
       sx={{
@@ -144,7 +139,7 @@ export default function LoginPanel() {
               href="#"
               onClick={() => {
                 Popup.openConfirmDialog(
-                  DialogTitle.Info,
+                  Constants.DialogTitle.Info,
                   "현재 제공되지 않는 기능입니다."
                 );
               }}

@@ -11,28 +11,25 @@ import {
   darken,
   lighten,
 } from "@mui/material";
-import { useCallback, useContext, useEffect, useState } from "react";
-import PaperTitle from "../../components/PaperTitle";
-import { getBbsPostList } from "../../utils/Api";
-import ArticleIcon from "@mui/icons-material/Article";
-import CampaignIcon from "@mui/icons-material/Campaign";
-import LockIcon from "@mui/icons-material/Lock";
+import { Article as ArticleIcon, Campaign, Lock } from "@mui/icons-material";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { POST_LIST_SIZE } from "../../utils/Constants";
-import { getParameter } from "../../utils/Utility";
-import { ThemeContext } from "../../components/theme/ThemeContext";
-interface ArticleProps {
+
+import { PaperTitle, Theme } from "@/components";
+import { Api, Constants, Utility } from "@/utils";
+
+type ArticleProps = {
   post: v1.BbsPost;
   isNotice?: boolean;
   isHighlighted?: boolean;
   page: number;
-}
+};
 
 function Article(props: ArticleProps) {
   const { post, isNotice, isHighlighted, page } = props;
 
   const theme = useTheme();
-  const { style } = useContext(ThemeContext);
+  const { style } = useContext(Theme.Context);
 
   return (
     <Link
@@ -61,13 +58,7 @@ function Article(props: ArticleProps) {
           color: isNotice ? "#FF4E59" : "primary.dark",
         }}
       >
-        {isNotice ? (
-          <CampaignIcon />
-        ) : post.isPublic ? (
-          <ArticleIcon />
-        ) : (
-          <LockIcon />
-        )}
+        {isNotice ? <Campaign /> : post.isPublic ? <ArticleIcon /> : <Lock />}
         {post.header} {post.title} [{post.commentCount}]
       </Box>
       <Box
@@ -85,45 +76,53 @@ function Article(props: ArticleProps) {
   );
 }
 
-function List() {
+type PostListProps = {
+  postList: v1.BbsPost[] | null;
+  page: number;
+  postId?: string;
+};
+
+function PostList(props: PostListProps) {
+  const { postList, page, postId } = props;
+
+  if (postList !== null && postList.length > 0) {
+    return postList.map((post) => {
+      return (
+        <Article
+          key={post.id}
+          post={post}
+          page={page}
+          isNotice={post.postType === 0}
+          isHighlighted={Boolean(postId) && post.id == Number(postId)}
+        />
+      );
+    });
+  } else {
+    return <Typography>게시글이 없습니다.</Typography>;
+  }
+}
+
+export function List() {
   const [postCount, setPostCount] = useState(0);
   const [postList, setPostList] = useState<v1.BbsPost[] | null>(null);
 
   const params = useParams();
   const navigate = useNavigate();
 
-  const page = Number(getParameter("page", "1"));
+  const page = Number(Utility.getParameter("page", "1"));
   const board = params.board!;
   const postId = params.postId;
 
   useEffect(() => {
-    getBbsPostList({
+    Api.getBbsPostList({
       board: board,
       postPage: page,
-      postListSize: POST_LIST_SIZE,
+      postListSize: Constants.POST_LIST_SIZE,
     }).then((result) => {
       setPostCount(result.postCount);
       setPostList(result.list);
     });
-  }, [page]);
-
-  const drawBbsPostList = useCallback(() => {
-    if (postList !== null && postList.length > 0) {
-      return postList.map((post) => {
-        return (
-          <Article
-            key={post.id}
-            post={post}
-            page={page}
-            isNotice={post.postType === 0}
-            isHighlighted={Boolean(postId) && post.id == Number(postId!)}
-          />
-        );
-      });
-    } else {
-      return <Typography>게시글이 없습니다.</Typography>;
-    }
-  }, [postList, postId]);
+  }, [page, board]);
 
   return (
     <>
@@ -136,7 +135,9 @@ function List() {
         <Paper>
           <Box sx={{ padding: "50px 50px 30px 50px" }}>
             <PaperTitle>피드백</PaperTitle>
-            <Stack spacing={2}>{drawBbsPostList()}</Stack>
+            <Stack spacing={2}>
+              <PostList postList={postList} page={page} postId={postId} />
+            </Stack>
             <br />
             <Box sx={{ display: "flex", justifyContent: "right" }}>
               <Button
@@ -151,7 +152,7 @@ function List() {
             <br />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Pagination
-                count={Math.ceil(postCount / POST_LIST_SIZE)}
+                count={Math.ceil(postCount / Constants.POST_LIST_SIZE)}
                 page={page}
                 onChange={(
                   event: React.ChangeEvent<unknown>,
@@ -173,5 +174,3 @@ function List() {
     </>
   );
 }
-
-export default List;

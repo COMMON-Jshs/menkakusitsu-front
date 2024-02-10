@@ -2,10 +2,10 @@ import { ListItemIcon, MenuItem } from "@mui/material";
 import { LightMode, DarkMode } from "@mui/icons-material";
 import { useContext } from "react";
 
-import { ThemeContext } from "../theme/ThemeContext";
+import { Theme } from "@/components";
 
-function DarkModeButton() {
-  const { style, toggleStyle } = useContext(ThemeContext)!;
+export function DarkModeButton() {
+  const { style, toggleStyle } = useContext(Theme.Context)!;
 
   return (
     <MenuItem
@@ -31,5 +31,3 @@ function DarkModeButton() {
     </MenuItem>
   );
 }
-
-export default DarkModeButton;

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { useEffect, useState } from "react";
 import { loadFull } from "tsparticles";
 
-import leaf from "../../../assets/particles/fall/leaf.png";
+import sakura1 from "@/assets/particles/sakura/1.png";
+import sakura4 from "@/assets/particles/sakura/4.png";
 
-export default function LeafParticle() {
+export function SakuraParticle() {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -25,9 +26,14 @@ export default function LeafParticle() {
               options: {
                 images: [
                   {
-                    src: leaf,
-                    width: 128,
-                    height: 117,
+                    src: sakura1,
+                    width: 73,
+                    height: 60,
+                  },
+                  {
+                    src: sakura4,
+                    width: 82,
+                    height: 82,
                   },
                 ],
               },
@@ -51,19 +57,19 @@ export default function LeafParticle() {
                 speed: 10,
               },
             },
-            tilt: {
-              direction: "random",
-              enable: true,
-              move: true,
-              value: {
-                min: 0,
-                max: 360,
-              },
-              animation: {
-                enable: true,
-                speed: 30,
-              },
-            },
+            // tilt: {
+            //     direction: "random",
+            //     enable: true,
+            //     move: true,
+            //     value: {
+            //         min: 0,
+            //         max: 360,
+            //     },
+            //     animation: {
+            //         enable: true,
+            //         speed: 30,
+            //     },
+            // },
             roll: {
               darken: {
                 enable: true,
@@ -76,10 +82,10 @@ export default function LeafParticle() {
               },
             },
             opacity: {
-              value: { min: 0.5, max: 0.7 },
+              value: { min: 0.3, max: 0.7 },
             },
             size: {
-              value: { min: 15, max: 20 },
+              value: { min: 15, max: 25 },
             },
             number: {
               value: 15,

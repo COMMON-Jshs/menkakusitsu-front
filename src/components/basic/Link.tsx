@@ -3,7 +3,7 @@ import { Link as LinkIcon } from "@mui/icons-material";
 import { ReactNode } from "react";
 import { Link as NavLink } from "react-router-dom";
 
-interface IconLinkProps {
+type IconLinkProps = {
   href: string;
   icon?: ReactNode;
   label: string;

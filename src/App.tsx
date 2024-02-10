@@ -1,6 +1,6 @@
-import "./index.css";
-import "./styles/Fonts.css";
-import "./styles/NProgress.css";
+import "@/index.css";
+import "@/styles/Fonts.css";
+import "@/styles/NProgress.css";
 
 import { Permission } from "@common-jshs/menkakusitsu-lib";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -12,21 +12,19 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import * as Page from "@/pages";
-import { TimetablePanel } from "@/components";
-import { getTheme, getThemeType, ThemeContext } from "@/components/theme";
-import { PrivateRoute, RouteWrapper } from "@/components/router";
-import { getUseDarkMode, setUseDarkMode } from "@/utils/StorageManager";
+import { Router, Theme } from "@/components";
+import { Storage } from "@/utils";
 
-const themeType = getThemeType();
+const themeType = Theme.getThemeType();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RouteWrapper />}>
+    <Route path="/" element={<Router.WrapperComponent />}>
       <Route index element={<Page.Main />} />
 
       <Route
         path="auth"
-        element={<PrivateRoute permission={Permission.Guest} only />}
+        element={<Router.PrivateRoute permission={Permission.Guest} strict />}
       >
         <Route index element={<Page.NotFound />} />
         <Route path="login" element={<Page.Login />} />
@@ -35,7 +33,7 @@ const router = createBrowserRouter(
 
       <Route
         path="attendance"
-        element={<PrivateRoute permission={Permission.Student} />}
+        element={<Router.PrivateRoute permission={Permission.Student} />}
       >
         <Route index element={<Page.NotFound />} />
         <Route path="info" element={<Page.AttendanceInfo />} />
@@ -44,7 +42,7 @@ const router = createBrowserRouter(
 
       <Route
         path="bbs"
-        element={<PrivateRoute permission={Permission.Student} />}
+        element={<Router.PrivateRoute permission={Permission.Student} />}
       >
         <Route path=":board/create" element={<Page.BbsCreate />} />
         <Route path=":board/list" element={<Page.BbsList />} />
@@ -54,7 +52,7 @@ const router = createBrowserRouter(
 
       <Route
         path="chat"
-        element={<PrivateRoute permission={Permission.Student} />}
+        element={<Router.PrivateRoute permission={Permission.Student} />}
       >
         <Route index element={<Page.NotFound />} />
         <Route path="idbot" element={<Page.ChatIdbot />} />
@@ -62,45 +60,34 @@ const router = createBrowserRouter(
 
       <Route
         path="contributors"
-        element={<PrivateRoute permission={Permission.Guest} />}
+        element={<Router.PrivateRoute permission={Permission.Guest} />}
       >
         <Route index element={<Page.Contributors />} />
       </Route>
 
-      <Route path="dev" element={<PrivateRoute permission={Permission.Dev} />}>
+      <Route
+        path="dev"
+        element={<Router.PrivateRoute permission={Permission.Dev} />}
+      >
         <Route path="user" element={<Page.UserManagement />} />
       </Route>
 
       <Route
-        path="timetable"
-        element={<PrivateRoute permission={Permission.Student} />}
-      >
-        <Route index element={<TimetablePanel />} />
-      </Route>
-
-      <Route
-        path="management"
-        element={<PrivateRoute permission={Permission.Teacher} />}
-      >
-        <Route path="timetable" element={<TimetablePanel edit />} />
-      </Route>
-
-      <Route
         path="specialroom"
-        element={<PrivateRoute permission={Permission.Student} />}
+        element={<Router.PrivateRoute permission={Permission.Student} />}
       >
         <Route index element={<Page.NotFound />} />
         <Route path="apply" element={<Page.SpecialroomApply />} />
         <Route path="status" element={<Page.SpecialroomStatus />} />
         <Route
           path="management"
-          element={<PrivateRoute permission={Permission.Teacher} />}
+          element={<Router.PrivateRoute permission={Permission.Teacher} />}
         >
           <Route index element={<Page.SpecialroomManagement />} />
         </Route>
         <Route
           path="outer"
-          element={<PrivateRoute permission={Permission.Teacher} />}
+          element={<Router.PrivateRoute permission={Permission.Teacher} />}
         >
           <Route index element={<Page.SpecialroomOuter />} />
         </Route>
@@ -108,14 +95,14 @@ const router = createBrowserRouter(
 
       <Route
         path="setting"
-        element={<PrivateRoute permission={Permission.Student} />}
+        element={<Router.PrivateRoute permission={Permission.Student} />}
       >
         <Route index element={<Page.Setting />} />
       </Route>
 
       <Route
         path="about"
-        element={<PrivateRoute permission={Permission.Student} />}
+        element={<Router.PrivateRoute permission={Permission.Student} />}
       >
         <Route index element={<Page.About />} />
       </Route>
@@ -126,19 +113,21 @@ const router = createBrowserRouter(
 );
 
 export default function App() {
-  const [style, setStyle] = useState(getUseDarkMode() ? "dark" : "light");
+  const [style, setStyle] = useState(
+    Storage.getUseDarkMode() ? "dark" : "light"
+  );
 
   function toggleStyle() {
-    setUseDarkMode(style === "light");
+    Storage.setUseDarkMode(style === "light");
     setStyle((style) => (style === "light" ? "dark" : "light"));
   }
 
   return (
-    <ThemeContext.Provider value={{ style, toggleStyle }}>
-      <ThemeProvider theme={getTheme(themeType, style == "dark")}>
+    <Theme.Context.Provider value={{ style, toggleStyle }}>
+      <ThemeProvider theme={Theme.getTheme(themeType, style == "dark")}>
         <CssBaseline />
         <RouterProvider router={router} />
       </ThemeProvider>
-    </ThemeContext.Provider>
+    </Theme.Context.Provider>
   );
 }

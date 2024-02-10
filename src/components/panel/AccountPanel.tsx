@@ -11,15 +11,20 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getTokenPayload } from "../../utils/Utility";
-import { NotificationButton, LogoutButton, DarkModeButton } from "../button";
 
-function AccountPanel() {
+import {
+  NotificationButton,
+  LogoutButton,
+  DarkModeButton,
+} from "@/components";
+import { Utility } from "@/utils";
+
+export function AccountPanel() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const open = Boolean(anchorEl);
-  const payload = getTokenPayload();
+  const payload = Utility.getTokenPayload();
 
   const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -94,5 +99,3 @@ function AccountPanel() {
     </>
   );
 }
-
-export default AccountPanel;

@@ -1,13 +1,18 @@
-import { useEffect } from "react";
-import { SpecialroomInfoPanel, MealPanel, LoginButton } from "../../components";
 import { Container, Typography, Grid, Link } from "@mui/material";
-import { setHeaderActive } from "../../components/router/RouteWrapper";
+import { useEffect } from "react";
 
-export default function Guest() {
+import {
+  SpecialroomInfoPanel,
+  MealPanel,
+  LoginButton,
+  Router,
+} from "@/components";
+
+export function Guest() {
   useEffect(() => {
-    setHeaderActive(false);
+    Router.setHeaderActive(false);
     return () => {
-      setHeaderActive(true);
+      Router.setHeaderActive(true);
     };
   }, []);
 

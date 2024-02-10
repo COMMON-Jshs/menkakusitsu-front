@@ -1,5 +1,12 @@
-import { christmasTheme, darkTheme, defaultTheme } from "./themes";
-import { getDayInfo } from "../../utils/Utility";
+import {
+  christmasTheme,
+  darkTheme,
+  defaultTheme,
+} from "@/components/theme/themes";
+import { Utility } from "@/utils";
+
+export * from "./addon";
+export * from "./context";
 
 export type ThemeType =
   | "spring"
@@ -10,8 +17,8 @@ export type ThemeType =
   | "april-fools"
   | "none";
 
-export const getThemeType = () => {
-  const { month, date } = getDayInfo();
+export const getThemeType = (): ThemeType => {
+  const { month, date } = Utility.getDayInfo();
 
   if (month === 4 && date === 1) {
     return "april-fools";
@@ -54,6 +61,3 @@ export const getTheme = (type: ThemeType, isDarkTheme: boolean) => {
       return christmasTheme;
   }
 };
-
-export { default as ThemeAddon } from "./ThemeAddon";
-export * from "./ThemeContext";

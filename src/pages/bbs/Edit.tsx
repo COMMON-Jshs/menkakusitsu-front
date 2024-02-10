@@ -14,19 +14,13 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import PaperTitle from "../../components/PaperTitle";
-import {
-  getBbsPost,
-  getBbsPostHeaders,
-  isSuccessed,
-  putBbsPost,
-} from "../../utils/Api";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Popup, SubmitButton } from "../../components";
-import { DialogTitle } from "../../utils/Constants";
 
-function Edit() {
+import { Popup, SubmitButton, PaperTitle } from "@/components";
+import { Api, Constants } from "@/utils";
+
+export function Edit() {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -37,19 +31,19 @@ function Edit() {
   const postId = parseInt(params.postId!);
 
   useEffect(() => {
-    getBbsPost({ board: board, postId: postId }).then((result) => {
-      if (isSuccessed(result)) {
+    Api.getBbsPost({ board: board, postId: postId }).then((result) => {
+      if (Api.isSuccessed(result)) {
         setPost(result.post);
-        getBbsPostHeaders({ board: board }).then((result) => {
+        Api.getBbsPostHeaders({ board: board }).then((result) => {
           setHeaders(result.headers);
         });
       } else {
         navigate(`/bbs/${board}/list`);
       }
     });
-  }, []);
+  }, [board, navigate, postId]);
 
-  const onPostBbsPost = useCallback((e: React.MouseEvent<HTMLFormElement>) => {
+  const onPostBbsPost = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const title = data.get("title")?.toString();
@@ -60,7 +54,7 @@ function Edit() {
       return;
     }
     Popup.startLoading("수정 중입니다...");
-    putBbsPost({
+    Api.putBbsPost({
       postId: parseInt(params.postId!),
       board: params.board!,
       title: title,
@@ -68,10 +62,10 @@ function Edit() {
       header: header,
       isPublic: isPublic,
     }).then((result) => {
-      if (isSuccessed(result)) {
+      if (Api.isSuccessed(result)) {
         Popup.stopLoading();
         Popup.openConfirmDialog(
-          DialogTitle.Info,
+          Constants.DialogTitle.Info,
           "피드백 수정이 완료되었습니다.",
           () => {
             navigate(`/bbs/${board}/${params.postId}`);
@@ -79,10 +73,10 @@ function Edit() {
         );
       } else {
         Popup.stopLoading();
-        Popup.openConfirmDialog(DialogTitle.Info, result.message);
+        Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
       }
     });
-  }, []);
+  };
 
   return (
     <>
@@ -184,5 +178,3 @@ function Edit() {
     </>
   );
 }
-
-export default Edit;

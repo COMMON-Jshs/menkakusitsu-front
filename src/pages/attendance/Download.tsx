@@ -1,3 +1,4 @@
+import { v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   styled,
@@ -9,17 +10,10 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import { useEffect } from "react";
-import { useState } from "react";
-import { getDayInfo, getParameter } from "../../utils/Utility";
-import { getAttendanceList, getSpecialroomInfo } from "../../utils/Api";
-import { v1 } from "@common-jshs/menkakusitsu-lib";
-import { InfoTable } from "../../components/panel/SpecialroomInfoPanel";
-import {
-  setFooterActive,
-  setHeaderActive,
-} from "../../components/router/RouteWrapper";
-import { setParticleActive } from "../../components/particles";
+import { useEffect, useState } from "react";
+
+import { Api, Utility } from "@/utils";
+import { InfoTable, Particle, Router } from "@/components";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -60,7 +54,7 @@ const parseAttendanceList = (list: string[][]) => {
   );
 };
 
-function Download() {
+export function Download() {
   const [attendanceInfo, setAttendanceInfo] =
     useState<v1.AttendanceList | null>(null);
   const [information, setInformation] = useState<v1.SpecialroomInfo[] | null>(
@@ -68,24 +62,24 @@ function Download() {
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  const when = parseInt(getParameter("when", "1"));
+  const when = parseInt(Utility.getParameter("when", "1"));
 
   useEffect(() => {
-    getAttendanceList({ when: when }).then((result) => {
+    Api.getAttendanceList({ when: when }).then((result) => {
       setAttendanceInfo(result.list);
-      getSpecialroomInfo({}).then((result) => {
+      Api.getSpecialroomInfo({}).then((result) => {
         setInformation(result.information);
         setIsLoading(false);
       });
     });
 
-    setHeaderActive(false);
-    setFooterActive(false);
-    setParticleActive(false);
+    Router.setHeaderActive(false);
+    Router.setFooterActive(false);
+    Particle.setParticleActive(false);
     return () => {
-      setHeaderActive(true);
-      setFooterActive(true);
-      setParticleActive(true);
+      Router.setHeaderActive(true);
+      Router.setFooterActive(true);
+      Particle.setParticleActive(true);
     };
   }, [when]);
 
@@ -95,7 +89,7 @@ function Download() {
     }
   }, [isLoading]);
 
-  const { year, month, date } = getDayInfo();
+  const { year, month, date } = Utility.getDayInfo();
 
   return (
     <>
@@ -158,5 +152,3 @@ function Download() {
     </>
   );
 }
-
-export default Download;

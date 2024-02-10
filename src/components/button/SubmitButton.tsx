@@ -1,18 +1,16 @@
 import { Box, Button } from "@mui/material";
 
-function SubmitButton({
-  color,
-  width = "100%",
-  height = "58px",
-  children,
-  ...rest
-}: {
+type SubmitButtonProps = {
   color: string;
   width?: string;
   height?: string;
   children?: React.ReactNode;
   [x: string]: any;
-}) {
+};
+
+export function SubmitButton(props: SubmitButtonProps) {
+  const { color, width = "100%", height = "58px", children, ...rest } = props;
+
   return (
     <Box sx={{ textAlign: "center", width: "100%", height: "100%" }}>
       <Button
@@ -36,5 +34,3 @@ function SubmitButton({
     </Box>
   );
 }
-
-export default SubmitButton;

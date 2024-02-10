@@ -6,15 +6,15 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { Close } from "@mui/icons-material";
 import { SnackbarContent, useSnackbar } from "notistack";
 import { forwardRef, Ref } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { MessagePayload } from "firebase/messaging";
 
-interface SnackbarProps {
+type SnackbarProps = {
   id: string | number;
   payload: MessagePayload;
-}
+};
 
 export const DefaultSnackbar = forwardRef(
   (props: SnackbarProps, ref: Ref<HTMLDivElement>) => {
@@ -78,7 +78,7 @@ export const DefaultSnackbar = forwardRef(
                 }}
                 onClick={onClose}
               >
-                <CloseIcon fontSize="small" />
+                <Close fontSize="small" />
               </IconButton>
             </Box>
           </CardActions>

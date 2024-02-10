@@ -1,2 +1,3 @@
-export { default as PrivateRoute } from "./PrivateRoute";
-export { default as RouteWrapper } from "./RouteWrapper";
+export { PrivateRoute } from "./private";
+export { WrapperComponent } from "./wrapper";
+export { setHeaderActive, setFooterActive } from "./hooks";

@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-function About() {
+export function About() {
   return (
     <>
       <Container
@@ -12,5 +12,3 @@ function About() {
     </>
   );
 }
-
-export default About;

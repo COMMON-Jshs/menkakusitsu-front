@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   CircularProgress,
@@ -17,22 +17,17 @@ import {
   StepLabel,
   StepIconProps,
 } from "@mui/material";
-import { SpecialroomInfoPanel } from "../../components";
-import {
-  deleteSpecialroomApply,
-  getSpecialroomApply,
-  isSuccessed,
-} from "../../utils/Api";
-import PaperTitle from "../../components/PaperTitle";
+import { CheckCircle, GroupAdd, HourglassTop } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useCallback } from "react";
-import SubmitButton from "../../components/button/SubmitButton";
-import { DialogTitle } from "../../utils/Constants";
-import { Popup } from "../../components";
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { useCallback, useEffect, useState } from "react";
+
+import {
+  PaperTitle,
+  Popup,
+  SpecialroomInfoPanel,
+  SubmitButton,
+} from "@/components";
+import { Api, Constants } from "@/utils";
 
 const ColorlibConnector = styled(StepConnector)<{ isapproved: number }>(
   ({ theme, isapproved }) => ({
@@ -101,17 +96,17 @@ const ColorlibStepIconRoot = styled("div")<{
   };
 });
 
-interface ColorlibStepIconProps extends StepIconProps {
+type ColorlibStepIconProps = StepIconProps & {
   isApproved: number;
-}
+};
 
 function ColorlibStepIcon(props: ColorlibStepIconProps) {
   const { active, completed, className, isApproved } = props;
 
   const icons: { [index: string]: React.ReactElement } = {
-    1: <GroupAddIcon />,
-    2: <HourglassTopIcon />,
-    3: <CheckCircleIcon />,
+    1: <GroupAdd />,
+    2: <HourglassTop />,
+    3: <CheckCircle />,
   };
 
   return (
@@ -127,7 +122,7 @@ function ColorlibStepIcon(props: ColorlibStepIconProps) {
 
 const steps = ["신청 완료", "승인 대기 중", "승인 완료"];
 
-function Status() {
+export function Status() {
   const [applyStatus, setApplyStatus] = useState<v1.SpecialroomInfo | null>(
     null
   );
@@ -137,7 +132,7 @@ function Status() {
 
   const refresh = useCallback(() => {
     setIsLoading(true);
-    getSpecialroomApply({ when: when }).then((result) => {
+    Api.getSpecialroomApply({ when: when }).then((result) => {
       setApplyStatus(result.specialroomInfo);
       setIsLoading(false);
     });
@@ -146,21 +141,20 @@ function Status() {
   const onCancelApply = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     Popup.openYesNoDialog(
-      DialogTitle.Info,
+      Constants.DialogTitle.Info,
       "정말 특별실 신청을 취소하시겠습니까?",
       () => {
         Popup.startLoading("특별실 신청을 취소 중입니다...");
-        deleteSpecialroomApply({ when: when }).then((result) => {
+        Api.deleteSpecialroomApply({ when: when }).then((result) => {
           Popup.stopLoading();
-          if (isSuccessed(result)) {
+          if (Api.isSuccessed(result)) {
             refresh();
           } else {
-            Popup.openConfirmDialog(DialogTitle.Info, result.message);
+            Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
             refresh();
           }
         });
-      },
-      () => {}
+      }
     );
   };
 
@@ -297,5 +291,3 @@ function Status() {
     </>
   );
 }
-
-export default Status;

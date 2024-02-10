@@ -1,12 +1,14 @@
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 import { CircularProgress, ListItemIcon, MenuItem } from "@mui/material";
 import { useState } from "react";
-import { deletePushToken, getPushToken } from "../../utils/FirebaseManager";
-import { getPushApproved, setPushApproved } from "../../utils/PushManager";
 
-function NotificationButton() {
+import { Firebase } from "@/components";
+
+export function NotificationButton() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isNotificationOn, setIsNotificationOn] = useState(getPushApproved());
+  const [isNotificationOn, setIsNotificationOn] = useState(
+    Firebase.getPushApproved()
+  );
 
   return (
     <MenuItem
@@ -16,17 +18,17 @@ function NotificationButton() {
         }
         setIsLoading(true);
         if (isNotificationOn) {
-          deletePushToken().then((successed) => {
+          Firebase.deletePushToken().then((successed) => {
             if (successed) {
-              setPushApproved(false);
+              Firebase.setPushApproved(false);
               setIsNotificationOn(false);
             }
             setIsLoading(false);
           });
         } else {
-          getPushToken().then((successed) => {
+          Firebase.createPushToken().then((successed) => {
             if (successed) {
-              setPushApproved(true);
+              Firebase.setPushApproved(true);
               setIsNotificationOn(true);
             }
             setIsLoading(false);
@@ -72,5 +74,3 @@ function NotificationButton() {
     </MenuItem>
   );
 }
-
-export default NotificationButton;

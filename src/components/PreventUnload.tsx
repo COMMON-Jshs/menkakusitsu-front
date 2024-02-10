@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function PreventUnload() {
+export function PreventUnload() {
   function beforeunload(this: Window, event: BeforeUnloadEvent) {
     event.preventDefault();
     event.returnValue = "";
@@ -12,5 +12,3 @@ function PreventUnload() {
   }, []);
   return <></>;
 }
-
-export default PreventUnload;

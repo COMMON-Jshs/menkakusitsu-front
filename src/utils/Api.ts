@@ -3,14 +3,14 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { Popup } from "@/components";
 import { DialogTitle } from "@/utils/Constants";
-import { deletePushToken } from "@/utils/FirebaseManager";
-import { getPushApproved } from "@/utils/PushManager";
+import { deletePushToken } from "@/components/firebase/utils";
+import { getPushApproved } from "@/components/firebase/utils";
 import {
   clearTokens,
   getAccessToken,
   getRefreshToken,
   saveTokens,
-} from "@/utils/StorageManager";
+} from "@/utils/Storage";
 import { parseJWT, redirectToHome } from "@/utils/Utility";
 
 const onApiError = (e: AxiosError) => {

@@ -1,21 +1,15 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Popup, SubmitButton } from "../../../components";
-import { Sha3, validateEmail } from "../../../utils/Utility";
-import {
-  getMyPrivateInfo,
-  isSuccessed,
-  putMyEmail,
-  putMyPassword,
-} from "../../../utils/Api";
-import { DialogTitle } from "../../../utils/Constants";
+
+import { Popup, SubmitButton } from "@/components";
+import { Api, Utility, Constants } from "@/utils";
 
 function ChangeEmail() {
   const [email, setEmail] = useState<string | null>(null);
   const [errorText, setErrorText] = useState<string | null>(null);
 
   useEffect(() => {
-    getMyPrivateInfo({}).then((result) => {
+    Api.getMyPrivateInfo({}).then((result) => {
       setEmail(result.private.email!);
     });
   }, []);
@@ -35,19 +29,24 @@ function ChangeEmail() {
           setErrorText("이건 당신이 이미 쓰고 계시는 이메일입니다.");
           return;
         }
-        if (!validateEmail(newEmail)) {
+        if (!Utility.validateEmail(newEmail)) {
           setErrorText("유효하지 않은 이메일입니다!");
           return;
         }
         Popup.startLoading("잠시만 기다려주세요...");
-        putMyEmail({ oldEmail: email, newEmail: newEmail }).then((result) => {
-          Popup.stopLoading();
-          if (isSuccessed(result)) {
-            setEmail(result.newEmail);
-          } else {
-            Popup.openConfirmDialog(DialogTitle.Info, result.message);
+        Api.putMyEmail({ oldEmail: email, newEmail: newEmail }).then(
+          (result) => {
+            Popup.stopLoading();
+            if (Api.isSuccessed(result)) {
+              setEmail(result.newEmail);
+            } else {
+              Popup.openConfirmDialog(
+                Constants.DialogTitle.Info,
+                result.message
+              );
+            }
           }
-        });
+        );
       }}
       sx={{ width: "50%" }}
     >
@@ -95,15 +94,15 @@ function ChangePassword() {
           return;
         }
         Popup.startLoading("잠시만 기다려주세요...");
-        putMyPassword({
-          oldPassword: Sha3(oldPassword),
-          newPassword: Sha3(newPassword),
+        Api.putMyPassword({
+          oldPassword: Utility.Sha3(oldPassword),
+          newPassword: Utility.Sha3(newPassword),
         }).then((result) => {
           Popup.stopLoading();
-          if (isSuccessed(result)) {
+          if (Api.isSuccessed(result)) {
             window.location.reload();
           } else {
-            Popup.openConfirmDialog(DialogTitle.Info, result.message);
+            Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
           }
         });
       }}
@@ -152,7 +151,7 @@ function ChangePassword() {
   );
 }
 
-function AccountSetting() {
+export function AccountSetting() {
   return (
     <>
       <ChangeEmail />
@@ -164,5 +163,3 @@ function AccountSetting() {
     </>
   );
 }
-
-export default AccountSetting;

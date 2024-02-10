@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { logPageView } from "../utils/FirebaseManager";
 
-function RouteTracker() {
+import { logPageView } from "@/components/firebase/utils";
+
+export function TrackerComponent() {
   const location = useLocation();
 
   useEffect(() => {
@@ -18,5 +19,3 @@ function RouteTracker() {
 
   return <></>;
 }
-
-export default RouteTracker;

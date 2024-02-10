@@ -1,16 +1,15 @@
-import { Box, Divider, Paper, Typography } from "@mui/material";
-import { ChatController, MuiChat } from "../../components/chat-ui-react";
-import { useState, useEffect, useMemo } from "react";
 import "../../styles/ChatStyle.css";
-import { getIdbotChat } from "../../utils/Api";
-import {
-  setFooterActive,
-  setHeaderActive,
-} from "../../components/router/RouteWrapper";
+
+import { Box, Divider, Paper, Typography } from "@mui/material";
+import { useState, useEffect, useMemo } from "react";
+
+import { ChatController, MuiChat } from "@/components/chat-ui-react";
+import { Router } from "@/components";
+import { Api } from "@/utils";
 
 const BOT_NAME = "이디봇";
 
-function Idbot() {
+export function Idbot() {
   const [chatCtl] = useState(
     new ChatController({
       showDateTime: true,
@@ -18,11 +17,11 @@ function Idbot() {
   );
 
   useEffect(() => {
-    setHeaderActive(false);
-    setFooterActive(false);
+    Router.setHeaderActive(false);
+    Router.setFooterActive(false);
     return () => {
-      setHeaderActive(true);
-      setFooterActive(true);
+      Router.setHeaderActive(true);
+      Router.setFooterActive(true);
     };
   }, []);
 
@@ -62,7 +61,7 @@ function Idbot() {
           avatar: "https://cdn-icons-png.flaticon.com/512/1177/1177594.png",
           username: "나",
         });
-        getIdbotChat({ chatInput: response.value }).then((result) => {
+        Api.getIdbotChat({ chatInput: response.value }).then((result) => {
           addBotMessage(result.chatOutput);
         });
       }
@@ -101,5 +100,3 @@ function Idbot() {
     </>
   );
 }
-
-export default Idbot;
