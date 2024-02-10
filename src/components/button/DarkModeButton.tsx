@@ -1,7 +1,8 @@
 import { ListItemIcon, MenuItem } from "@mui/material";
-import { useContext } from "react";
-import { ThemeContext } from "../theme/ThemeContext";
 import { LightMode, DarkMode } from "@mui/icons-material";
+import { useContext } from "react";
+
+import { ThemeContext } from "../theme/ThemeContext";
 
 function DarkModeButton() {
   const { style, toggleStyle } = useContext(ThemeContext)!;

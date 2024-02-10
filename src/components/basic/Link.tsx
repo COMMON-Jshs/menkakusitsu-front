@@ -1,7 +1,7 @@
 import { Box, Link, useTheme } from "@mui/material";
-import { Link as NavLink } from "react-router-dom";
-import LinkIcon from "@mui/icons-material/Link";
+import { Link as LinkIcon } from "@mui/icons-material";
 import { ReactNode } from "react";
+import { Link as NavLink } from "react-router-dom";
 
 interface IconLinkProps {
   href: string;
