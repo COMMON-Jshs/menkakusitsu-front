@@ -52,7 +52,7 @@ function Setting() {
               }}
             >
               <List>
-                {sidebarItems.map((sidebarItem, index) => (
+                {sidebarItems.map((sidebarItem) => (
                   <ListItemButton
                     key={sidebarItem.title}
                     selected={sidebarItem.title === currentSidebarItem.title}

@@ -3,8 +3,6 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadFull } from "tsparticles";
 
 import sakura1 from "../../../assets/particles/sakura/1.png";
-import sakura2 from "../../../assets/particles/sakura/2.png";
-import sakura3 from "../../../assets/particles/sakura/3.png";
 import sakura4 from "../../../assets/particles/sakura/4.png";
 
 export default function SakuraParticle() {

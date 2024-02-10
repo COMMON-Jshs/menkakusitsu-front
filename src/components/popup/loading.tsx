@@ -20,6 +20,7 @@ export function LoadingComponent() {
         }}
       >
         <CircularProgress />
+        {text}
       </Box>
     )
   );

@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import { MealPanel, TimetablePanel } from "../../components";
+import { MealPanel } from "../../components";
 
 function Student() {
   return (
@@ -10,8 +10,6 @@ function Student() {
           margin: "30px auto 50px",
         }}
       >
-        {/* <TimetablePanel /> */}
-        {/* <br /> */}
         <MealPanel />
         <br />
       </Container>

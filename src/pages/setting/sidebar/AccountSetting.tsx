@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Popup, SubmitButton } from "../../../components";
 import { Sha3, validateEmail } from "../../../utils/Utility";
 import {

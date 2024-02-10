@@ -1,23 +1,10 @@
-import { Box, Paper, useMediaQuery } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { NavbarButton, NavbarMenu } from "./NavbarItem";
 import Logo from "./Logo";
-import React from "react";
 import { AccountPanel } from "../panel";
 import { navbarItems } from "./items";
 
-interface NavbarItemsProps {
-  isMinWidth: boolean;
-}
-
-function NavbarItems(props: NavbarItemsProps) {
-  const { isMinWidth } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  // if (isMinWidth) {
+function NavbarItems() {
   return (
     <>
       <Logo />
@@ -39,7 +26,6 @@ function NavbarItems(props: NavbarItemsProps) {
               href={navbarItem.href}
               color={navbarItem.color}
               title={navbarItem.title}
-              // newTab={navbarItem.newTab}
             />
           );
         }
@@ -62,27 +48,9 @@ function NavbarItems(props: NavbarItemsProps) {
       </Box>
     </>
   );
-  // } else {
-  //     return (
-  //         <Toolbar>
-  //             <IconButton
-  //                 color="inherit"
-  //                 aria-label="open drawer"
-  //                 edge="start"
-  //                 onClick={handleDrawerToggle}
-  //                 sx={{ mr: 2, display: { sm: "none" } }}
-  //             >
-  //                 <MenuIcon />
-  //             </IconButton>
-  //             <Logo />
-  //         </Toolbar>
-  //     );
-  // }
 }
 
 function FixedNavbar() {
-  const isMinWidth = useMediaQuery("(min-width:900px)");
-
   return (
     <>
       <Box bgcolor="primary.dark" height="16px" />
@@ -96,7 +64,7 @@ function FixedNavbar() {
             margin: "0px auto",
           }}
         >
-          <NavbarItems isMinWidth={isMinWidth} />
+          <NavbarItems />
         </Box>
       </Paper>
     </>

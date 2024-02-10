@@ -30,8 +30,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Row(props: any) {}
-
 const parseAttendanceList = (list: string[][]) => {
   return (
     <>
