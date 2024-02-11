@@ -5,7 +5,7 @@ type SubmitButtonProps = {
   width?: string;
   height?: string;
   children?: React.ReactNode;
-  [x: string]: any;
+  [x: string]: unknown;
 };
 
 export function SubmitButton(props: SubmitButtonProps) {

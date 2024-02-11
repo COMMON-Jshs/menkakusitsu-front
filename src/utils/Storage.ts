@@ -18,7 +18,7 @@ export const getPushList = () => {
   return JSON.parse(pushListJson);
 };
 
-export const savePushList = (pushList: any) => {
+export const savePushList = (pushList: NonNullable<unknown>) => {
   localStorage.setItem("has-push", JSON.stringify(pushList));
 };
 
