@@ -22,7 +22,7 @@ export function WrapperComponent() {
         }}
       >
         <Firebase.FirebaseComponent />
-        <Firebase.RouteTracker />
+        <Firebase.TrackerComponent />
         <Particle.ParticleComponent />
         <Theme.AddonComponent type={type} />
         {!noHeader && <Navbar.HeaderComponent />}

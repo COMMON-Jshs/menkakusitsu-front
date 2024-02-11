@@ -1,3 +1,3 @@
 export { FirebaseComponent } from "./firebase";
-export { TrackerComponent as RouteTracker } from "./tracker";
+export { TrackerComponent } from "./tracker";
 export * from "./utils";
