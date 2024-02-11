@@ -62,7 +62,11 @@ export function Idbot() {
           username: "나",
         });
         Api.getIdbotChat({ chatInput: response.value }).then((result) => {
-          addBotMessage(result.chatOutput);
+          if (Api.isSuccessed(result)) {
+            addBotMessage(result.chatOutput);
+          } else {
+            addBotMessage(result.message);
+          }
         });
       }
     );
