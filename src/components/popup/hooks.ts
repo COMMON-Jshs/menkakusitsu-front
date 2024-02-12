@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { ReactNode } from "react";
 
-type DialogProps = {
+type Dialog = {
+  id: number;
   isOpened: boolean;
   title: ReactNode;
   content: ReactNode;
@@ -11,20 +12,12 @@ type DialogProps = {
   close: VoidFunction;
 };
 
-export const useDialogStore = create<DialogProps>((set) => ({
-  isOpened: false,
-  title: "",
-  content: "",
-  onYes: undefined,
-  onNo: undefined,
-  onCancel: undefined,
-  close: () =>
-    set({
-      isOpened: false,
-      onYes: undefined,
-      onNo: undefined,
-      onCancel: undefined,
-    }),
+type DialogContainerProps = {
+  dialogs: Dialog[];
+};
+
+export const useDialogContainerStore = create<DialogContainerProps>(() => ({
+  dialogs: [],
 }));
 
 export const openDialog = (
@@ -34,19 +27,78 @@ export const openDialog = (
   onNo?: VoidFunction,
   onCancel?: VoidFunction
 ) => {
-  useDialogStore.setState({
-    isOpened: true,
-    title: title,
-    content: content,
-    onYes: onYes,
-    onNo: onNo,
-    onCancel: onCancel,
+  const dialogs = useDialogContainerStore.getState().dialogs;
+
+  let target: Dialog | null = null;
+  let id: number = 0;
+  for (const dialogObject of dialogs) {
+    if (!dialogObject.isOpened) {
+      target = dialogObject;
+    }
+    id = dialogObject.id;
+  }
+
+  if (target == null) {
+    id++;
+    target = {
+      id: id,
+      isOpened: true,
+      title: title,
+      content: content,
+      onYes: onYes,
+      onNo: onNo,
+      onCancel: onCancel,
+      close: () => {
+        closeDialog(id);
+      },
+    };
+
+    useDialogContainerStore.setState({
+      dialogs: [...dialogs, target],
+    });
+  } else {
+    useDialogContainerStore.setState({
+      dialogs: dialogs.map((dialog) => {
+        if (dialog.id == id) {
+          return {
+            ...dialog,
+            isOpened: true,
+          };
+        }
+        return dialog;
+      }),
+    });
+  }
+
+  return id;
+};
+
+export const closeDialog = (id: number) => {
+  const dialogs = useDialogContainerStore.getState().dialogs;
+
+  useDialogContainerStore.setState({
+    dialogs: dialogs.map((dialog) => {
+      if (dialog.id == id) {
+        return {
+          ...dialog,
+          isOpened: false,
+        };
+      }
+      return dialog;
+    }),
   });
 };
 
-export const closeDialog = () => {
-  useDialogStore.setState({
-    isOpened: false,
+export const closeAll = () => {
+  const dialogs = useDialogContainerStore.getState().dialogs;
+
+  useDialogContainerStore.setState({
+    dialogs: dialogs.map((dialog) => {
+      return {
+        ...dialog,
+        isOpened: false,
+      };
+    }),
   });
 };
 
@@ -55,7 +107,7 @@ export const openConfirmDialog = (
   content: ReactNode,
   onYes?: VoidFunction
 ) => {
-  openDialog(title, content, onYes || (() => {}));
+  return openDialog(title, content, onYes || (() => {}));
 };
 
 export const openYesNoDialog = (
@@ -64,7 +116,7 @@ export const openYesNoDialog = (
   onYes?: VoidFunction,
   onNo?: VoidFunction
 ) => {
-  openDialog(title, content, onYes || (() => {}), onNo || (() => {}));
+  return openDialog(title, content, onYes || (() => {}), onNo || (() => {}));
 };
 
 export const openCancelableDialog = (
@@ -72,7 +124,13 @@ export const openCancelableDialog = (
   content: ReactNode,
   onCancel?: VoidFunction
 ) => {
-  openDialog(title, content, undefined, undefined, onCancel || (() => {}));
+  return openDialog(
+    title,
+    content,
+    undefined,
+    undefined,
+    onCancel || (() => {})
+  );
 };
 
 type LoadingProps = {

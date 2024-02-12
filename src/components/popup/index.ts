@@ -1,8 +1,9 @@
-export { DialogComponent } from "./dialog";
+export { DialogContainer } from "./container";
 export { LoadingComponent } from "./loading";
 export {
-  openDialog,
   closeDialog,
+  closeAll,
+  openDialog,
   openConfirmDialog,
   openYesNoDialog,
   openCancelableDialog,

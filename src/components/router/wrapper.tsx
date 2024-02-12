@@ -11,7 +11,7 @@ export function WrapperComponent() {
 
   return (
     <>
-      <Popup.DialogComponent />
+      <Popup.DialogContainer />
       <Popup.LoadingComponent />
       <SnackbarProvider
         maxSnack={5}

@@ -9,10 +9,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { TransitionProps } from "@mui/material/transitions";
-import { ReactElement, forwardRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
-import { useDialogStore } from "@/components/popup/hooks";
+import { ReactElement, ReactNode, forwardRef } from "react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -23,14 +20,18 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function DialogComponent() {
-  const { isOpened, title, content, onYes, onNo, onCancel, close } =
-    useDialogStore();
-  const location = useLocation();
+type DialogComponentProps = {
+  isOpened: boolean;
+  title: ReactNode;
+  content: ReactNode;
+  onYes?: VoidFunction;
+  onNo?: VoidFunction;
+  onCancel?: VoidFunction;
+  close: VoidFunction;
+};
 
-  useEffect(() => {
-    close();
-  }, [location, close]);
+export function DialogComponent(props: DialogComponentProps) {
+  const { isOpened, title, content, onYes, onNo, onCancel, close } = props;
 
   return (
     <Dialog
