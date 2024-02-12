@@ -15,7 +15,7 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   if (!id || !password) {
     return;
   }
-  Popup.closeDialog();
+
   Popup.startLoading("로그인 중입니다...");
   Api.postLogin({ id: id, password: Utility.Sha3(password) }).then((result) => {
     if (Api.isSuccessed(result)) {
@@ -60,9 +60,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
 
 const onLoginFailed = (result: v1.PostLoginResponse) => {
   Popup.stopLoading();
-  Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message, () => {
-    Popup.openCancelableDialog("", <LoginPanel />);
-  });
+  Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
 };
 
 export function LoginPanel() {
@@ -140,10 +138,7 @@ export function LoginPanel() {
               onClick={() => {
                 Popup.openConfirmDialog(
                   Constants.DialogTitle.Info,
-                  "현재 제공되지 않는 기능입니다.",
-                  () => {
-                    Popup.openCancelableDialog("", <LoginPanel />);
-                  }
+                  "현재 제공되지 않는 기능입니다."
                 );
               }}
               variant="body2"
