@@ -12,7 +12,7 @@
     "start": "npm run build && npm run preview"
   },
   "dependencies": {
-    "@common-jshs/menkakusitsu-lib": "^1.14.1",
+    "@common-jshs/menkakusitsu-lib": "^1.14.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@loadable/component": "^5.15.2",
