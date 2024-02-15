@@ -45,7 +45,6 @@ export function Apply() {
 
   const [activeStep, setActiveStep] = useState(0);
 
-  const today = dayjs();
   const { year, month, date } = Utility.getDayInfo();
   const navigate = useNavigate();
 
@@ -235,7 +234,7 @@ export function Apply() {
   };
 
   useEffect(() => {
-    Api.getSpecialroomManagerInfo({ when: today.format("YYYY-MM-DD") }).then(
+    Api.getSpecialroomManagerInfo({ when: dayjs().format("YYYY-MM-DD") }).then(
       (result) => {
         if (result.status >= 0) {
           setManagerInfo(result.manager);
@@ -254,7 +253,7 @@ export function Apply() {
         });
       }
     );
-  }, [today]);
+  }, []);
 
   const onPostApply = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();

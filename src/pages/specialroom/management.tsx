@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { TokenPayload, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Alert,
   Box,
@@ -141,9 +141,8 @@ function InfoCell(props: InfoCellProps) {
 
 export function Management() {
   const [information, setInformation] = useState<v1.SpecialroomInfo[]>([]);
+  const [payload] = useState<TokenPayload | null>(Utility.getTokenPayload());
   const [isLoading, setIsLoading] = useState(true);
-
-  const payload = Utility.getTokenPayload();
 
   useEffect(() => {
     Api.getSpecialroomInfo({}).then((result) => {
