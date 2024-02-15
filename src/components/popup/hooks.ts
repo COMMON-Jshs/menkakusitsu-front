@@ -64,6 +64,11 @@ export const openDialog = (
           return {
             ...dialog,
             isOpened: true,
+            title: title,
+            content: content,
+            onYes: onYes,
+            onNo: onNo,
+            onCancel: onCancel,
           };
         }
         return dialog;
