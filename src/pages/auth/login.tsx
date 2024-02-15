@@ -10,7 +10,7 @@ export function Login() {
       Router.setHeaderActive(true);
       Router.setFooterActive(true);
     };
-  });
+  }, []);
 
   return (
     <>

@@ -7,7 +7,7 @@ export function Register() {
     return () => {
       Router.setHeaderActive(true);
     };
-  });
+  }, []);
 
   return (
     <>
