@@ -32,10 +32,11 @@ export const openDialog = (
   let target: Dialog | null = null;
   let id: number = 0;
   for (const dialogObject of dialogs) {
+    id = dialogObject.id;
     if (!dialogObject.isOpened) {
       target = dialogObject;
+      break;
     }
-    id = dialogObject.id;
   }
 
   if (target == null) {
