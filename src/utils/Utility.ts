@@ -77,7 +77,7 @@ export const getParameter = (
 };
 
 export const openInNewTab = (url: string) => {
-  window.open(url, "_blank", "noopener");
+  window.open(url, "_blank", "noopener noreferrer");
 };
 
 export const getPermissionLevel = () => {
