@@ -12,23 +12,23 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 import { Api, Utility, Constants } from "@/utils/";
 import Popup from "@/components/popup";
 import ListScreen from "@/pages/bbs/[board]/list";
 import { IconLink, Text } from "@/components/basics";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate, useParams } from "@/router";
 
 export default function ViewScreen() {
-  const params = useParams();
+  const { board, postId } = useParams("/bbs/:board/:postId/view");
+
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
+  const { payload } = useAuth();
 
-  const board = params.board!;
-  const postId = parseInt(params.postId!);
   const page = Number(Utility.getParameter("page", "1"));
   const commentPage = Number(Utility.getParameter("commentPage", "1"));
-  const payload = Utility.getTokenPayload();
 
   const [post, setPost] = useState<v1.BbsPost | null>(null);
   const [attachments, setAttachments] = useState<v1.FileInfo[] | undefined>([]);
@@ -36,13 +36,13 @@ export default function ViewScreen() {
   const [commentList, setCommentList] = useState<v1.BbsComment[] | null>(null);
 
   const refresh = useCallback(() => {
-    Api.getBbsPost({ board: board, postId: postId }).then((result) => {
+    Api.getBbsPost({ board: board, postId: Number(postId) }).then((result) => {
       if (Api.isSuccessed(result)) {
         setPost(result.post);
         setAttachments(result.attachments);
         Api.getBbsCommentList({
           board: board,
-          postId: postId,
+          postId: Number(postId),
           commentPage: commentPage,
           commentListSize: Constants.COMMENT_LIST_SIZE,
         }).then((result) => {
@@ -55,7 +55,7 @@ export default function ViewScreen() {
           Constants.DialogTitle.Info,
           result.message,
           () => {
-            navigate(`/bbs/${board}/list`);
+            navigate("/bbs/:board/list", { params: { board: board } });
           }
         );
       }
@@ -92,6 +92,10 @@ export default function ViewScreen() {
     refresh();
   }, [refresh]);
 
+  if (!post) {
+    return null;
+  }
+
   return (
     <>
       <Container
@@ -104,29 +108,28 @@ export default function ViewScreen() {
           <Box
             component="form"
             onSubmit={onPostComment}
-            sx={{ padding: "50px 30px 30px 30px" }}
+            sx={{
+              padding: "50px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "16px",
+            }}
           >
-            {post && (
-              <Text variant="h5">
-                {post.header} {post.title}
-              </Text>
-            )}
-            {post && (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text>{post.owner.name}</Text>
-                <Text color="gray">{post.createdDate}</Text>
-              </Box>
-            )}
+            <Text variant="h5">
+              {post.header} {post.title}
+            </Text>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text>{post.owner.name}</Text>
+              <Text color="gray">{post.createdDate}</Text>
+            </Box>
             <Divider />
-            <br />
-            {post && (
-              <Text sx={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
-            )}
+            <Text sx={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
             {attachments &&
               attachments.map((attachment) => {
                 if (attachment.mimeType.startsWith("image")) {
@@ -147,33 +150,33 @@ export default function ViewScreen() {
                   );
                 }
               })}
-            <br />
             <Box sx={{ display: "flex", justifyContent: "right" }}>
               <Stack spacing={2} direction="row">
                 <Button
                   variant="contained"
                   onClick={() => {
-                    navigate(`/bbs/${board}/list`);
+                    navigate("/bbs/:board/list", { params: { board: board } });
                   }}
                 >
                   목록
                 </Button>
+                {(payload.uid === post.owner.uid ||
+                  payload.hasPermission(Permission.Dev)) && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      navigate("/bbs/:board/:postId/edit", {
+                        params: { board: board, postId: String(post.id) },
+                      });
+                    }}
+                  >
+                    수정
+                  </Button>
+                )}
                 {post &&
-                  (payload?.uid === post.owner.uid ||
-                    Utility.hasPermissionLevel(Permission.Dev)) && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        navigate(`/bbs/${post.board}/${post.id}/edit`);
-                      }}
-                    >
-                      수정
-                    </Button>
-                  )}
-                {post &&
-                  (payload?.uid === post.owner.uid ||
-                    Utility.hasPermissionLevel(Permission.Dev)) && (
+                  (payload.uid === post.owner.uid ||
+                    payload.hasPermission(Permission.Dev)) && (
                     <Button
                       variant="contained"
                       color="error"
@@ -190,7 +193,9 @@ export default function ViewScreen() {
                                 Constants.DialogTitle.Info,
                                 "피드백이 삭제되었습니다.",
                                 () => {
-                                  navigate(`/bbs/${post.board}/list`);
+                                  navigate("/bbs/:board/list", {
+                                    params: { board: board },
+                                  });
                                 }
                               );
                             });
@@ -237,8 +242,8 @@ export default function ViewScreen() {
                         }}
                       >
                         <Text color="gray">{comment.createdDate}</Text>
-                        {(payload?.uid === comment.owner.uid ||
-                          Utility.hasPermissionLevel(Permission.Dev)) && (
+                        {(payload.uid === comment.owner.uid ||
+                          payload.hasPermission(Permission.Dev)) && (
                           <IconButton
                             size="small"
                             onClick={() => {
@@ -248,7 +253,7 @@ export default function ViewScreen() {
                                 () => {
                                   Api.deleteBbsComment({
                                     board: board,
-                                    postId: postId,
+                                    postId: Number(postId),
                                     commentId: comment.id,
                                   }).then((result) => {
                                     Popup.openConfirmDialog(
@@ -285,7 +290,11 @@ export default function ViewScreen() {
                   value: number
                 ) => {
                   navigate(
-                    `/bbs/${board}/${postId}?page=${page}&commentPage=${value}`
+                    {
+                      pathname: "/bbs/:board/:postId/view",
+                      search: `page=${page}&commentPage=${value}`,
+                    },
+                    { params: { board: board, postId: postId } }
                   );
                 }}
                 variant="outlined"

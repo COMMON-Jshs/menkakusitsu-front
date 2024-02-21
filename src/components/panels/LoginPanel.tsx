@@ -1,14 +1,6 @@
 import "@/styles/LoginForm.module.css";
 
-import {
-  Box,
-  Button,
-  Grid,
-  Link,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Link, Stack, TextField } from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 
@@ -53,7 +45,7 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
         Constants.DialogTitle.Alert,
         "기존 4자리 학번을 비밀번호로 사용하시는 경우, 비밀번호를 바꾸셔야합니다.",
         () => {
-          // window.location.href = "/setting";
+          // redirect("/setting")
         }
       );
       return;
@@ -69,6 +61,8 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
       return;
     }
   }
+
+  redirect("/auth/register");
 };
 
 export default function LoginPanel() {

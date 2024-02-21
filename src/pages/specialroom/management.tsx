@@ -18,16 +18,17 @@ import Popup from "@/components/popup";
 import { Api, Utility } from "@/utils";
 import { Text, TitleText } from "@/components/basics";
 import { SpecialroomInfoPanel } from "@/components/panels/SpecialroomInfoPanel";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ManagementScreen() {
   const [information, setInformation] = useState<v1.SpecialroomInfo[]>([]);
-  const [payload] = useState<TokenPayload | null>(Utility.getTokenPayload());
+  const { payload } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     Api.getSpecialroomInfo({}).then((result) => {
       setInformation(
-        result.information.filter((info) => info.teacher.uid == payload?.uid)
+        result.information.filter((info) => info.teacher.uid == payload.uid)
       );
       setIsLoading(false);
     });
@@ -54,7 +55,7 @@ export default function ManagementScreen() {
               특별실 신청 관리
             </TitleText>
             <SpecialroomInfoPanel
-              filter={(info) => info.teacher.uid == payload?.uid}
+              filter={(info) => info.teacher.uid == payload.uid}
             />
             <Stack
               spacing={2}
@@ -206,7 +207,7 @@ function InfoCell(props: InfoCellProps) {
                   Popup.stopLoading();
                   setInformation(
                     result.information.filter(
-                      (info) => info.teacher.uid == payload?.uid
+                      (info) => info.teacher.uid == payload.uid
                     )
                   );
                 });
@@ -229,7 +230,7 @@ function InfoCell(props: InfoCellProps) {
                   Popup.stopLoading();
                   setInformation(
                     result.information.filter(
-                      (info) => info.teacher.uid == payload?.uid
+                      (info) => info.teacher.uid == payload.uid
                     )
                   );
                 });

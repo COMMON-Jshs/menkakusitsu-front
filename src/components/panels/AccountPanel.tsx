@@ -17,19 +17,20 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Popup from "@/components/popup";
-import Theme from "@/components/theme";
-import { Api, Constants, Firebase, Storage, Utility } from "@/utils";
+import { Api, Constants, Firebase, Storage } from "@/utils";
+import { changeColorScheme, useColorScheme } from "@/hooks/useColorScheme";
+import { useAuth } from "@/hooks/useAuth";
 
 export function AccountPanel() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const { payload } = useAuth();
 
   const open = Boolean(anchorEl);
-  const payload = Utility.getTokenPayload();
 
   const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +45,7 @@ export function AccountPanel() {
       <Box>
         <Tooltip title="계정 설정">
           <IconButton onClick={openMenu} size="small" sx={{ ml: 2 }}>
-            <Avatar alt={payload?.id} src="-" />
+            <Avatar alt={payload.id} src="-" />
           </IconButton>
         </Tooltip>
       </Box>
@@ -83,7 +84,7 @@ export function AccountPanel() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <Avatar /> {payload?.id}
+          <Avatar /> {payload.id}
         </MenuItem>
         <Divider />
         <DarkModeButton />
@@ -106,15 +107,15 @@ export function AccountPanel() {
 }
 
 function DarkModeButton() {
-  const { style, toggleStyle } = useContext(Theme.Context)!;
+  const { scheme } = useColorScheme();
 
   return (
     <MenuItem
       onClick={() => {
-        toggleStyle();
+        changeColorScheme(scheme == "light" ? "dark" : "light");
       }}
     >
-      {style == "light" ? (
+      {scheme == "light" ? (
         <>
           <ListItemIcon>
             <LightMode fontSize="small" />
