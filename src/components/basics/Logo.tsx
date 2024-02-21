@@ -1,5 +1,3 @@
-import React from "react";
-
 import { LogoText } from "@/components/basics/StyledText";
 import { Box, BoxProps } from "@mui/material";
 import { Link } from "@/router";
