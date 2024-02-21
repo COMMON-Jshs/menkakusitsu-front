@@ -17,7 +17,7 @@ import Particle from "@/components/particle";
 import { InfoTable } from "@/components/panels/SpecialroomInfoPanel";
 import { setFooterActive, setHeaderActive } from "@/hooks/useNavbar";
 
-export default function Download() {
+export default function DownloadScreen() {
   const [attendanceInfo, setAttendanceInfo] =
     useState<v1.AttendanceList | null>(null);
   const [information, setInformation] = useState<v1.SpecialroomInfo[] | null>(

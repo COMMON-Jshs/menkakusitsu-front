@@ -19,7 +19,7 @@ const info = [
   "대부분의 경우 1차 면학 출석부를 다운받으시면 됩니다.",
 ];
 
-export default function Info() {
+export default function InfoScreen() {
   return (
     <>
       <Container
