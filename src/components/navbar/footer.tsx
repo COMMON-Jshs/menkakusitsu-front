@@ -8,7 +8,7 @@ export function FooterComponent() {
   return (
     <Container maxWidth="xl">
       <Stack spacing={2} alignItems="center" justifyContent="center">
-        <Divider variant="middle" sx={{ width: "100%" }} />
+        <Divider variant="middle" flexItem />
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" variant="middle" flexItem />}
