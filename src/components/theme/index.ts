@@ -6,7 +6,6 @@ import {
 import { Storage, Utility } from "@/utils";
 
 export * from "./addon";
-export * from "./context";
 
 export type ThemeType =
   | "spring"
