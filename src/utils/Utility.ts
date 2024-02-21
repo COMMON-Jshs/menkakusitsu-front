@@ -80,22 +80,6 @@ export const openInNewTab = (url: string) => {
   window.open(url, "_blank", "noopener noreferrer");
 };
 
-export const getPermissionLevel = () => {
-  const payload = getTokenPayload();
-  if (!payload) {
-    return Permission.Guest;
-  }
-  return payload.permission;
-};
-
-export const hasPermissionLevel = (permission: number) => {
-  const payload = getTokenPayload();
-  if (!payload) {
-    return false;
-  }
-  return payload.permission >= permission;
-};
-
 export const isLogined = () => {
   return Boolean(getAccessToken());
 };
