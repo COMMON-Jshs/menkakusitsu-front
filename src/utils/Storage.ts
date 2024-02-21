@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-export const getDeviceUuid = (): string => {
+export const getDeviceUuid = () => {
   let deviceUUid = localStorage.getItem("device-id");
   if (!deviceUUid) {
     deviceUUid = uuid();
@@ -22,11 +22,11 @@ export const savePushList = (pushList: NonNullable<unknown>) => {
   localStorage.setItem("has-push", JSON.stringify(pushList));
 };
 
-export const getAccessToken = (): string | null => {
+export const getAccessToken = () => {
   return localStorage.getItem("access-token");
 };
 
-export const getRefreshToken = (): string | null => {
+export const getRefreshToken = () => {
   return localStorage.getItem("refresh-token");
 };
 
@@ -40,7 +40,7 @@ export const clearTokens = () => {
   localStorage.setItem("refresh-token", "");
 };
 
-export const getPostListSize = (): number => {
+export const getPostListSize = () => {
   let postListSize = Number(localStorage.getItem("POST_LIST_SIZE"));
   if (!postListSize) {
     postListSize = 20;
@@ -49,7 +49,7 @@ export const getPostListSize = (): number => {
   return postListSize;
 };
 
-export const getCommentListSize = (): number => {
+export const getCommentListSize = () => {
   let commentListSize = Number(localStorage.getItem("COMMENT_LIST_SIZE"));
   if (!commentListSize) {
     commentListSize = 70;
@@ -58,10 +58,15 @@ export const getCommentListSize = (): number => {
   return commentListSize;
 };
 
-export const getUseDarkMode = (): boolean => {
-  return localStorage.getItem("use-dark-mode") == "true";
+export type ColorScheme = "light" | "dark";
+
+export const getColorScheme = () => {
+  if (localStorage.getItem("use-dark-mode") == "dark") {
+    return "dark";
+  }
+  return "light";
 };
 
-export const setUseDarkMode = (useDarkMode: boolean): void => {
-  localStorage.setItem("use-dark-mode", String(useDarkMode));
+export const setColorScheme = (scheme: ColorScheme) => {
+  localStorage.setItem("use-dark-mode", scheme);
 };

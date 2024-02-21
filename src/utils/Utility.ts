@@ -5,7 +5,7 @@ import { Buffer } from "buffer";
 import dayjs from "dayjs";
 
 import { topbar } from "@/components/topbar";
-import { Storage } from "@/utils";
+import { getAccessToken } from "@/utils/Storage";
 
 export const getDayInfo = () => {
   const day = dayjs();
@@ -97,26 +97,25 @@ export const hasPermissionLevel = (permission: number) => {
 };
 
 export const isLogined = () => {
-  return Boolean(Storage.getAccessToken());
+  return Boolean(getAccessToken());
 };
 
-export const parseJWT = (token: string): TokenPayload | null => {
+export const parseJWT = (token: string | null) => {
+  if (!token) {
+    return new TokenPayload();
+  }
   try {
     return Object.assign(
       new TokenPayload(),
       JSON.parse(Buffer.from(token.split(".")[1], "base64").toString("utf-8"))
     );
   } catch (e) {
-    console.error(e);
-    return null;
+    return new TokenPayload();
   }
 };
 
-export const getTokenPayload = (): TokenPayload | null => {
-  const accessToken = Storage.getAccessToken();
-  if (!accessToken) {
-    return null;
-  }
+export const getTokenPayload = () => {
+  const accessToken = getAccessToken();
   return parseJWT(accessToken);
 };
 
