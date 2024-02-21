@@ -2,13 +2,14 @@ import { Box, Link, useTheme } from "@mui/material";
 import { Link as LinkIcon } from "@mui/icons-material";
 import { ReactNode } from "react";
 import { Link as NavLink } from "react-router-dom";
+import { Text } from "@/components/basics";
 
 type IconLinkProps = {
   href: string;
   icon?: ReactNode;
   label: string;
   newTab?: boolean;
-}
+};
 
 export function IconLink(props: IconLinkProps) {
   const { href, icon, label, newTab } = props;
@@ -30,7 +31,7 @@ export function IconLink(props: IconLinkProps) {
           color: theme.palette.text.primary,
         }}
       >
-        {icon || <LinkIcon />} {label}
+        {icon || <LinkIcon />} <Text variant="body1">{label}</Text>
       </Box>
     </Link>
   );

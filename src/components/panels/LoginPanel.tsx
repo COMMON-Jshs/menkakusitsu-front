@@ -4,9 +4,9 @@ import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 
-import { Popup, Firebase } from "@/components";
+import Popup from "@/components/popup";
 import { IconNavLink } from "@/components/basics";
-import { Api, Constants, Storage, Utility } from "@/utils";
+import { Api, Constants, Firebase, Storage, Utility } from "@/utils";
 
 const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   event.preventDefault();
@@ -30,7 +30,7 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
 const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
   Storage.saveTokens(result.accessToken, result.refreshToken);
 
-  if (Firebase.getPushApproved()) {
+  if (Api.getPushApproved()) {
     await Firebase.createPushToken();
   }
 

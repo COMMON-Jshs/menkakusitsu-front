@@ -1,23 +1,23 @@
 import { create } from "zustand";
 
-type WrapperProps = {
+type NavbarProps = {
   noHeader?: boolean;
   noFooter?: boolean;
 };
 
-export const useWrapperStore = create<WrapperProps>(() => ({
+export const useNavbar = create<NavbarProps>(() => ({
   noHeader: false,
   noFooter: false,
 }));
 
 export const setHeaderActive = (value: boolean) => {
-  useWrapperStore.setState({
+  useNavbar.setState({
     noHeader: !value,
   });
 };
 
 export const setFooterActive = (value: boolean) => {
-  useWrapperStore.setState({
+  useNavbar.setState({
     noFooter: !value,
   });
 };

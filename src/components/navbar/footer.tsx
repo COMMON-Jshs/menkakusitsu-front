@@ -1,16 +1,14 @@
-import { Divider, Stack } from "@mui/material";
+import { Container, Divider, Stack } from "@mui/material";
 import { School, Policy, GitHub, PeopleAlt } from "@mui/icons-material";
 
-import { IconLink, IconNavLink } from "@/components";
-import { InstagramLogo } from "@/components/images";
+import { IconLink, IconNavLink } from "@/components/basics";
+import { InstagramLogo } from "@/components/images/Instagram";
 
 export function FooterComponent() {
   return (
-    <>
-      <br />
-      <Divider variant="middle" />
-      <br />
+    <Container maxWidth="xl">
       <Stack spacing={2} alignItems="center" justifyContent="center">
+        <Divider variant="middle" sx={{ width: "100%" }} />
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" variant="middle" flexItem />}
@@ -59,7 +57,6 @@ export function FooterComponent() {
           />
         </Stack>
       </Stack>
-      <br />
-    </>
+    </Container>
   );
 }

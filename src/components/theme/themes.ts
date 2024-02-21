@@ -3,7 +3,7 @@ import { createTheme, responsiveFontSizes } from "@mui/material";
 export const defaultTheme = responsiveFontSizes(
   createTheme({
     typography: {
-      fontFamily: "'NotoSansKR'",
+      fontFamily: "NotoSansKR",
     },
     palette: {
       background: {
@@ -22,7 +22,7 @@ export const defaultTheme = responsiveFontSizes(
 export const christmasTheme = responsiveFontSizes(
   createTheme({
     typography: {
-      fontFamily: "'NotoSansKR'",
+      fontFamily: "NotoSansKR",
     },
     palette: {
       background: {
@@ -40,6 +40,9 @@ export const christmasTheme = responsiveFontSizes(
 
 export const darkTheme = responsiveFontSizes(
   createTheme({
+    typography: {
+      fontFamily: "NotoSansKR",
+    },
     palette: {
       mode: "dark",
     },

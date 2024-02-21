@@ -1,11 +1,15 @@
 import { SnackbarProvider } from "notistack";
 import { Outlet } from "react-router-dom";
 
-import { Popup, Firebase, Navbar, Theme, Particle } from "@/components";
-import { useWrapperStore } from "@/components/router/hooks";
+import Popup from "@/components/popup";
+import Firebase from "@/components/firebase";
+import Particle from "@/components/particle";
+import Theme from "@/components/theme";
+import Navbar from "@/components/navbar";
+import { useNavbar } from "@/hooks/useNavbar";
 
 export function WrapperComponent() {
-  const { noHeader, noFooter } = useWrapperStore();
+  const { noHeader, noFooter } = useNavbar();
 
   const type = Theme.getThemeType();
 

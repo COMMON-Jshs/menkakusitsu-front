@@ -2,12 +2,12 @@ import { Box, Container, Paper, TextField } from "@mui/material";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Popup } from "@/components";
+import Popup from "@/components/popup";
 import { TitleText } from "@/components/basics";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
 import { Api, Constants, Utility } from "@/utils";
-import { SubmitButton } from "@/components/buttons";
 
-export function RegisterPanel() {
+export default function RegisterPanel() {
   const navigate = useNavigate();
 
   const onPostRegister = async (event: React.MouseEvent<HTMLFormElement>) => {

@@ -10,3 +10,5 @@ export {
   startLoading,
   stopLoading,
 } from "./hooks";
+
+export * as default from ".";

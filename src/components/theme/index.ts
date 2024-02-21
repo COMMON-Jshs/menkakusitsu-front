@@ -3,7 +3,7 @@ import {
   darkTheme,
   defaultTheme,
 } from "@/components/theme/themes";
-import { Utility } from "@/utils";
+import { Storage, Utility } from "@/utils";
 
 export * from "./addon";
 export * from "./context";
@@ -44,8 +44,8 @@ export const getThemeType = (): ThemeType => {
   return "none";
 };
 
-export const getTheme = (type: ThemeType, isDarkTheme: boolean) => {
-  if (isDarkTheme) {
+export const getTheme = (type: ThemeType, colorScheme: Storage.ColorScheme) => {
+  if (colorScheme == "dark") {
     return darkTheme;
   }
 
@@ -61,3 +61,5 @@ export const getTheme = (type: ThemeType, isDarkTheme: boolean) => {
       return christmasTheme;
   }
 };
+
+export * as default from ".";

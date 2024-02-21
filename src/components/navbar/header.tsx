@@ -2,7 +2,7 @@ import { Box, Button, Menu, MenuItem, Typography, Paper } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { AccountPanel } from "@/components";
+import { AccountPanel } from "@/components/panels/AccountPanel";
 import { Logo } from "@/components/navbar/logo";
 import { headerItems } from "@/components/navbar/items";
 import { Utility } from "@/utils";

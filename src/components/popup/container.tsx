@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { closeAll, useDialogContainerStore } from "@/components/popup/hooks";
-import { DialogComponent } from "@/components/popup//dialog";
+import { DialogComponent } from "@/components/popup/dialog";
 
 export function DialogContainer() {
   const { dialogs } = useDialogContainerStore();

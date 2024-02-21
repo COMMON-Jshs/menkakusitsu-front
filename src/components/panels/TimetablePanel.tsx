@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 import { Api } from "@/utils";
-import { SubmitButton } from "@/components";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
