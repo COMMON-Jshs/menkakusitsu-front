@@ -207,6 +207,7 @@ function HeaderMenu(props: HeaderMenuProps) {
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const navigate = useNavigate();
+  const { payload } = useAuth();
 
   function openMenu(event: React.MouseEvent<HTMLButtonElement>) {
     if (anchorEl !== event.currentTarget) {
@@ -231,7 +232,7 @@ function HeaderMenu(props: HeaderMenuProps) {
       </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={closeMenu}>
         {menu.map((menu) => {
-          if (Utility.getPermissionLevel() >= menu.permission) {
+          if (payload.hasPermission(menu.permission)) {
             return (
               <MenuItem
                 key={menu.title}
