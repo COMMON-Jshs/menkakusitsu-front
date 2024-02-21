@@ -11,7 +11,7 @@ import {
   Drawer,
   IconButton,
 } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu as MenuIcon } from "@mui/icons-material";
 
@@ -20,6 +20,7 @@ import { headerItems } from "@/components/navbar/items";
 import { Utility } from "@/utils";
 import { LogoText } from "@/components/basics";
 import Logo from "@/components/basics/Logo";
+import { useAuth } from "@/hooks/useAuth";
 
 export function HeaderComponent() {
   const theme = useTheme();
@@ -86,7 +87,7 @@ function HeaderList() {
 }
 
 function HeaderDrawer() {
-  const [state, setState] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -98,12 +99,12 @@ function HeaderDrawer() {
         return;
       }
 
-      setState(open);
+      setIsOpen(open);
     };
 
   return (
     <>
-      <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
+      <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
         <Stack flex={1} spacing={4} sx={{ margin: "8px", mt: 4 }}>
           {headerItems.map((navbarItem) => {
             if (navbarItem.menu) {
@@ -113,6 +114,7 @@ function HeaderDrawer() {
                   color={navbarItem.color}
                   menu={navbarItem.menu}
                   title={navbarItem.title}
+                  onClick={() => setIsOpen(false)}
                 />
               );
             } else {
@@ -123,6 +125,7 @@ function HeaderDrawer() {
                   href={navbarItem.href}
                   color={navbarItem.color}
                   title={navbarItem.title}
+                  onClick={() => setIsOpen(false)}
                 />
               );
             }
@@ -154,13 +157,15 @@ type HeaderItemProps = {
   color?: string;
   title: string;
   newTab?: boolean;
+  onClick?: VoidFunction;
 };
 
 function HeaderItem(props: HeaderItemProps) {
-  const { permission, href, color, title, newTab } = props;
+  const { permission, href, color, title, newTab, onClick } = props;
   const navigate = useNavigate();
+  const { payload } = useAuth();
 
-  if (Utility.getPermissionLevel() >= permission) {
+  if (payload.hasPermission(permission)) {
     return (
       <Box
         style={{
@@ -174,15 +179,14 @@ function HeaderItem(props: HeaderItemProps) {
             } else {
               navigate(href);
             }
+            if (onClick) {
+              onClick();
+            }
           }}
         >
-          <Typography
-            sx={{ fontFamily: "DesignHouseB" }}
-            color={color}
-            variant="h4"
-          >
+          <LogoText color={color} variant="h4">
             {title}
-          </Typography>
+          </LogoText>
         </Button>
       </Box>
     );
@@ -195,10 +199,11 @@ type HeaderMenuProps = {
   title: string;
   color: string;
   menu: HeaderItemProps[];
+  onClick?: VoidFunction;
 };
 
 function HeaderMenu(props: HeaderMenuProps) {
-  const { title, color, menu } = props;
+  const { title, color, menu, onClick } = props;
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const navigate = useNavigate();
@@ -237,13 +242,16 @@ function HeaderMenu(props: HeaderMenuProps) {
                     navigate(menu.href);
                   }
                   closeMenu();
+                  if (onClick) {
+                    onClick();
+                  }
                 }}
               >
                 {menu.title}
               </MenuItem>
             );
           } else {
-            return <div key={menu.title}></div>;
+            return <Fragment key={menu.title}></Fragment>;
           }
         })}
       </Menu>
