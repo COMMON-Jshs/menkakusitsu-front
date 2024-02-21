@@ -1,12 +1,22 @@
 import "@/styles/LoginForm.module.css";
 
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 
 import Popup from "@/components/popup";
-import { IconNavLink } from "@/components/basics";
+import { IconNavLink, TitleText } from "@/components/basics";
 import { Api, Constants, Firebase, Storage, Utility } from "@/utils";
+import { login } from "@/hooks/useAuth";
+import { redirect } from "@/router";
 
 const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
   event.preventDefault();
@@ -19,10 +29,11 @@ const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {
 
   Popup.startLoading("로그인 중입니다...");
   Api.postLogin({ id: id, password: Utility.Sha3(password) }).then((result) => {
+    Popup.stopLoading();
     if (Api.isSuccessed(result)) {
       onLoginSuccessed(result);
     } else {
-      onLoginFailed(result);
+      Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
     }
   });
 };
@@ -34,13 +45,15 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
     await Firebase.createPushToken();
   }
 
+  login(result.accessToken);
+
   if (result.callbacks) {
     if (result.callbacks.includes("needChangePw")) {
       Popup.openConfirmDialog(
         Constants.DialogTitle.Alert,
         "기존 4자리 학번을 비밀번호로 사용하시는 경우, 비밀번호를 바꾸셔야합니다.",
         () => {
-          window.location.href = "/setting";
+          // window.location.href = "/setting";
         }
       );
       return;
@@ -50,51 +63,37 @@ const onLoginSuccessed = async (result: v1.PostLoginResponse) => {
         Constants.DialogTitle.Alert,
         "비밀번호 복구 등의 서비스를 이용하시려면 이메일을 추가하셔야합니다.",
         () => {
-          window.location.href = "/setting";
+          // redirect("/setting")
         }
       );
       return;
     }
   }
-  window.location.reload();
 };
 
-const onLoginFailed = (result: v1.PostLoginResponse) => {
-  Popup.stopLoading();
-  Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
-};
-
-export function LoginPanel() {
+export default function LoginPanel() {
   return (
     <Box
       sx={{
-        width: "auto",
-        height: "100%",
-        backgroundColor: "white",
+        flex: 1,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        padding: "16px",
       }}
     >
-      <Typography
-        variant="h5"
-        noWrap
+      <TitleText
+        variant="h4"
         sx={{
           mr: 2,
-          fontWeight: 500,
-          fontFamily: "BMDohyeon",
           color: "inherit",
           textDecoration: "none",
         }}
       >
         로그인하세요.
-      </Typography>
-      <Box
-        component="form"
-        onSubmit={onPostLogin}
-        sx={{ mt: 1, padding: "0 30px 0" }}
-      >
+      </TitleText>
+      <Box component="form" onSubmit={onPostLogin}>
         <TextField
           className="inputRounded"
           margin="normal"
@@ -106,7 +105,6 @@ export function LoginPanel() {
         />
         <TextField
           className="inputRounded"
-          margin="normal"
           required
           fullWidth
           name="password"
@@ -127,35 +125,35 @@ export function LoginPanel() {
               backgroundColor: "#fff",
               color: "primary.main",
             },
-            fontFamily: "BMDohyeon",
           }}
         >
-          LOGIN
+          <TitleText>LOGIN</TitleText>
         </Button>
-        <Grid container>
-          <Grid item xs>
-            <Link
-              href="#"
-              onClick={() => {
-                Popup.openConfirmDialog(
-                  Constants.DialogTitle.Info,
-                  "현재 제공되지 않는 기능입니다."
-                );
-              }}
-              variant="body2"
-              underline="none"
-            >
-              비밀번호를 잊어버리셨나요?
-            </Link>
-          </Grid>
-          <Grid item>
-            <IconNavLink
-              to="/auth/register"
-              label="아직 계정이 없으신가요?"
-              icon={<AccountBox />}
-            />
-          </Grid>
-        </Grid>
+        <Stack
+          spacing={1}
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Link
+            href="#"
+            onClick={() => {
+              Popup.openConfirmDialog(
+                Constants.DialogTitle.Info,
+                "현재 제공되지 않는 기능입니다."
+              );
+            }}
+            variant="body1"
+            underline="none"
+          >
+            비밀번호를 잊어버리셨나요?
+          </Link>
+          <IconNavLink
+            to="/auth/register"
+            label="아직 계정이 없으신가요?"
+            icon={<AccountBox />}
+          />
+        </Stack>
       </Box>
     </Box>
   );
