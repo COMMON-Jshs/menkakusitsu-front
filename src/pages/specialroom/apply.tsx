@@ -20,15 +20,14 @@ import {
   StepLabel,
   Stepper,
   TextField,
-  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 
 import Popup from "@/components/popup";
 import { Api, Constants, Utility } from "@/utils";
-import { TitleText } from "@/components/basics";
+import { Text, TitleText } from "@/components/basics";
 import { SpecialroomInfoPanel } from "@/components/panels/SpecialroomInfoPanel";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import { SubmitButton } from "@/components/basics/StyledButton";
 
 export default function ApplyScreen() {
   const [managerInfo, setManagerInfo] = useState<v1.UserInfo | null>(null);
@@ -51,11 +50,11 @@ export default function ApplyScreen() {
       title: "사용 시간 선택",
       content: (
         <>
-          <Typography>
+          <Text>
             {year}년 {month}월 {date}일의 생활 지도 선생님은 &lt;
             {(managerInfo && managerInfo.value) || "???"}
             &gt;이십니다.
-          </Typography>
+          </Text>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
             <InputLabel id="select-when">사용 시간</InputLabel>
             <Select
@@ -79,9 +78,9 @@ export default function ApplyScreen() {
       title: "사용 장소 선택",
       content: (
         <>
-          <Typography>
+          <Text>
             신청 목적은 상관없지만 신청 장소는 바르게 선택해 주시기 바랍니다.
-          </Typography>
+          </Text>
           <FormControl>
             <FormLabel id="specialroom-location">사용 장소</FormLabel>
             <RadioGroup
@@ -170,9 +169,9 @@ export default function ApplyScreen() {
       title: "학생 선택",
       content: (
         <>
-          <Typography>
+          <Text>
             학번 혹은 이름 입력 시 자동완성이 활성화됩니다.
-          </Typography>
+          </Text>
           <Autocomplete
             multiple
             id="autocomplete-students"
@@ -197,7 +196,7 @@ export default function ApplyScreen() {
       title: "선생님 선택",
       content: (
         <>
-          <Typography>선생님 성함 입력 시 자동완성이 활성화됩니다.</Typography>
+          <Text>선생님 성함 입력 시 자동완성이 활성화됩니다.</Text>
           <Autocomplete
             id="autocomplete-teachers"
             onChange={(event, newValue) => {
@@ -334,11 +333,18 @@ export default function ApplyScreen() {
           <Box
             component="form"
             onSubmit={onPostApply}
-            sx={{ padding: "50px 30px 30px 30px" }}
+            sx={{
+              padding: "50px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <TitleText>특별실 신청하기</TitleText>
+            <TitleText color="secondary" variant="h2">
+              특별실 신청하기
+            </TitleText>
             <SpecialroomInfoPanel />
-            <Box sx={{ padding: "30px 30px 30px" }}>
+            <Box sx={{ width: "100%", padding: "16px" }}>
               <Stepper activeStep={activeStep} orientation="vertical">
                 {steps.map((step, index) => {
                   return (
@@ -346,7 +352,7 @@ export default function ApplyScreen() {
                       <StepLabel
                         optional={
                           index === steps.length - 1 ? (
-                            <Typography variant="caption">Last step</Typography>
+                            <Text variant="caption">Last step</Text>
                           ) : null
                         }
                       >
@@ -389,7 +395,7 @@ export default function ApplyScreen() {
                 })}
               </Stepper>
             </Box>
-            <SubmitButton color="primary.main">신청하기</SubmitButton>
+            <SubmitButton width="192px" backGroundColor="primary.main">신청하기</SubmitButton>
           </Box>
         </Paper>
       </Container>

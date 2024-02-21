@@ -11,13 +11,12 @@ import {
   Paper,
   Stack,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import Popup from "@/components/popup";
 import { Api, Utility } from "@/utils";
-import { TitleText } from "@/components/basics";
+import { Text, TitleText } from "@/components/basics";
 import { SpecialroomInfoPanel } from "@/components/panels/SpecialroomInfoPanel";
 
 export default function ManagementScreen() {
@@ -43,22 +42,38 @@ export default function ManagementScreen() {
         }}
       >
         <Paper>
-          <Box sx={{ padding: "50px 30px 30px 30px" }}>
-            <TitleText>특별실 신청 관리</TitleText>
+          <Box
+            sx={{
+              padding: "50px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <TitleText color="secondary" variant="h2">
+              특별실 신청 관리
+            </TitleText>
             <SpecialroomInfoPanel
               filter={(info) => info.teacher.uid == payload?.uid}
             />
-            <Stack spacing={2} direction="row" sx={{ marginTop: "32px" }}>
+            <Stack
+              spacing={2}
+              direction="row"
+              useFlexGap
+              flexWrap="wrap"
+              mt="32px"
+              sx={{ width: "100%" }}
+            >
               <Box
                 sx={{
                   textAlign: "center",
                   p: 2,
                   border: "1px dashed grey",
-                  width: "50%",
                   alignItems: "center",
+                  width: "100%",
                 }}
               >
-                <Typography variant="h4">특별실 신청 내역</Typography>
+                <Text variant="h4">특별실 신청 내역</Text>
                 <br />
                 {isLoading ? (
                   <CircularProgress />
@@ -70,55 +85,46 @@ export default function ManagementScreen() {
                   />
                 )}
               </Box>
-              <Stack
-                spacing={2}
-                direction="column"
+              <Box
                 sx={{
-                  width: "50%",
-                  alignItems: "center",
+                  textAlign: "center",
+                  p: 2,
+                  border: "1px dashed grey",
+                  flex: 1,
                 }}
               >
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    p: 2,
-                    border: "1px dashed grey",
-                    width: "100%",
-                  }}
-                >
-                  <Typography variant="h5">승인된 신청</Typography>
-                  <br />
-                  {isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <InfoCell
-                      state={1}
-                      information={information}
-                      setInformation={setInformation}
-                    />
-                  )}
-                </Box>
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    p: 2,
-                    border: "1px dashed grey",
-                    width: "100%",
-                  }}
-                >
-                  <Typography variant="h5">거부된 신청</Typography>
-                  <br />
-                  {isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <InfoCell
-                      state={-1}
-                      information={information}
-                      setInformation={setInformation}
-                    />
-                  )}
-                </Box>
-              </Stack>
+                <Text variant="h5">승인된 신청</Text>
+                <br />
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <InfoCell
+                    state={1}
+                    information={information}
+                    setInformation={setInformation}
+                  />
+                )}
+              </Box>
+              <Box
+                sx={{
+                  textAlign: "center",
+                  p: 2,
+                  border: "1px dashed grey",
+                  flex: 1,
+                }}
+              >
+                <Text variant="h5">거부된 신청</Text>
+                <br />
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <InfoCell
+                    state={-1}
+                    information={information}
+                    setInformation={setInformation}
+                  />
+                )}
+              </Box>
             </Stack>
           </Box>
         </Paper>
@@ -148,24 +154,18 @@ function InfoCell(props: InfoCellProps) {
             count++;
             return (
               <Tooltip
-                placement="left-start"
+                placement="top-start"
                 key={information.applyId}
                 title={
                   <Box sx={{ textAlign: "left" }}>
-                    <Typography>
-                      {`신청자: ${information.master.name}`}
-                    </Typography>
-                    <Typography>
+                    <Text>{`신청자: ${information.master.name}`}</Text>
+                    <Text>
                       {`신청 명단: ${information.applicants} - 총 ${
                         information.applicants.split(",").length
                       }인`}
-                    </Typography>
-                    <Typography>
-                      {`신청 장소: ${information.location}`}
-                    </Typography>
-                    <Typography>
-                      {`신청 시간: ${information.when}차 면학`}
-                    </Typography>
+                    </Text>
+                    <Text>{`신청 장소: ${information.location}`}</Text>
+                    <Text>{`신청 시간: ${information.when}차 면학`}</Text>
                   </Box>
                 }
                 arrow

@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 import { Api } from "@/utils";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import { SubmitButton } from "@/components/basics/StyledButton";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -133,7 +133,7 @@ export function TimetablePanel(props: TimetableProps) {
       </TableContainer>
       {props.edit && (
         <Box sx={{ textAlign: "center", marginTop: "16px" }}>
-          <SubmitButton color="primary.main" width="25%">
+          <SubmitButton backGroundColor="primary.main" width="25%">
             수정하기
           </SubmitButton>
         </Box>

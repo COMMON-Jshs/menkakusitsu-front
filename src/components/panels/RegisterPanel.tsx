@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Popup from "@/components/popup";
 import { TitleText } from "@/components/basics";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import { SubmitButton } from "@/components/basics/StyledButton";
 import { Api, Constants, Utility } from "@/utils";
 
 export default function RegisterPanel() {
@@ -141,7 +141,7 @@ export default function RegisterPanel() {
                 type="password"
               />
               <Box sx={{ marginTop: 3 }}>
-                <SubmitButton width="50%" color="primary.main">
+                <SubmitButton width="50%" backGroundColor="primary.main">
                   가입하기
                 </SubmitButton>
               </Box>

@@ -24,12 +24,12 @@ import { useCallback, useEffect, useState } from "react";
 import Popup from "@/components/popup";
 import { Api, Constants } from "@/utils";
 import { TitleText } from "@/components/basics";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import { SubmitButton } from "@/components/basics/StyledButton";
 import { SpecialroomInfoPanel } from "@/components/panels/SpecialroomInfoPanel";
 
 const steps = ["신청 완료", "승인 대기 중", "승인 완료"];
 
-export function StatusScreen() {
+export default function StatusScreen() {
   const [applyStatus, setApplyStatus] = useState<v1.SpecialroomInfo | null>(
     null
   );
@@ -90,11 +90,32 @@ export function StatusScreen() {
         }}
       >
         <Paper>
-          <Box component="form" sx={{ padding: "50px 30px 30px 30px" }}>
-            <TitleText>특별실 신청 현황</TitleText>
-            <Box sx={{ padding: "30px 90px 30px" }}>
+          <Box
+            component="form"
+            sx={{
+              padding: "50px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <TitleText color="secondary" variant="h2">
+              특별실 신청 현황
+            </TitleText>
+            <Box
+              sx={{
+                width: "100%",
+                padding: "64px",
+              }}
+            >
               <Typography variant="h5">몇 차 면학으로 신청하셨나요?</Typography>
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <FormControl
+                sx={{
+                  m: 1,
+                  minWidth: 120,
+                }}
+                size="small"
+              >
                 <InputLabel id="select-when">사용 시간</InputLabel>
                 <Select
                   labelId="select-when"
@@ -109,7 +130,7 @@ export function StatusScreen() {
                   <MenuItem value={2}>2차 면학</MenuItem>
                 </Select>
               </FormControl>
-              <Box sx={{ padding: "16px 12px 0px" }}>
+              <Box>
                 {!isLoading ? (
                   applyStatus ? (
                     <Typography
@@ -183,8 +204,8 @@ export function StatusScreen() {
               </Stepper>
               {!isLoading && applyStatus && (
                 <SubmitButton
-                  width="25%"
-                  color="error.main"
+                  width="192px"
+                  backGroundColor="error.main"
                   onClick={onCancelApply}
                 >
                   신청 취소
