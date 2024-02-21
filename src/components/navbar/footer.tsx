@@ -6,7 +6,7 @@ import { InstagramLogo } from "@/components/images/Instagram";
 
 export function FooterComponent() {
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ marginBottom: "32px" }}>
       <Stack spacing={2} alignItems="center" justifyContent="center">
         <Divider variant="middle" flexItem />
         <Stack
