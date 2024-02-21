@@ -29,3 +29,5 @@ package-lock.json
 # Env
 .env.development
 .env.production
+
+src/_temp_pages/
