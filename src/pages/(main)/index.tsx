@@ -11,7 +11,7 @@ import Logo from "@/components/basics/Logo";
 import { useAuth } from "@/hooks/useAuth";
 import { setHeaderActive } from "@/hooks/useNavbar";
 
-export default function Main() {
+export default function MainScreen() {
   const { payload } = useAuth();
 
   const permission = payload.permission;
@@ -41,7 +41,6 @@ function Guest() {
   return (
     <>
       <Logo
-        size={window.innerHeight / 20}
         sx={{
           marginTop: "50px",
         }}

@@ -8,7 +8,7 @@ import { IconLink, Text, TitleText } from "@/components/basics";
 import { setHeaderActive } from "@/hooks/useNavbar";
 import { useAuth } from "@/hooks/useAuth";
 
-export default function Contributors() {
+export default function ContributorsScreen() {
   const { payload } = useAuth();
 
   useEffect(() => {
