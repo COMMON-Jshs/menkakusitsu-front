@@ -1,17 +1,19 @@
 import { v1, DefaultResponse } from "@common-jshs/menkakusitsu-lib";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { Popup } from "@/components";
+import Popup from "@/components/popup";
 import { DialogTitle } from "@/utils/Constants";
-import { deletePushToken } from "@/components/firebase/utils";
-import { getPushApproved } from "@/components/firebase/utils";
 import {
   clearTokens,
   getAccessToken,
+  getDeviceUuid,
+  getPushList,
   getRefreshToken,
+  savePushList,
   saveTokens,
 } from "@/utils/Storage";
-import { parseJWT, redirectToHome } from "@/utils/Utility";
+import { getTokenPayload, parseJWT, redirectToHome } from "@/utils/Utility";
+import { deletePushToken } from "@/utils/Firebase";
 
 const onApiError = (e: AxiosError) => {
   Popup.stopLoading();
@@ -124,6 +126,25 @@ export const onLogout = () => {
   redirectToHome();
 };
 
+export const getPushApproved = () => {
+  const pushList = getPushList();
+  const payload = getTokenPayload();
+  if (!payload) {
+    return false;
+  }
+  return pushList[payload.uid] === true;
+};
+
+export const setPushApproved = (value: boolean) => {
+  const payload = getTokenPayload();
+  if (!payload) {
+    return;
+  }
+  const pushList = getPushList();
+  pushList[payload.uid] = value;
+  savePushList(pushList);
+};
+
 export const apiGet = (path: string, headers?: any) => {
   return new Promise<AxiosResponse<any, any>>((resolve) => {
     apiRequest("get", path, null, headers).then(resolve).catch(onApiError);
@@ -169,7 +190,12 @@ export const postLogin = async (props: v1.PostLoginRequest) => {
 
 export const deleteLogout = async (props: v1.DeleteLogoutRequest) => {
   if (getPushApproved()) {
-    await deletePushToken();
+    const result = await deletePushToken();
+    if (result) {
+      await deleteUserPush({
+        devcieId: getDeviceUuid(),
+      });
+    }
   }
   const resp = await apiDelete("/v1/auth/logout", props);
   const result: v1.DeleteLogoutResponse = resp.data;
