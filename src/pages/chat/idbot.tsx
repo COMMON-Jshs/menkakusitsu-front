@@ -1,4 +1,4 @@
-import "@/styles/ChatStyle.css";
+import "@/styles/ChatStyle.module.css";
 
 import { Box, Divider, Paper, Typography } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import { Popup, PaperTitle } from "@/components";
+import { Popup, TitleText } from "@/components";
 import { Api, Constants } from "@/utils";
 
 type UserBoxProps = {
@@ -66,7 +66,7 @@ export function UserManagement() {
       >
         <Paper>
           <Box component="form" sx={{ padding: "50px 30px 30px 30px" }}>
-            <PaperTitle>유저 관리</PaperTitle>
+            <TitleText>유저 관리</TitleText>
             <Box sx={{ padding: "30px 30px 30px" }}>
               <TextField label="이름" name="name" />
               <br />

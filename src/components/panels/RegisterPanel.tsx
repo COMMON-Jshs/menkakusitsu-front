@@ -2,8 +2,10 @@ import { Box, Container, Paper, TextField } from "@mui/material";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { PaperTitle, SubmitButton, Popup } from "@/components";
+import { Popup } from "@/components";
+import { TitleText } from "@/components/basics";
 import { Api, Constants, Utility } from "@/utils";
+import { SubmitButton } from "@/components/buttons";
 
 export function RegisterPanel() {
   const navigate = useNavigate();
@@ -80,7 +82,7 @@ export function RegisterPanel() {
               padding: "50px 50px 30px 50px",
             }}
           >
-            <PaperTitle>회원가입</PaperTitle>
+            <TitleText>회원가입</TitleText>
             <Box
               component="form"
               onSubmit={onPostRegister}

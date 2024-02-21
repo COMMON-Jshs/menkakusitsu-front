@@ -16,7 +16,7 @@ import {
   NotificationButton,
   LogoutButton,
   DarkModeButton,
-} from "@/components";
+} from "@/components/buttons";
 import { Utility } from "@/utils";
 
 export function AccountPanel() {

@@ -1,6 +1,8 @@
 import { Box } from "@mui/material";
 
-import { Popup, SubmitButton, LoginPanel } from "@/components";
+import { Popup } from "@/components";
+import { LoginPanel } from "@/components/panels";
+import { SubmitButton } from "@/components/buttons";
 
 export function LoginButton() {
   return (

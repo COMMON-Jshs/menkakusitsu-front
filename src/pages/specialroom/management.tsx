@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 
-import { Popup, SpecialroomInfoPanel, PaperTitle } from "@/components";
+import { Popup, SpecialroomInfoPanel, TitleText } from "@/components";
 import { Api, Utility } from "@/utils";
 
 type InfoCellProps = {
@@ -163,7 +163,7 @@ export function Management() {
       >
         <Paper>
           <Box sx={{ padding: "50px 30px 30px 30px" }}>
-            <PaperTitle>특별실 신청 관리</PaperTitle>
+            <TitleText>특별실 신청 관리</TitleText>
             <SpecialroomInfoPanel
               filter={(info) => info.teacher.uid == payload?.uid}
             />

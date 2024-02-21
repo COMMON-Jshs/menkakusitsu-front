@@ -15,7 +15,7 @@ import { Article as ArticleIcon, Campaign, Lock } from "@mui/icons-material";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { PaperTitle, Theme } from "@/components";
+import { TitleText, Theme } from "@/components";
 import { Api, Constants, Utility } from "@/utils";
 
 type ArticleProps = {
@@ -134,7 +134,7 @@ export function List() {
       >
         <Paper>
           <Box sx={{ padding: "50px 50px 30px 50px" }}>
-            <PaperTitle>피드백</PaperTitle>
+            <TitleText>피드백</TitleText>
             <Stack spacing={2}>
               <PostList postList={postList} page={page} postId={postId} />
             </Stack>

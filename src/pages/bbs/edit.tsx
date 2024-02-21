@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Popup, SubmitButton, PaperTitle } from "@/components";
+import { Popup, SubmitButton, TitleText } from "@/components";
 import { Api, Constants } from "@/utils";
 
 export function Edit() {
@@ -92,7 +92,7 @@ export function Edit() {
             onSubmit={onPostBbsPost}
             sx={{ padding: "50px 50px 30px 50px" }}
           >
-            <PaperTitle>피드백 수정</PaperTitle>
+            <TitleText>피드백 수정</TitleText>
             {post && (
               <>
                 <Grid

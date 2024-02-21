@@ -4,7 +4,7 @@ import { GitHub } from "@mui/icons-material";
 import { useEffect } from "react";
 
 import { contributors } from "@/pages/contributors/members";
-import { PaperTitle, IconLink, Router } from "@/components";
+import { TitleText, IconLink, Router } from "@/components";
 import { Utility } from "@/utils";
 
 export function Contributors() {
@@ -27,7 +27,7 @@ export function Contributors() {
       >
         <Paper>
           <Box sx={{ padding: "50px 30px 30px 30px" }}>
-            <PaperTitle>만든 사람들</PaperTitle>
+            <TitleText>만든 사람들</TitleText>
             <Stack spacing={2}>
               {contributors.map((contributor) => {
                 return (

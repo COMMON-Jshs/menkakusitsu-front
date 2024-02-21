@@ -7,7 +7,7 @@ import {
   Paper,
 } from "@mui/material";
 
-import { PaperTitle, SubmitButton } from "@/components";
+import { TitleText, SubmitButton } from "@/components";
 import { Utility } from "@/utils/";
 
 const info = [
@@ -29,7 +29,7 @@ export function Info() {
       >
         <Paper>
           <Box sx={{ padding: "50px 30px 30px 30px" }}>
-            <PaperTitle>출석부 다운로드 안내</PaperTitle>
+            <TitleText>출석부 다운로드 안내</TitleText>
             <List sx={{ width: "100%", bgcolor: "background.paper" }}>
               {info.map((info, index) => {
                 return (

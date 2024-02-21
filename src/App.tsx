@@ -1,6 +1,6 @@
 import "@/index.css";
 import "@/styles/Fonts.css";
-import "@/styles/NProgress.css";
+import "@/styles/NProgress.module.css";
 
 import { Permission } from "@common-jshs/menkakusitsu-lib";
 import { CssBaseline, ThemeProvider } from "@mui/material";

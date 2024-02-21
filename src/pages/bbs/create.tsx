@@ -19,7 +19,7 @@ import { DeleteOutline, UploadFile } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Popup, SubmitButton, PaperTitle } from "@/components";
+import { Popup, SubmitButton, TitleText } from "@/components";
 import { Api, Constants } from "@/utils";
 
 export function Create() {
@@ -98,7 +98,7 @@ export function Create() {
             onSubmit={onPostBbsPost}
             sx={{ padding: "50px 50px 30px 50px" }}
           >
-            <PaperTitle>피드백 작성</PaperTitle>
+            <TitleText>피드백 작성</TitleText>
             <Grid container spacing={2}>
               <Grid item xs={10}>
                 <TextField

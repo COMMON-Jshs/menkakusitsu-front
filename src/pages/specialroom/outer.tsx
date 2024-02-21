@@ -1,7 +1,7 @@
 import { Box, Container, Paper } from "@mui/material";
 import { useState } from "react";
 
-import { PaperTitle } from "@/components";
+import { TitleText } from "@/components";
 
 export function Outer() {
   const [outsiders, setOutsiders] = useState([]);
@@ -15,7 +15,7 @@ export function Outer() {
       >
         <Paper>
           <Box sx={{ padding: "50px 30px 30px 30px" }}>
-            <PaperTitle>학생 외박 관리</PaperTitle>
+            <TitleText>학생 외박 관리</TitleText>
           </Box>
         </Paper>
       </Container>

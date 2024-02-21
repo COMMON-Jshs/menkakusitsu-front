@@ -1,10 +1,11 @@
-import "@/styles/LoginForm.css";
+import "@/styles/LoginForm.module.css";
 
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
 
-import { Popup, IconNavLink, Firebase } from "@/components";
+import { Popup, Firebase } from "@/components";
+import { IconNavLink } from "@/components/basics";
 import { Api, Constants, Storage, Utility } from "@/utils";
 
 const onPostLogin = (event: React.MouseEvent<HTMLFormElement>) => {

@@ -27,7 +27,7 @@ import dayjs from "dayjs";
 import {
   Popup,
   SpecialroomInfoPanel,
-  PaperTitle,
+  TitleText,
   SubmitButton,
 } from "@/components";
 import { Api, Constants, Utility } from "@/utils";
@@ -338,7 +338,7 @@ export function Apply() {
             onSubmit={onPostApply}
             sx={{ padding: "50px 30px 30px 30px" }}
           >
-            <PaperTitle>특별실 신청하기</PaperTitle>
+            <TitleText>특별실 신청하기</TitleText>
             <SpecialroomInfoPanel />
             <Box sx={{ padding: "30px 30px 30px" }}>
               <Stepper activeStep={activeStep} orientation="vertical">

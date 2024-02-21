@@ -22,7 +22,7 @@ import { styled } from "@mui/material/styles";
 import { useCallback, useEffect, useState } from "react";
 
 import {
-  PaperTitle,
+  TitleText,
   Popup,
   SpecialroomInfoPanel,
   SubmitButton,
@@ -184,7 +184,7 @@ export function Status() {
       >
         <Paper>
           <Box component="form" sx={{ padding: "50px 30px 30px 30px" }}>
-            <PaperTitle>특별실 신청 현황</PaperTitle>
+            <TitleText>특별실 신청 현황</TitleText>
             <Box sx={{ padding: "30px 90px 30px" }}>
               <Typography variant="h5">몇 차 면학으로 신청하셨나요?</Typography>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
