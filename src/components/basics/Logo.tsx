@@ -2,6 +2,7 @@ import React from "react";
 
 import { LogoText } from "@/components/basics/StyledText";
 import { Box, BoxProps } from "@mui/material";
+import { Link } from "@/router";
 
 type LogoProps = BoxProps & {
   size?: number;
@@ -30,9 +31,11 @@ export default function Logo(props: LogoProps) {
           display: "inline-block",
         }}
       >
-        <LogoText color="primary" sx={{ fontSize: fontSize }}>
-          {import.meta.env.VITE_WEB_TITLE}
-        </LogoText>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <LogoText color="primary" sx={{ fontSize: fontSize }}>
+            {import.meta.env.VITE_WEB_TITLE}
+          </LogoText>
+        </Link>
         <Box
           sx={{
             display: "flex",
