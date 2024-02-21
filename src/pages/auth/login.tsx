@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import LoginPanel from "@/components/panels/LoginPanel";
 import { setFooterActive, setHeaderActive } from "@/hooks/useNavbar";
 
-export function LoginScreen() {
+export default function LoginScreen() {
   useEffect(() => {
     setHeaderActive(false);
     setFooterActive(false);
