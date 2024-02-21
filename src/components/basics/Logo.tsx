@@ -9,7 +9,7 @@ type LogoProps = BoxProps & {
 };
 
 export default function Logo(props: LogoProps) {
-  const { size = 32 } = props;
+  const { size = window.innerHeight / 20 } = props;
 
   const fontSize = Math.round(size);
   const lineHeight = Math.round(size / 8);
