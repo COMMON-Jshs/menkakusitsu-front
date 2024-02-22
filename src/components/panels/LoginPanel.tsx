@@ -1,5 +1,3 @@
-import "@/styles/LoginForm.module.css";
-
 import { Box, Button, Link, Stack, TextField } from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
 import { v1 } from "@common-jshs/menkakusitsu-lib";
@@ -92,7 +90,7 @@ export default function LoginPanel() {
       </TitleText>
       <Box component="form" onSubmit={onPostLogin}>
         <TextField
-          className="inputRounded"
+          InputProps={{ sx: { borderRadius: "50px" } }}
           margin="normal"
           required
           fullWidth
@@ -102,7 +100,7 @@ export default function LoginPanel() {
           autoComplete="username"
         />
         <TextField
-          className="inputRounded"
+          InputProps={{ sx: { borderRadius: "50px" } }}
           required
           fullWidth
           name="password"
