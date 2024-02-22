@@ -1,11 +1,10 @@
-import { Box, Container, Paper, TextField } from "@mui/material";
-import { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import { Box, TextField } from "@mui/material";
 
 import Popup from "@/components/popup";
 import { TitleText } from "@/components/basics";
 import { SubmitButton } from "@/components/basics/StyledButton";
 import { Api, Constants, Utility } from "@/utils";
+import { useNavigate } from "@/router";
 
 export default function RegisterPanel() {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ export default function RegisterPanel() {
     const id = data.get("id")?.toString().trim();
     const password = data.get("password")?.toString().trim();
     const passwordCheck = data.get("passwordCheck")?.toString().trim();
-    if (Number.isNaN(sid)) {
+    if (Number.isNaN(sid) || !Number.isInteger(sid) || sid <= 0) {
       Popup.openConfirmDialog(
         Constants.DialogTitle.Info,
         "학번의 형식이 잘못되었습니다."
@@ -64,91 +63,95 @@ export default function RegisterPanel() {
   };
 
   return (
-    <Fragment>
-      <Container
-        maxWidth="md"
+    <Box
+      sx={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "16px",
+      }}
+    >
+      <TitleText
+        variant="h4"
         sx={{
-          margin: "30px auto 50px",
+          mr: 2,
+          color: "inherit",
+          textDecoration: "none",
         }}
       >
-        <Paper>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              padding: "50px 50px 30px 50px",
-            }}
-          >
-            <TitleText>회원가입</TitleText>
-            <Box
-              component="form"
-              onSubmit={onPostRegister}
-              sx={{ mt: 1, padding: "0 30px 0" }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                name="name"
-                label="이름"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                name="sid"
-                label="학번"
-                helperText="1학년 1반 1번이면 1101"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                name="email"
-                label="이메일"
-                type="email"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                name="id"
-                label="아이디"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                name="password"
-                label="비밀번호"
-                type="password"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                name="passwordCheck"
-                label="비밀번호 확인"
-                type="password"
-              />
-              <Box sx={{ marginTop: 3 }}>
-                <SubmitButton width="50%" backgroundColor="primary.main">
-                  가입하기
-                </SubmitButton>
-              </Box>
-            </Box>
-          </Box>
-        </Paper>
-      </Container>
-    </Fragment>
+        회원가입
+      </TitleText>
+      <Box
+        component="form"
+        onSubmit={onPostRegister}
+        sx={{ mt: 1, padding: "0 30px 0" }}
+      >
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          size="small"
+          name="name"
+          label="이름"
+          autoComplete="name"
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          size="small"
+          name="sid"
+          label="학번"
+          type="number"
+          sx={{ appearance: "none" }}
+          helperText="1학년 1반 1번이면 1101"
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          size="small"
+          name="email"
+          label="이메일"
+          type="email"
+          autoComplete="email"
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          size="small"
+          name="id"
+          label="아이디"
+          autoComplete="username"
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          size="small"
+          name="password"
+          label="비밀번호"
+          type="password"
+          autoComplete="current-password"
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          size="small"
+          name="passwordCheck"
+          label="비밀번호 확인"
+          type="password"
+        />
+        <Box sx={{ marginTop: 3 }}>
+          <SubmitButton width="192px" backgroundColor="primary.main">
+            가입하기
+          </SubmitButton>
+        </Box>
+      </Box>
+    </Box>
   );
 }
