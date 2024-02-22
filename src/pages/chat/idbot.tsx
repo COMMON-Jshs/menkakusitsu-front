@@ -1,5 +1,3 @@
-import "@/styles/ChatStyle.module.css";
-
 import { Permission } from "@common-jshs/menkakusitsu-lib";
 import { Box, Divider, Paper, Typography } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
@@ -77,7 +75,7 @@ export default function IdbotScreen() {
     <>
       <Box
         sx={{
-          height: "100%",
+          height: "100vh",
           backgroundImage: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
         }}
       >
