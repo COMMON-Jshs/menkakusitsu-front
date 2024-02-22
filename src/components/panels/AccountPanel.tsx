@@ -24,7 +24,6 @@ import { Api, Constants, Firebase, Storage } from "@/utils";
 import { changeColorScheme, useColorScheme } from "@/hooks/useColorScheme";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "@/router";
-import { DEFAULT_SETTING_PATH } from "@/pages/setting";
 
 export function AccountPanel() {
   const navigate = useNavigate();
@@ -94,7 +93,7 @@ export function AccountPanel() {
         <NotificationButton />
         <MenuItem
           onClick={() => {
-            navigate(DEFAULT_SETTING_PATH);
+            navigate("/setting");
             closeMenu();
           }}
         >
