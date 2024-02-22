@@ -207,7 +207,7 @@ export default function CreateScreen() {
                 name="isPrivate"
               />
             </FormGroup>
-            <SubmitButton backGroundColor="primary.main" width="192px">
+            <SubmitButton backgroundColor="primary.main" width="192px">
               작성하기
             </SubmitButton>
             <Box

@@ -205,7 +205,7 @@ export default function StatusScreen() {
               {!isLoading && applyStatus && (
                 <SubmitButton
                   width="192px"
-                  backGroundColor="error.main"
+                  backgroundColor="error.main"
                   onClick={onCancelApply}
                 >
                   신청 취소

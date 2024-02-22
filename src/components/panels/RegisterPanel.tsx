@@ -141,7 +141,7 @@ export default function RegisterPanel() {
                 type="password"
               />
               <Box sx={{ marginTop: 3 }}>
-                <SubmitButton width="50%" backGroundColor="primary.main">
+                <SubmitButton width="50%" backgroundColor="primary.main">
                   가입하기
                 </SubmitButton>
               </Box>

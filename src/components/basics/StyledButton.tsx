@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { TitleText } from "@/components/basics/StyledText";
 
 type SubmitButtonProps = ButtonProps & {
-  backGroundColor: string;
+  backgroundColor: string;
   width?: string;
   height?: string;
   children?: ReactNode;
@@ -13,28 +13,29 @@ type SubmitButtonProps = ButtonProps & {
 
 export function SubmitButton(props: SubmitButtonProps) {
   const {
-    backGroundColor,
+    backgroundColor,
     width = "100%",
     height = "58px",
     children,
     sx,
     textProps,
+    ...rest
   } = props;
 
   return (
     <Box sx={{ textAlign: "center", width: "100%", height: "100%" }}>
       <Button
-        {...props}
+        {...rest}
         type="submit"
         variant="contained"
         fullWidth
         sx={[
           ...(Array.isArray(sx) ? sx : [sx]),
           {
-            backgroundColor: backGroundColor,
+            backgroundColor: backgroundColor,
             "&:hover": {
               backgroundColor: "#fff",
-              color: backGroundColor,
+              color: backgroundColor,
             },
             height: height,
             width: width,

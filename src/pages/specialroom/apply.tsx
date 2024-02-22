@@ -395,7 +395,7 @@ export default function ApplyScreen() {
                 })}
               </Stepper>
             </Box>
-            <SubmitButton width="192px" backGroundColor="primary.main">신청하기</SubmitButton>
+            <SubmitButton width="192px" backgroundColor="primary.main">신청하기</SubmitButton>
           </Box>
         </Paper>
       </Container>

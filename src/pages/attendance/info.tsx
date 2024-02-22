@@ -53,7 +53,7 @@ export default function InfoScreen() {
               })}
             </List>
             <SubmitButton
-              backGroundColor="primary.main"
+              backgroundColor="primary.main"
               width="192px"
               onClick={() => {
                 Utility.openInNewTab("./download?when=1");
@@ -64,7 +64,7 @@ export default function InfoScreen() {
             </SubmitButton>
 
             <SubmitButton
-              backGroundColor="primary.main"
+              backgroundColor="primary.main"
               width="192px"
               onClick={() => {
                 Utility.openInNewTab("./download?when=2");

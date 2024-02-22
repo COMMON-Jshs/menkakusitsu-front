@@ -174,7 +174,7 @@ export default function EditScreen() {
               </>
             )}
             {post && (
-              <SubmitButton backGroundColor="primary.main" width="192px">
+              <SubmitButton backgroundColor="primary.main" width="192px">
                 수정하기
               </SubmitButton>
             )}

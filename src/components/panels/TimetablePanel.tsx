@@ -133,7 +133,7 @@ export function TimetablePanel(props: TimetableProps) {
       </TableContainer>
       {props.edit && (
         <Box sx={{ textAlign: "center", marginTop: "16px" }}>
-          <SubmitButton backGroundColor="primary.main" width="25%">
+          <SubmitButton backgroundColor="primary.main" width="25%">
             수정하기
           </SubmitButton>
         </Box>
