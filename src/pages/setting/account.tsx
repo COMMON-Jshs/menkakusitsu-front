@@ -1,3 +1,4 @@
+import { Permission } from "@common-jshs/menkakusitsu-lib";
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -6,7 +7,7 @@ import { Api, Utility, Constants } from "@/utils";
 import { SubmitButton } from "@/components/basics/StyledButton";
 import { Text } from "@/components/basics";
 
-export default function AccountSettingScreen() {
+export default function AccountTab() {
   return (
     <>
       <ChangeEmail />
@@ -185,3 +186,5 @@ function ChangePassword() {
     </Box>
   );
 }
+
+AccountTab.permission = Permission.Student;

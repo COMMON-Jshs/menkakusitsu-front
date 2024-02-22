@@ -1,3 +1,4 @@
+import { Permission } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Container,
@@ -79,3 +80,5 @@ export default function InfoScreen() {
     </>
   );
 }
+
+InfoScreen.permission = Permission.Student;

@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -169,9 +169,7 @@ export default function ApplyScreen() {
       title: "학생 선택",
       content: (
         <>
-          <Text>
-            학번 혹은 이름 입력 시 자동완성이 활성화됩니다.
-          </Text>
+          <Text>학번 혹은 이름 입력 시 자동완성이 활성화됩니다.</Text>
           <Autocomplete
             multiple
             id="autocomplete-students"
@@ -395,10 +393,14 @@ export default function ApplyScreen() {
                 })}
               </Stepper>
             </Box>
-            <SubmitButton width="192px" backgroundColor="primary.main">신청하기</SubmitButton>
+            <SubmitButton width="192px" backgroundColor="primary.main">
+              신청하기
+            </SubmitButton>
           </Box>
         </Paper>
       </Container>
     </>
   );
 }
+
+ApplyScreen.permission = Permission.Student;

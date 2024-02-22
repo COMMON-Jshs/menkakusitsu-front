@@ -178,6 +178,8 @@ export default function ViewScreen() {
   );
 }
 
+ViewScreen.permission = Permission.Student;
+
 function CommentSection() {
   const { board, postId } = useParams("/bbs/:board/:postId/view");
   const commentRef = useRef<HTMLTextAreaElement>(null);

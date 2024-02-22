@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Button,
@@ -210,3 +210,5 @@ function Article(props: ArticleProps) {
     </Link>
   );
 }
+
+ListScreen.permission = Permission.Student;

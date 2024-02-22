@@ -1,3 +1,4 @@
+import { Permission } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Container,
@@ -28,7 +29,7 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
-export default function SettingScreen() {
+export default function SettingLayout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -83,3 +84,5 @@ export default function SettingScreen() {
     </>
   );
 }
+
+SettingLayout.permission = Permission.Student;

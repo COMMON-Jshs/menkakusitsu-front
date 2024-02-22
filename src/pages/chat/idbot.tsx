@@ -1,5 +1,6 @@
 import "@/styles/ChatStyle.module.css";
 
+import { Permission } from "@common-jshs/menkakusitsu-lib";
 import { Box, Divider, Paper, Typography } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 
@@ -104,3 +105,5 @@ export default function IdbotScreen() {
     </>
   );
 }
+
+IdbotScreen.permission = Permission.Student;

@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Button,
@@ -196,3 +196,5 @@ export default function EditScreen() {
     </>
   );
 }
+
+EditScreen.permission = Permission.Student;

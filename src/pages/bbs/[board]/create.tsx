@@ -1,3 +1,4 @@
+import { Permission } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Button,
@@ -232,3 +233,5 @@ export default function CreateScreen() {
     </>
   );
 }
+
+CreateScreen.permission = Permission.Student;

@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   CircularProgress,
@@ -310,3 +310,5 @@ function ColorlibStepIcon(props: ColorlibStepIconProps) {
     </ColorlibStepIconRoot>
   );
 }
+
+StatusScreen.permission = Permission.Student;

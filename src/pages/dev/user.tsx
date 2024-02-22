@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Checkbox,
@@ -84,3 +84,5 @@ export default function UserManagementScreen() {
     </>
   );
 }
+
+UserManagementScreen.permission = Permission.Dev;

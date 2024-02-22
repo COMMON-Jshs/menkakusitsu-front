@@ -1,4 +1,4 @@
-import { TokenPayload, v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Alert,
   Box,
@@ -248,3 +248,5 @@ function InfoCell(props: InfoCellProps) {
   }
   return result;
 }
+
+ManagementScreen.permission = Permission.Teacher;

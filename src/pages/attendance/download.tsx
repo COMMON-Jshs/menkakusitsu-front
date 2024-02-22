@@ -1,4 +1,4 @@
-import { v1 } from "@common-jshs/menkakusitsu-lib";
+import { Permission, v1 } from "@common-jshs/menkakusitsu-lib";
 import {
   Box,
   Paper,
@@ -115,6 +115,8 @@ export default function DownloadScreen() {
     </>
   );
 }
+
+DownloadScreen.permission = Permission.Student;
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
