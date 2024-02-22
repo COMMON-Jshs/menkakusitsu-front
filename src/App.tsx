@@ -4,7 +4,7 @@ import "@/styles/NProgress.css";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Theme from "@/components/theme";
-import { Routes } from "@generouted/react-router";
+import { Routes } from "@/routes";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function App() {
