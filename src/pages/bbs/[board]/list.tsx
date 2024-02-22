@@ -13,32 +13,40 @@ import {
   Grid,
 } from "@mui/material";
 import { Article as ArticleIcon, Campaign, Lock } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "@/router";
 
 import { Api, Constants, Utility } from "@/utils";
 import { Text, TitleText } from "@/components/basics";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import Spinner from "@/components/basics/Spinner";
 
 export default function ListScreen() {
+  const [isLoading, setIsLoading] = useState(true);
   const [postCount, setPostCount] = useState(0);
-  const [postList, setPostList] = useState<v1.BbsPost[] | null>(null);
+  const [postList, setPostList] = useState<v1.BbsPost[]>([]);
 
   const { board, postId } = useParams("/bbs/:board/:postId/view");
   const navigate = useNavigate();
 
   const page = Number(Utility.getParameter("page", "1"));
 
-  useEffect(() => {
+  const refresh = useCallback(() => {
+    setIsLoading(true);
     Api.getBbsPostList({
       board: board,
       postPage: page,
       postListSize: Constants.POST_LIST_SIZE,
     }).then((result) => {
+      setIsLoading(false);
       setPostCount(result.postCount);
       setPostList(result.list);
     });
   }, [page, board]);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   return (
     <>
@@ -62,23 +70,22 @@ export default function ListScreen() {
               피드백
             </TitleText>
             <Stack spacing={2} width="100%">
-              {postList !== null && postList.length > 0 ? (
-                postList.map((post) => {
-                  return (
-                    <Article
-                      key={post.id}
-                      post={post}
-                      page={page}
-                      isNotice={post.postType === 0}
-                      isHighlighted={
-                        Boolean(postId) && post.id == Number(postId)
-                      }
-                    />
-                  );
-                })
-              ) : (
-                <Typography>게시글이 없습니다.</Typography>
-              )}
+              {isLoading && <Spinner text="피드백을 불러오는 중입니다..." />}
+              {!isLoading &&
+                ((postList.length > 0 &&
+                  postList.map((post) => {
+                    return (
+                      <Article
+                        key={post.id}
+                        post={post}
+                        page={page}
+                        isNotice={post.postType === 0}
+                        isHighlighted={
+                          Boolean(postId) && post.id == Number(postId)
+                        }
+                      />
+                    );
+                  })) || <Typography>게시글이 없습니다.</Typography>)}
             </Stack>
             <Box
               sx={{

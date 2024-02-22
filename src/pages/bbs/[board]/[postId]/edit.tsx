@@ -15,34 +15,41 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 import Popup from "@/components/popup";
 import { Api, Constants } from "@/utils";
 import { TitleText } from "@/components/basics";
 import { SubmitButton } from "@/components/basics/StyledButton";
+import { useNavigate, useParams } from "@/router";
 
 export default function EditScreen() {
-  const params = useParams();
+  const { board, postId } = useParams("/bbs/:board/:postId/edit");
   const navigate = useNavigate();
 
   const [post, setPost] = useState<v1.BbsPost | null>(null);
   const [headers, setHeaders] = useState<string[]>([]);
 
-  const board = params.board!;
-  const postId = parseInt(params.postId!);
-
   useEffect(() => {
-    Api.getBbsPost({ board: board, postId: postId }).then((result) => {
-      if (Api.isSuccessed(result)) {
-        setPost(result.post);
-        Api.getBbsPostHeaders({ board: board }).then((result) => {
-          setHeaders(result.headers);
-        });
-      } else {
-        navigate(`/bbs/${board}/list`);
+    Popup.startLoading("피드백을 불러오는 중입니다...");
+    Api.getBbsPost({ board: board, postId: Number(postId) }).then(
+      (response) => {
+        Popup.stopLoading();
+        if (Api.isSuccessed(response)) {
+          setPost(response.post);
+          Api.getBbsPostHeaders({ board: board }).then((result) => {
+            setHeaders(result.headers);
+          });
+        } else {
+          Popup.openConfirmDialog(
+            Constants.DialogTitle.Alert,
+            response.message,
+            () => {
+              navigate("/bbs/:board/list", { params: { board: board } });
+            }
+          );
+        }
       }
-    });
+    );
   }, [board, navigate, postId]);
 
   const onPostBbsPost = (e: React.MouseEvent<HTMLFormElement>) => {
@@ -57,8 +64,8 @@ export default function EditScreen() {
     }
     Popup.startLoading("수정 중입니다...");
     Api.putBbsPost({
-      postId: parseInt(params.postId!),
-      board: params.board!,
+      postId: Number(postId),
+      board: board,
       title: title,
       content: content,
       header: header,
@@ -70,7 +77,9 @@ export default function EditScreen() {
           Constants.DialogTitle.Info,
           "피드백 수정이 완료되었습니다.",
           () => {
-            navigate(`/bbs/${board}/${params.postId}`);
+            navigate("/bbs/:board/:postId/view", {
+              params: { board: board, postId: postId },
+            });
           }
         );
       } else {
@@ -92,9 +101,17 @@ export default function EditScreen() {
           <Box
             component="form"
             onSubmit={onPostBbsPost}
-            sx={{ padding: "50px 50px 30px 50px" }}
+            sx={{
+              padding: "50px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "16px",
+            }}
           >
-            <TitleText>피드백 수정</TitleText>
+            <TitleText color="secondary" variant="h2">
+              피드백 수정
+            </TitleText>
             {post && (
               <>
                 <Grid
@@ -137,7 +154,6 @@ export default function EditScreen() {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <br />
                 <TextField
                   label="본문"
                   name="content"
@@ -157,18 +173,18 @@ export default function EditScreen() {
                 </FormGroup>
               </>
             )}
-            <br />
             {post && (
-              <SubmitButton backGroundColor="primary.main" width="25%">
+              <SubmitButton backGroundColor="primary.main" width="192px">
                 수정하기
               </SubmitButton>
             )}
-            <br />
-            <Box sx={{ display: "flex", justifyContent: "right" }}>
+            <Box
+              sx={{ width: "100%", display: "flex", justifyContent: "right" }}
+            >
               <Button
                 variant="contained"
                 onClick={() => {
-                  navigate(`/bbs/${board}/list`);
+                  navigate("/bbs/:board/list", { params: { board: board } });
                 }}
               >
                 목록

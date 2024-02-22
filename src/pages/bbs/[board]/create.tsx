@@ -17,20 +17,18 @@ import {
 } from "@mui/material";
 import { DeleteOutline, UploadFile } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 import Popup from "@/components/popup";
 import { Api, Constants } from "@/utils";
 import { TitleText } from "@/components/basics";
 import { SubmitButton } from "@/components/basics/StyledButton";
+import { useNavigate, useParams } from "@/router";
 
 export default function CreateScreen() {
   const navigate = useNavigate();
-  const params = useParams();
+  const { board } = useParams("/bbs/:board/create");
   const [headers, setHeaders] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
-
-  const board = params.board!;
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -69,19 +67,21 @@ export default function CreateScreen() {
         isPublic: isPublic,
       },
       files
-    ).then((result) => {
-      if (Api.isSuccessed(result)) {
+    ).then((response) => {
+      if (Api.isSuccessed(response)) {
         Popup.stopLoading();
         Popup.openConfirmDialog(
           Constants.DialogTitle.Info,
           "피드백 제출이 완료되었습니다.",
           () => {
-            navigate(`/bbs/${board}/list`);
+            navigate("/bbs/:board/:postId/view", {
+              params: { board: board, postId: String(response.postId) },
+            });
           }
         );
       } else {
         Popup.stopLoading();
-        Popup.openConfirmDialog(Constants.DialogTitle.Info, result.message);
+        Popup.openConfirmDialog(Constants.DialogTitle.Info, response.message);
       }
     });
   };
@@ -98,9 +98,17 @@ export default function CreateScreen() {
           <Box
             component="form"
             onSubmit={onPostBbsPost}
-            sx={{ padding: "50px 50px 30px 50px" }}
+            sx={{
+              padding: "50px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "16px",
+            }}
           >
-            <TitleText>피드백 작성</TitleText>
+            <TitleText color="secondary" variant="h2">
+              피드백 작성
+            </TitleText>
             <Grid container spacing={2}>
               <Grid item xs={10}>
                 <TextField
@@ -143,7 +151,6 @@ export default function CreateScreen() {
                 </FormControl>
               </Grid>
             </Grid>
-            <br />
             <TextField
               label="본문"
               name="content"
@@ -153,10 +160,9 @@ export default function CreateScreen() {
               required
               inputProps={{ maxLength: 500 }}
             />
-            <br />
-            <br />
             <Box
               sx={{
+                width: "100%",
                 textAlign: "center",
                 borderStyle: "dotted",
                 borderRadius: 1,
@@ -201,33 +207,20 @@ export default function CreateScreen() {
                 name="isPrivate"
               />
             </FormGroup>
-            {/* <Box 
-                            sx={{
-                                textAlign: "center",
-                                p: 2,
-                                border: "1px dashed grey",
-                            }}
-                        >
-                            <Button variant="contained" component="label">
-                                Upload File
-                                <input
-                                    type="file"
-                                    name="data"
-                                    multiple
-                                    hidden
-                                />
-                            </Button>
-                        </Box> */}
-            <br />
-            <SubmitButton backGroundColor="primary.main" width="25%">
+            <SubmitButton backGroundColor="primary.main" width="192px">
               작성하기
             </SubmitButton>
-            <br />
-            <Box sx={{ display: "flex", justifyContent: "right" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "right",
+              }}
+            >
               <Button
                 variant="contained"
                 onClick={() => {
-                  navigate(`/bbs/${board}/list`);
+                  navigate("/bbs/:board/list", { params: { board: board } });
                 }}
               >
                 목록
