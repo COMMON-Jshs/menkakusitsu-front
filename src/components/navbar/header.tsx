@@ -3,7 +3,6 @@ import {
   Button,
   Menu,
   MenuItem,
-  Typography,
   Paper,
   Stack,
   useTheme,
@@ -11,7 +10,7 @@ import {
   Drawer,
   IconButton,
 } from "@mui/material";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu as MenuIcon } from "@mui/icons-material";
 
@@ -251,8 +250,6 @@ function HeaderMenu(props: HeaderMenuProps) {
                 {menu.title}
               </MenuItem>
             );
-          } else {
-            return <Fragment key={menu.title}></Fragment>;
           }
         })}
       </Menu>
