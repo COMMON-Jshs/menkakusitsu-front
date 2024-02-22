@@ -35,8 +35,8 @@ export function HeaderComponent() {
           sx={{
             display: "flex",
             alignItems: "center",
-            ml: 4,
-            mr: 4,
+            pl: 4,
+            pr: 4,
           }}
         >
           {matches ? <HeaderList /> : <HeaderDrawer />}
