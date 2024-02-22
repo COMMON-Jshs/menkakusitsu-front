@@ -1,5 +1,6 @@
-import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
+import { Backdrop } from "@mui/material";
 import { useLoadingStore } from "@/components/popup/hooks";
+import Spinner from "@/components/basics/Spinner";
 
 export function LoadingComponent() {
   const { isLoading, text } = useLoadingStore();
@@ -14,17 +15,7 @@ export function LoadingComponent() {
         zIndex: 10000,
       }}
     >
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-      >
-        <CircularProgress />
-        <Typography sx={{ paddingTop: "4px" }} variant="h5">
-          {text}
-        </Typography>
-      </Box>
+      <Spinner text={text} />
     </Backdrop>
   );
 }
