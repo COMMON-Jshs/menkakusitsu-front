@@ -1,3 +1,4 @@
+// From https://github.com/twihike/chat-ui-react
 export * from './chat-types';
 export { ChatController } from './chat-controller';
 export { AudioMediaRecorder } from './audio-media-recorder';

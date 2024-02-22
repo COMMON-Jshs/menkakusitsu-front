@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
-import dayjs from 'dayjs';
-import React from 'react';
+import { Box, ButtonProps, TextFieldProps } from "@mui/material";
+import dayjs from "dayjs";
+import React from "react";
 
-import { ChatController } from '../chat-controller';
+import { ChatController } from "../chat-controller";
 import {
   ActionRequest,
   AudioActionRequest,
@@ -11,19 +11,23 @@ import {
   MultiSelectActionRequest,
   SelectActionRequest,
   TextActionRequest,
-} from '../chat-types';
+} from "../chat-types";
 
-import { MuiAudioInput } from './MuiAudioInput';
-import { MuiFileInput } from './MuiFileInput';
-import { MuiMessage } from './MuiMessage';
-import { MuiMultiSelectInput } from './MuiMultiSelectInput';
-import { MuiSelectInput } from './MuiSelectInput';
-import { MuiTextInput } from './MuiTextInput';
+import { MuiAudioInput } from "./MuiAudioInput";
+import { MuiFileInput } from "./MuiFileInput";
+import { MuiMessage } from "./MuiMessage";
+import { MuiMultiSelectInput } from "./MuiMultiSelectInput";
+import { MuiSelectInput } from "./MuiSelectInput";
+import { MuiTextInput } from "./MuiTextInput";
 
 export function MuiChat({
   chatController,
+  textInputProps,
+  submitButtonProps,
 }: React.PropsWithChildren<{
   chatController: ChatController;
+  textInputProps?: TextFieldProps;
+  submitButtonProps?: ButtonProps;
 }>): React.ReactElement {
   const chatCtl = chatController;
   const [messages, setMessages] = React.useState(chatCtl.getMessages());
@@ -54,7 +58,7 @@ export function MuiChat({
     actionRequest: ActionRequest;
   }>;
   const CustomComponent = React.useMemo((): CustomComponentType => {
-    if (!actReq || actReq.type !== 'custom') {
+    if (!actReq || actReq.type !== "custom") {
       return null as unknown as CustomComponentType;
     }
     return (actReq as CustomActionRequest)
@@ -62,8 +66,8 @@ export function MuiChat({
   }, [actReq]);
 
   const unknownMsg = {
-    type: 'text',
-    content: 'Unknown message.',
+    type: "text",
+    content: "Unknown message.",
     self: false,
   };
 
@@ -73,29 +77,29 @@ export function MuiChat({
   return (
     <Box
       sx={{
-        height: '100%',
-        width: '100%',
+        height: "100%",
+        width: "100%",
         p: 1,
-        bgcolor: 'background.default',
-        display: 'flex',
-        flexDirection: 'column',
-        '& > *': {
-          maxWidth: '100%',
+        bgcolor: "background.default",
+        display: "flex",
+        flexDirection: "column",
+        "& > *": {
+          maxWidth: "100%",
         },
-        '& > * + *': {
+        "& > * + *": {
           mt: 1,
         },
       }}
     >
       <Box
         sx={{
-          flex: '1 1 0%',
-          overflowY: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          display: 'flex',
-          flexDirection: 'column',
-          '& > *': {
-            maxWidth: '100%',
+          flex: "1 1 0%",
+          overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
+          display: "flex",
+          flexDirection: "column",
+          "& > *": {
+            maxWidth: "100%",
           },
         }}
         ref={msgRef}
@@ -105,10 +109,10 @@ export function MuiChat({
           let showTime = !!chatCtl.getOption().showDateTime;
           if (!!chatCtl.getOption().showDateTime && !msg.deletedAt) {
             const current = dayjs(
-              msg.updatedAt ? msg.updatedAt : msg.createdAt,
+              msg.updatedAt ? msg.updatedAt : msg.createdAt
             );
 
-            if (current.format('YYYYMMDD') !== prevDate.format('YYYYMMDD')) {
+            if (current.format("YYYYMMDD") !== prevDate.format("YYYYMMDD")) {
               showDate = true;
             }
             prevDate = current;
@@ -119,7 +123,7 @@ export function MuiChat({
               prevTime = current;
             }
           }
-          if (msg.type === 'text' || msg.type === 'jsx') {
+          if (msg.type === "text" || msg.type === "jsx") {
             return (
               <MuiMessage
                 key={messages.indexOf(msg)}
@@ -143,45 +147,47 @@ export function MuiChat({
       </Box>
       <Box
         sx={{
-          flex: '0 1 auto',
-          display: 'flex',
-          alignContent: 'flex-end',
-          '& > *': {
+          flex: "0 1 auto",
+          display: "flex",
+          alignContent: "flex-end",
+          "& > *": {
             minWidth: 0,
           },
         }}
       >
-        {actReq && actReq.type === 'text' && (
+        {actReq && actReq.type === "text" && (
           <MuiTextInput
             chatController={chatCtl}
             actionRequest={actReq as TextActionRequest}
+            inputProps={textInputProps}
+            buttonProps={submitButtonProps}
           />
         )}
-        {actReq && actReq.type === 'select' && (
+        {actReq && actReq.type === "select" && (
           <MuiSelectInput
             chatController={chatCtl}
             actionRequest={actReq as SelectActionRequest}
           />
         )}
-        {actReq && actReq.type === 'multi-select' && (
+        {actReq && actReq.type === "multi-select" && (
           <MuiMultiSelectInput
             chatController={chatCtl}
             actionRequest={actReq as MultiSelectActionRequest}
           />
         )}
-        {actReq && actReq.type === 'file' && (
+        {actReq && actReq.type === "file" && (
           <MuiFileInput
             chatController={chatCtl}
             actionRequest={actReq as FileActionRequest}
           />
         )}
-        {actReq && actReq.type === 'audio' && (
+        {actReq && actReq.type === "audio" && (
           <MuiAudioInput
             chatController={chatCtl}
             actionRequest={actReq as AudioActionRequest}
           />
         )}
-        {actReq && actReq.type === 'custom' && (
+        {actReq && actReq.type === "custom" && (
           <CustomComponent
             chatController={chatCtl}
             actionRequest={actReq as CustomActionRequest}

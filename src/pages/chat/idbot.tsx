@@ -5,10 +5,12 @@ import { useState, useEffect, useMemo } from "react";
 import { ChatController, MuiChat } from "@/components/chat-ui-react";
 import { Api } from "@/utils";
 import { setFooterActive, setHeaderActive } from "@/hooks/useNavbar";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 const BOT_NAME = "이디봇";
 
 export default function IdbotScreen() {
+  const { scheme } = useColorScheme();
   const [chatCtl] = useState(
     new ChatController({
       showDateTime: true,
@@ -76,7 +78,10 @@ export default function IdbotScreen() {
       <Box
         sx={{
           height: "100vh",
-          backgroundImage: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+          backgroundImage:
+            scheme == "light"
+              ? "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"
+              : "linear-gradient(135deg, #22242b 0%, #18181e 100%)",
         }}
       >
         <Paper
@@ -96,7 +101,11 @@ export default function IdbotScreen() {
           </Typography>
           <Divider />
           <Box sx={{ flex: "1 1 0%", minHeight: 0 }}>
-            <MuiChat chatController={chatCtl} />
+            <MuiChat
+              chatController={chatCtl}
+              textInputProps={{ color: "secondary" }}
+              submitButtonProps={{ color: "secondary", variant: "contained" }}
+            />
           </Box>
         </Paper>
       </Box>

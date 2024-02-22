@@ -79,8 +79,8 @@ export function MuiMessage({
               maxWidth="100%"
               py={1}
               px={2}
-              bgcolor={message.self ? 'primary.main' : 'background.paper'}
-              color={message.self ? 'primary.contrastText' : 'text.primary'}
+              bgcolor={message.self ? 'info.light' : 'background.paper'}
+              color={message.self ? 'info.contrastText' : 'text.primary'}
               borderRadius={4}
               boxShadow={2}
             >
