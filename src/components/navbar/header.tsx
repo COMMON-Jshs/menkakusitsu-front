@@ -143,7 +143,7 @@ function HeaderDrawer() {
         <IconButton color="inherit" onClick={toggleDrawer(true)} edge="start">
           <MenuIcon color="primary" />
         </IconButton>
-        <Logo />
+        <Logo variant="h3" />
         <AccountPanel />
       </Box>
     </>

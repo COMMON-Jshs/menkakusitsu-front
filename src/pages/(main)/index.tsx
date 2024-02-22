@@ -1,5 +1,5 @@
 import { Permission } from "@common-jshs/menkakusitsu-lib";
-import { Button, Container, Grid } from "@mui/material";
+import { Box, Button, Container, Grid } from "@mui/material";
 import { useEffect } from "react";
 
 import Popup from "@/components/popup";
@@ -40,11 +40,16 @@ function Guest() {
 
   return (
     <>
-      <Logo
+      <Box
         sx={{
-          marginTop: "50px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: "50px",
         }}
-      />
+      >
+        <Logo variant="h2" />
+      </Box>
       <Container
         maxWidth="xl"
         sx={{
