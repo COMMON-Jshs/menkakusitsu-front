@@ -1,3 +1,7 @@
 .container {
   position: relative;
 }
+
+input[type="password"] {
+  font-family: "Malgun gothic", dotum, sans-serif;
+}
