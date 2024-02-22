@@ -61,7 +61,7 @@ export function IconNavLink(props: IconNavLinkProps) {
           },
         }}
       >
-        {icon || <LinkIcon />} {label}
+        {icon || <LinkIcon />}  <Text variant="body1">{label}</Text>
       </Box>
     </NavLink>
   );
