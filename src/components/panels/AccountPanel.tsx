@@ -18,12 +18,13 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import Popup from "@/components/popup";
 import { Api, Constants, Firebase, Storage } from "@/utils";
 import { changeColorScheme, useColorScheme } from "@/hooks/useColorScheme";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "@/router";
+import { DEFAULT_SETTING_PATH } from "@/pages/setting";
 
 export function AccountPanel() {
   const navigate = useNavigate();
@@ -54,29 +55,31 @@ export function AccountPanel() {
         id="account-menu"
         open={open}
         onClose={closeMenu}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&:before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
             },
           },
         }}
@@ -91,7 +94,7 @@ export function AccountPanel() {
         <NotificationButton />
         <MenuItem
           onClick={() => {
-            navigate("/setting");
+            navigate(DEFAULT_SETTING_PATH);
             closeMenu();
           }}
         >
@@ -144,11 +147,10 @@ function LogoutButton() {
           () => {
             Popup.startLoading("로그아웃 중입니다...");
             Api.deleteLogout({}).then((result) => {
+              Popup.stopLoading();
               if (Api.isSuccessed(result)) {
-                Popup.stopLoading();
                 Api.onLogout();
               } else {
-                Popup.stopLoading();
                 Popup.openConfirmDialog(
                   Constants.DialogTitle.Info,
                   result.message
