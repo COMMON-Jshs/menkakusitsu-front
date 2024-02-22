@@ -61,12 +61,12 @@ export const getCommentListSize = () => {
 export type ColorScheme = "light" | "dark";
 
 export const getColorScheme = () => {
-  if (localStorage.getItem("use-dark-mode") == "dark") {
+  if (localStorage.getItem("color-scheme") == "dark") {
     return "dark";
   }
   return "light";
 };
 
 export const setColorScheme = (scheme: ColorScheme) => {
-  localStorage.setItem("use-dark-mode", scheme);
+  localStorage.setItem("color-scheme", scheme);
 };
