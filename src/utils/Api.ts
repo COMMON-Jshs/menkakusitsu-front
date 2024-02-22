@@ -12,8 +12,9 @@ import {
   savePushList,
   saveTokens,
 } from "@/utils/Storage";
-import { getTokenPayload, parseJWT, redirectToHome } from "@/utils/Utility";
+import { getTokenPayload, parseJWT } from "@/utils/Utility";
 import { deletePushToken } from "@/utils/Firebase";
+import { logout } from "@/hooks/useAuth";
 
 const onApiError = (e: AxiosError) => {
   Popup.stopLoading();
@@ -123,7 +124,7 @@ export const checkTokenExpiration = async (accessToken: string) => {
 
 export const onLogout = () => {
   clearTokens();
-  redirectToHome();
+  logout();
 };
 
 export const getPushApproved = () => {
