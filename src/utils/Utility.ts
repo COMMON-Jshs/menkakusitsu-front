@@ -38,30 +38,6 @@ export const dynamicLoader = async (component: LoadableComponent<unknown>) => {
   return null;
 };
 
-export const dayToString = (day: number) => {
-  if (day < 0 || day > 7) {
-    return null;
-  }
-  switch (day) {
-    case 0:
-    case 7:
-      return "일";
-    case 1:
-      return "월";
-    case 2:
-      return "화";
-    case 3:
-      return "수";
-    case 4:
-      return "목";
-    case 5:
-      return "금";
-    case 6:
-      return "토";
-  }
-  return null;
-};
-
 export const arrayRemove = <T>(array: Array<T>, item: T): Array<T> => {
   const index = array.indexOf(item);
   return arrayRemoveAt<T>(array, index);
@@ -93,10 +69,6 @@ export const getParameter = (
 
 export const openInNewTab = (url: string) => {
   window.open(url, "_blank", "noopener noreferrer");
-};
-
-export const isLogined = () => {
-  return Boolean(getAccessToken());
 };
 
 export const parseJWT = (token: string | null) => {
