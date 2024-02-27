@@ -19,7 +19,7 @@ export const getSpanInfo = (date: string) => {
   if (diff < 1) {
     return point.fromNow();
   }
-  return point.format("L LT");
+  return point.format("LLL");
 };
 
 export const getDayInfo = () => {
