@@ -7,6 +7,7 @@ import { contributors } from "@/pages/contributors/members";
 import { IconLink, Text, TitleText } from "@/components/basics";
 import { setHeaderActive } from "@/hooks/useNavbar";
 import { useAuth } from "@/hooks/useAuth";
+import Logo from "@/components/basics/Logo";
 
 export default function ContributorsScreen() {
   const { payload } = useAuth();
@@ -22,6 +23,19 @@ export default function ContributorsScreen() {
 
   return (
     <>
+      {payload.permission == Permission.Guest && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mt: "50px",
+          }}
+        >
+          <Logo variant="h2" />
+        </Box>
+      )}
+
       <Container
         maxWidth="md"
         sx={{
