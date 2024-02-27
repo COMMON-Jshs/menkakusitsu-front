@@ -24,7 +24,7 @@ import {
 import dayjs from "dayjs";
 
 import Popup from "@/components/popup";
-import { Api, Constants, Utility } from "@/utils";
+import { Api, Constants } from "@/utils";
 import { Text, TitleText } from "@/components/basics";
 import { SpecialroomInfoPanel } from "@/components/panels/SpecialroomInfoPanel";
 import { SubmitButton } from "@/components/basics/StyledButton";
@@ -42,7 +42,6 @@ export default function ApplyScreen() {
 
   const [activeStep, setActiveStep] = useState(0);
 
-  const { year, month, date } = Utility.getDayInfo();
   const navigate = useNavigate();
 
   const steps = [
@@ -51,7 +50,7 @@ export default function ApplyScreen() {
       content: (
         <>
           <Text>
-            {year}년 {month}월 {date}일의 생활 지도 선생님은 &lt;
+            {dayjs().format("LL")}일의 생활 지도 선생님은 &lt;
             {(managerInfo && managerInfo.value) || "???"}
             &gt;이십니다.
           </Text>

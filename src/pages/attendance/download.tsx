@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 import { Api, Utility } from "@/utils";
 import Particle from "@/components/particle";
@@ -52,8 +53,6 @@ export default function DownloadScreen() {
     }
   }, [isLoading]);
 
-  const { year, month, date } = Utility.getDayInfo();
-
   return (
     <>
       <Box
@@ -71,7 +70,7 @@ export default function DownloadScreen() {
             fontWeight: 200,
           }}
         >
-          {`${year}년 ${month}월 ${date}일 ${when}차 면학 출석부`}
+          {`${dayjs().format("LL")} ${when}차 면학 출석부`}
         </Typography>
         <Box sx={{ paddingBottom: "192px" }}>
           <Typography
