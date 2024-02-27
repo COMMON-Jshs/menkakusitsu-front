@@ -21,6 +21,7 @@ import { IconLink, Text } from "@/components/basics";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate, useParams } from "@/router";
 import Spinner from "@/components/basics/Spinner";
+import { getSpanInfo } from "@/utils/Utility";
 
 export default function ViewScreen() {
   const { board, postId } = useParams("/bbs/:board/:postId/view");
@@ -83,7 +84,7 @@ export default function ViewScreen() {
                   }}
                 >
                   <Text>{post.owner.name}</Text>
-                  <Text color="gray">{post.createdDate}</Text>
+                  <Text color="gray">{getSpanInfo(post.createdDate)}</Text>
                 </Box>
                 <Divider />
                 <Text sx={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
@@ -271,7 +272,7 @@ function CommentSection() {
                       {comment.owner.name}
                     </Text>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={4}>
                     <Box
                       sx={{
                         width: "100%",
@@ -282,40 +283,39 @@ function CommentSection() {
                       }}
                     >
                       <Text noWrap color="gray">
-                        {comment.createdDate}
+                        {getSpanInfo(comment.createdDate)}
                       </Text>
+                      {(payload.uid === comment.owner.uid ||
+                        payload.hasPermission(Permission.Dev)) && (
+                        <IconButton
+                          size="small"
+                          color="error"
+                          onClick={() => {
+                            Popup.openYesNoDialog(
+                              Constants.DialogTitle.Alert,
+                              "정말 의견을 삭제하실 건가요?",
+                              () => {
+                                Api.deleteBbsComment({
+                                  board: board,
+                                  postId: Number(postId),
+                                  commentId: comment.id,
+                                }).then((result) => {
+                                  Popup.openConfirmDialog(
+                                    Constants.DialogTitle.Info,
+                                    "의견이 삭제되었습니다.",
+                                    () => {
+                                      refresh();
+                                    }
+                                  );
+                                });
+                              }
+                            );
+                          }}
+                        >
+                          <Close fontSize="inherit" />
+                        </IconButton>
+                      )}
                     </Box>
-                  </Grid>
-                  <Grid item xs={0.5}>
-                    {(payload.uid === comment.owner.uid ||
-                      payload.hasPermission(Permission.Dev)) && (
-                      <IconButton
-                        size="small"
-                        onClick={() => {
-                          Popup.openYesNoDialog(
-                            Constants.DialogTitle.Alert,
-                            "정말 의견을 삭제하실 건가요?",
-                            () => {
-                              Api.deleteBbsComment({
-                                board: board,
-                                postId: Number(postId),
-                                commentId: comment.id,
-                              }).then((result) => {
-                                Popup.openConfirmDialog(
-                                  Constants.DialogTitle.Info,
-                                  "의견이 삭제되었습니다.",
-                                  () => {
-                                    refresh();
-                                  }
-                                );
-                              });
-                            }
-                          );
-                        }}
-                      >
-                        <Close fontSize="inherit" />
-                      </IconButton>
-                    )}
                   </Grid>
                 </Grid>
               </Box>

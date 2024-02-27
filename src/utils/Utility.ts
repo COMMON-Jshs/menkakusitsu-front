@@ -1,11 +1,26 @@
-import { Permission, TokenPayload } from "@common-jshs/menkakusitsu-lib";
+import { TokenPayload } from "@common-jshs/menkakusitsu-lib";
 import { LoadableComponent } from "@loadable/component";
 import { SHA3 } from "sha3";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
-
+import "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import { topbar } from "@/components/topbar";
 import { getAccessToken } from "@/utils/Storage";
+
+dayjs.locale("ko");
+dayjs.extend(relativeTime);
+dayjs.extend(localizedFormat);
+
+export const getSpanInfo = (date: string) => {
+  const point = dayjs(date);
+  const diff = Math.abs(point.diff(undefined, "day"));
+  if (diff < 1) {
+    return point.fromNow();
+  }
+  return point.format("L LT");
+};
 
 export const getDayInfo = () => {
   const day = dayjs();
