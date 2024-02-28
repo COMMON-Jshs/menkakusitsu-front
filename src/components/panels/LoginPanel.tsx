@@ -115,7 +115,7 @@ export default function LoginPanel() {
           height="40px"
           sx={{ mt: 3, mb: 2, borderRadius: "50px" }}
         >
-          <TitleText>LOGIN</TitleText>
+          LOGIN
         </SubmitButton>
         <Stack
           spacing={1}
