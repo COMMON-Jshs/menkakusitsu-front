@@ -1,6 +1,6 @@
 {
-  "short_name": "JSHS Web Server",
-  "name": "JSHS Web Server",
+  "short_name": "이디저디",
+  "name": "이디저디",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#279023",
+  "background_color": "#EDEDED"
 }
