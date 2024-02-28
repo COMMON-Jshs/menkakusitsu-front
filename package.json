@@ -15,7 +15,7 @@
     "@common-jshs/menkakusitsu-lib": "^1.14.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@generouted/react-router": "^1.18.2",
+    "@generouted/react-router": "^1.18.4",
     "@loadable/component": "^5.15.2",
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.15.2",
