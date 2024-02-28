@@ -76,7 +76,7 @@ function Guest() {
                 Popup.openCancelableDialog("", <LoginPanel />);
               }}
             >
-              <TitleText variant="body1">
+              <TitleText variant="body2">
                 {import.meta.env.VITE_WEB_TITLE} LOGIN
               </TitleText>
             </Button>
