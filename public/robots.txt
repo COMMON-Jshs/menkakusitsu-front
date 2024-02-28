@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://new.xn--2z1ba422lbqa.com/sitemap.xml
