@@ -32,6 +32,12 @@ export function FooterComponent() {
             label="제주과학고 대나무숲"
             newTab
           />
+          <IconLink
+            href="https://docs.google.com/spreadsheets/d/1OE2P3DAh4uo-VpUCUT8ih71_gU-LfZ-4IHR_1adfWmA/edit#gid=2021051235"
+            icon={<School />}
+            label="출결 관리"
+            newTab
+          />
         </Stack>
         <Stack
           direction="row"
@@ -54,6 +60,12 @@ export function FooterComponent() {
             to="/contributors"
             label="만든 사람들"
             icon={<PeopleAlt />}
+          />
+          <IconLink
+            href="https://docs.google.com/forms/d/1AbQbThVynnfuGNhPST60y7pwZmQ8dn-pih8sr2J6zl4/edit"
+            icon={<Policy />}
+            label="기숙사 및 면학실 불편사항"
+            newTab
           />
         </Stack>
       </Stack>
